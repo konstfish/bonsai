@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:4.4.6
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
+
+  rethink:
+    image: rethinkdb:latest
+    volumes:
+      - rethink_data:/data
+    ports:
+      - 8080:8080
+      - 28015:28015
+      - 29015:29015
+
+#  server:
+#    depends_on:
+#      - "mongodb_container"
+#      - "rest"
+#    build: ./web/
+#    ports:
+#      - 3321:3000
+#    links:
+#      - "rest:rest"
+#    volumes:
+#      - ./data_temp:/usr/share/nginx/html/data_temp
+#    restart: always
+
+volumes:
+  mongodb_data:
+  rethink_data:
