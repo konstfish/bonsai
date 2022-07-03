@@ -1,10 +1,10 @@
 version: '3.7'
 services:
-  mongodb:
-    image: mongo:4.4.6
-    volumes:
-      - mongodb_data:/data/db
-    restart: always
+  #mongodb:
+  #  image: mongo:4.4.6
+  #  volumes:
+  #    - mongodb_data:/data/db
+  #  restart: always
 
   rethink:
     image: rethinkdb:latest
