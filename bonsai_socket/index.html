@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ws</title>
 
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        var socket = io();
+        var socket = io({path: '/ws'});
         socket.on("test", function(row){
             console.log(row)
             $('#data').text(JSON.stringify(row))
@@ -18,7 +18,7 @@
     </script>
 </head>
 <body>
-    <h1>Bonsai</h1>
+    <h1>Web socket is working!</h1>
 
     <div id="data"></div>
 </body>
