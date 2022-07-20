@@ -21,7 +21,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-r.connect({host: 'localhost', port: 28015, db: "bonsai"})
+r.connect({host: 'rethink', port: 28015, db: "bonsai"})
     .then(function(connection) {
         r.table('metrics').changes().run(connection, function(err, cursor) {
             if (err) throw err;

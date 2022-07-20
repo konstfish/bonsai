@@ -10,4 +10,4 @@ RUN yarn install
 
 EXPOSE 2701
 
-ENTRYPOINT [ "yarn", "run", "start" ]
+ENTRYPOINT [ "yarn", "serve" ]

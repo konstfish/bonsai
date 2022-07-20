@@ -17,6 +17,8 @@ services:
   server:
     depends_on:
       - "rethink"
+    links:
+      - "rethink"
     build: ./bonsai_server
     ports:
       - 4000:4000
@@ -24,6 +26,9 @@ services:
   socket:
     depends_on:
       - "server"
+      - "rethink"
+    links:
+      - "rethink"
     build: ./bonsai_socket
     ports:
       - 9000:9000

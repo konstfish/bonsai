@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             metrics: {},
-            socket: io('localhost:9000'),
+            socket: io('/ws'),
         }
     },
     created() {

@@ -6,7 +6,7 @@ r = RethinkDB()
 
 # mdbc = pymongo.MongoClient('mongodb://database:27017/')
 
-conn = r.connect( "localhost", 28015, db="bonsai")
+conn = r.connect( "rethink", 28015, db="bonsai")
 #r.db("test").table_create("authors").run()
 
 try:
