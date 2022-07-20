@@ -7,15 +7,16 @@ r = RethinkDB()
 # mdbc = pymongo.MongoClient('mongodb://database:27017/')
 #r.db("test").table_create("authors").run()
 
-try:
-  r.db_create('bonsai').run(conn)
-except:
-  pass
+with r.connect( "rethink", 28015, db="bonsai") as conn:
+  try:
+    r.db_create('bonsai').run(conn)
+  except:
+    pass
 
-try:
-  r.db('bonsai').table_create('metrics').run(conn)
-except:
-  pass
+  try:
+    r.db('bonsai').table_create('metrics').run(conn)
+  except:
+    pass
 
 app = Flask(__name__)
 
@@ -30,8 +31,8 @@ def push():
 
     #test = r.table('metrics').filter({"host": rjson["host"], "job": rjson["job"]}).run(conn)
 
-    conn = r.connect( "rethink", 28015, db="bonsai")
-    print(r.table('metrics').insert(rjson, conflict="update").run(conn))
+    with r.connect( "rethink", 28015, db="bonsai") as conn:
+      print(r.table('metrics').insert(rjson, conflict="update").run(conn))
 
     #r.table("metrics").filter({"job": rjson[job], "host": rjson[host]}).update(rjson).run()
 
