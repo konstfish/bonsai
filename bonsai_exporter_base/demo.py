@@ -22,7 +22,7 @@ def do_something():
     except:
         print("err")
 
-    event_schedule.enter(5, 5, do_something)
+    event_schedule.enter(1, 1, do_something)
 
 
 do_something()
