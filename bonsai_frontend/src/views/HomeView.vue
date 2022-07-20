@@ -3,7 +3,7 @@
     <img alt="Vue logo" src="../assets/logo.png">
 
     <div>
-      <div v-for="(id, metric) in this.metrics.values" v-bind:key="id.id">
+      <div v-for="metric in this.metrics" v-bind:key="metric">
         <h4>{{ metric.host }}</h4>
         <h5>{{ metric.job }}</h5>
         
@@ -24,7 +24,7 @@ export default {
     data() {
         return {
             metrics: {},
-            socket: io('', {path: "/ws"}),
+            socket: io('http://10.0.1.108:3000', {path: "/ws"}),
         }
     },
     created() {

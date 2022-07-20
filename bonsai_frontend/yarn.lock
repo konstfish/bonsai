@@ -960,6 +960,11 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     to-fast-properties "^2.0.0"
 
+"@dash14/svg-pan-zoom@^3.6.8":
+  version "3.6.8"
+  resolved "https://registry.yarnpkg.com/@dash14/svg-pan-zoom/-/svg-pan-zoom-3.6.8.tgz#99ab5c8f2d6d712c82121921e390d2b7a96a6f0d"
+  integrity sha512-i9wLICPWqPQM+TXlxaKFzSuVSBe/keaV9Gt1Qxr20oNF8ZNiHcpv4TrMErJC0s0zkzYU1GqBBWKz2GVyWO1I8Q==
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
@@ -4305,6 +4310,11 @@ minipass@^3.1.1:
   dependencies:
     yallist "^4.0.0"
 
+mitt@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
+  integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
+
 mkdirp@^0.5.5:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.6.tgz#7def03d2432dcae4ba1d611445c48396062255f6"
@@ -5958,6 +5968,14 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+v-network-graph@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/v-network-graph/-/v-network-graph-0.6.5.tgz#758aaab046524493cc7451c6f6aea3d6b8c1b2e4"
+  integrity sha512-v9GyRj8Sd70ghiOBFV1pS+ZNPbmsiDiGI1+MMOLFd185v7AfaDa3YohDF862TEkcI4AshAKwrtXuNZeh32B6AQ==
+  dependencies:
+    "@dash14/svg-pan-zoom" "^3.6.8"
+    mitt "^3.0.0"
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
