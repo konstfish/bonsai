@@ -5,8 +5,6 @@ from rethinkdb import RethinkDB
 r = RethinkDB()
 
 # mdbc = pymongo.MongoClient('mongodb://database:27017/')
-
-conn = r.connect( "rethink", 28015, db="bonsai")
 #r.db("test").table_create("authors").run()
 
 try:
@@ -32,6 +30,7 @@ def push():
 
     #test = r.table('metrics').filter({"host": rjson["host"], "job": rjson["job"]}).run(conn)
 
+    conn = r.connect( "rethink", 28015, db="bonsai")
     print(r.table('metrics').insert(rjson, conflict="update").run(conn))
 
     #r.table("metrics").filter({"job": rjson[job], "host": rjson[host]}).update(rjson).run()

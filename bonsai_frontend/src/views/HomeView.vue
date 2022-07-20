@@ -3,12 +3,14 @@
     <img alt="Vue logo" src="../assets/logo.png">
 
     <div>
-      <h4>{{ this.metrics.host }}</h4>
-      <h4>{{ this.metrics.job }}</h4>
+      <div v-for="(id, metric) in this.metrics.values" v-bind:key="id.id">
+        <h4>{{ metric.host }}</h4>
+        <h5>{{ metric.job }}</h5>
+        
+        <div v-for="(value, point) in metric.values" v-bind:key="point.point">
+          {{ point }} - {{ value }}
+        </div>
 
-      <h3>Metrics</h3>
-      <div v-for="(value, point) in metrics.values" v-bind:key="point.point">
-        {{ point }} - {{ value }}
       </div>
     </div>
   </div>
@@ -28,7 +30,7 @@ export default {
     created() {
       this.socket.on("test", (row) => {
         console.log(row)
-        this.metrics = row
+        this.metrics[row.id] = row
       })
     },
 
