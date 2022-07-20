@@ -8,7 +8,7 @@ event_schedule = sched.scheduler(time.time, time.sleep)
 
 def do_something():
     try:
-        r = requests.post('http://127.0.0.1:4000/push', json={
+        r = requests.post('http://server:4000/push', json={
         "id": "demolocalhost",
         "values": {
             "value": str(datetime.now()),
