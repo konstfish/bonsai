@@ -48,6 +48,8 @@ services:
   local_exporter:
     depends_on:
       - "server"
+    links:
+      - "server:server"
     build: ./bonsai_exporter_base
 
 volumes:
