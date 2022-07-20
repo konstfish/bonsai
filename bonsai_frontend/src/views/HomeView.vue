@@ -26,6 +26,7 @@ export default {
         }
     },
     created() {
+      console.log("test")
       this.socket.on("test", (row) => {
         console.log(row)
         this.metrics = row
