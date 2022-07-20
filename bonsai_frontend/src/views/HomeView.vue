@@ -22,11 +22,10 @@ export default {
     data() {
         return {
             metrics: {},
-            socket: io('/ws'),
+            socket: io('', {path: "/ws"}),
         }
     },
     created() {
-      console.log("test")
       this.socket.on("test", (row) => {
         console.log(row)
         this.metrics = row
