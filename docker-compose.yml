@@ -1,10 +1,10 @@
 version: '3.7'
 services:
-  #mongodb:
-  #  image: mongo:4.4.6
-  #  volumes:
-  #    - mongodb_data:/data/db
-  #  restart: always
+  mongodb:
+    image: mongo:4.4.6
+    volumes:
+      - mongodb_data:/data/db
+    restart: always
 
   rethink:
     image: rethinkdb:latest
@@ -14,19 +14,36 @@ services:
       - 8080:8080
       - 28015:28015
       - 29015:29015
+  server:
+    depends_on:
+      - "rethink"
+    build: ./bonsai_server
+    ports:
+      - 4000:4000
 
-#  server:
-#    depends_on:
-#      - "mongodb_container"
-#      - "rest"
-#    build: ./web/
-#    ports:
-#      - 3321:3000
-#    links:
-#      - "rest:rest"
-#    volumes:
-#      - ./data_temp:/usr/share/nginx/html/data_temp
-#    restart: always
+  socket:
+    depends_on:
+      - "server"
+    build: ./bonsai_socket
+    ports:
+      - 9000:9000
+
+  frontend:
+    depends_on:
+      - "socket"
+    build: ./bonsai_frontend/
+    ports:
+      - 3000:3000
+    links:
+      - "socket:socket"
+    volumes:
+      - ./data_temp:/usr/share/nginx/html/data_temp
+    restart: always
+
+  local_exporter:
+    depends_on:
+      - "server"
+    build: ./bonsai_exporter_base
 
 volumes:
   mongodb_data:
