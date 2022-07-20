@@ -15,9 +15,9 @@ var r = require('rethinkdb');
 app.use(express.static('public'));
 app.use(cors())
 
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
+//app.get('*', function(req, res) {
+//  res.sendFile(path.join(__dirname + '/index.html'));
+//});
 
 r.connect({host: 'rethink', port: 28015, db: "bonsai"})
     .then(function(connection) {
