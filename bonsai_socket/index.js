@@ -6,10 +6,7 @@ var cors = require('cors')
 
 // Socket.io
 var io = require('socket.io')(server, {
-    cors: {
-        methods: ["GET", "POST"]
-    },
-    path: '/ws'
+  path: '/ws'
 });
 
 // Rethinkdb
