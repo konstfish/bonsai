@@ -1,11 +1,9 @@
 <template>
-  <div class="home">
     <v-network-graph
     :nodes="nodes"
     :edges="edges"
     :configs="configs"
     />
-  </div>
 </template>
 
 <script>
@@ -21,7 +19,7 @@ export default {
     data() {
         return {
             metrics: {},
-            socket: io('http://10.0.1.108:3000', {path: "/ws"}),
+            socket: io('', {path: "/ws"}),
             nodes: {
               Bonsai: { name: "Bonsai", color: "lightgreen", size: 16 },
             },
