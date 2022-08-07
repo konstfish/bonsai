@@ -11,14 +11,13 @@ class BonsaiExporterNET:
 
 
     def get_metrics(self):
-        metrics = {
-
-        }
+        metrics = {}
         stat = psutil.net_io_counters(pernic=True)
         for interface in self.opt["interfaces"]:
-            metrics[interface] = {}
-            metrics[interface]["bytes_sent"] = stat[interface].bytes_sent
-            metrics[interface]["bytes_recv"] = stat[interface].bytes_recv
+            if(interface in stat):
+                metrics[interface] = {}
+                metrics[interface]["bytes_sent"] = stat[interface].bytes_sent
+                metrics[interface]["bytes_recv"] = stat[interface].bytes_recv
 
         return metrics
 

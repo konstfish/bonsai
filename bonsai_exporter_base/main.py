@@ -4,7 +4,7 @@ from BonsaiExporterMEM import BonsaiExporterMEM
 from BonsaiExporterNET import BonsaiExporterNET
 from BonsaiExporterDISK import BonsaiExporterDISK
 
-BonsaiClient("http://10.0.1.108:4000/push", jobname="basic_exporter", rate=0.5, exporters=[
+BonsaiClient("http://10.0.1.108:4000/push", jobname="basic_exporter", rate=1, exporters=[
     BonsaiExporterCPU(opt={
         "individual_cores": True,
         "core_count": True,
@@ -15,7 +15,7 @@ BonsaiClient("http://10.0.1.108:4000/push", jobname="basic_exporter", rate=0.5, 
         "detailed": True
     }),
     BonsaiExporterNET(opt={
-        "interfaces": ["en0"]
+        "interfaces": ["ensdfs0"]
     }),
     BonsaiExporterDISK(opt={
         "disks": ['/'],

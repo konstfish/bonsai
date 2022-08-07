@@ -8,7 +8,7 @@
         <h5>{{ metric.host }}</h5>
 
         <div v-for="(metrics, point) in metric.metrics" v-bind:key="point.point">
-          {{ point }} - {{ value }}
+          {{ point }} - {{ metrics }}
         </div>
 
         <br>
@@ -49,6 +49,10 @@ export default {
 <style scoped>
 .metric-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-grow: 1;
+    align-items: flex-start;
 }
 
 .metric-card{
@@ -57,8 +61,5 @@ export default {
   border-radius: 6px;
   text-decoration: none;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,.4),0 6px 20px 0 rgba(0,0,0,.3);
-
-  height: 220px;
-  width: 220px;
 }
 </style>
