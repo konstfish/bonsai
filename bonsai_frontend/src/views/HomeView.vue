@@ -7,7 +7,7 @@
         <h4>{{ metric.job }}</h4>
         <h5>{{ metric.host }}</h5>
 
-        <div v-for="(value, point) in metric.values" v-bind:key="point.point">
+        <div v-for="(metrics, point) in metric.metrics" v-bind:key="point.point">
           {{ point }} - {{ value }}
         </div>
 
