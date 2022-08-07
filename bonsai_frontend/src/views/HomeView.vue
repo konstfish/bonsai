@@ -25,6 +25,7 @@ export default {
         return {
             metrics: {},
             socket: io('', {path: "/ws"}),
+            //socket: io('http://10.0.1.108:3000', {path: "/ws"}),
         }
     },
     created() {

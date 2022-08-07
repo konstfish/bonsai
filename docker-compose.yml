@@ -14,14 +14,18 @@ services:
       - 8080:8080
       - 28015:28015
       - 29015:29015
+    restart: always
   server:
     depends_on:
       - "rethink"
     links:
       - "rethink"
+    environment:
+      - TZ=Europe/Vienna
     build: ./bonsai_server
     ports:
       - 4000:4000
+    restart: always
 
   socket:
     depends_on:
@@ -32,6 +36,7 @@ services:
     build: ./bonsai_socket
     ports:
       - 9000:9000
+    restart: always
 
   frontend:
     depends_on:
@@ -51,6 +56,7 @@ services:
     links:
       - "server:server"
     build: ./bonsai_exporter_base
+    restart: always
 
 volumes:
   mongodb_data:

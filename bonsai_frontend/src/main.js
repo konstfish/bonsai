@@ -9,6 +9,7 @@ import VNetworkGraph from "v-network-graph"
 import "v-network-graph/style.css"
 
 const app = createApp(App);
+
 app.use(router);
 app.use(VueAxios, axios);
 

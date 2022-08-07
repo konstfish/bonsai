@@ -28,7 +28,6 @@ class BonsaiClient:
                 "job": self.jobname,
                 "host": self.hostname,
                 "values": {
-                    "value": str(datetime.now()),
                     "cpu": psutil.cpu_percent(),
                     "mem": psutil.virtual_memory().percent
                 },
