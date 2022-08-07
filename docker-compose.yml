@@ -24,7 +24,7 @@ services:
       - TZ=Europe/Vienna
     build: ./bonsai_server
     ports:
-      - 4000:4000
+      - 4000:8000
     restart: always
 
   socket:
