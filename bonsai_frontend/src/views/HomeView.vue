@@ -2,6 +2,10 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
 
+    <vue-countdown :time="2 * 24 * 60 * 60 * 1000" v-slot="{ days, hours, minutes, seconds }">
+      Time Remaining: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds.
+    </vue-countdown>
+
     <div>
       <div v-for="metric in this.metrics" v-bind:key="metric">
         <h4>{{ metric.host }}</h4>

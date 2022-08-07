@@ -960,6 +960,11 @@
     "@babel/helper-validator-identifier" "^7.18.6"
     to-fast-properties "^2.0.0"
 
+"@chenfengyuan/vue-countdown@2":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@chenfengyuan/vue-countdown/-/vue-countdown-2.0.0.tgz#23a6ce4c0b0bb4cffd427a89ee3f8c88dabb4672"
+  integrity sha512-uZQBuajO9Jp5y5Hh5/C61qZw5oQXv3Cgd0FWO4j22SmwY7pzEHC7A/liobHjHeLiQH9WKVEhyOzmIZ2a4WSXhQ==
+
 "@dash14/svg-pan-zoom@^3.6.8":
   version "3.6.8"
   resolved "https://registry.yarnpkg.com/@dash14/svg-pan-zoom/-/svg-pan-zoom-3.6.8.tgz#99ab5c8f2d6d712c82121921e390d2b7a96a6f0d"
@@ -2681,11 +2686,6 @@ csstype@^2.6.8:
   version "2.6.20"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.20.tgz#9229c65ea0b260cf4d3d997cb06288e36a8d6dda"
   integrity sha512-/WwNkdXfckNgw6S5R125rrW8ez139lBHWouiBvX8dfMFtcn6V81REDqnH7+CRpRipfYlyU1CmOnOxrmGcFOjeA==
-
-date-fns@^2.28.0:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.1.tgz#9667c2615525e552b5135a3116b95b1961456e60"
-  integrity sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==
 
 debug@2.6.9:
   version "2.6.9"
@@ -6059,14 +6059,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue-timeago3@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/vue-timeago3/-/vue-timeago3-2.3.0.tgz#897b82e27c44f198d76b39141e1807e4c381f250"
-  integrity sha512-9rV/f9thgjkBJeF5X2lsUSp4SENYuL0XjrXsaHvNkc0x5wHRiCG/Aefi6Xl0op/X9Oblio9NmNOQGXVWyRWm5A==
-  dependencies:
-    date-fns "^2.28.0"
-
-vue@^3.2.13:
+vue@3:
   version "3.2.37"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.37.tgz#da220ccb618d78579d25b06c7c21498ca4e5452e"
   integrity sha512-bOKEZxrm8Eh+fveCqS1/NkG/n6aMidsI6hahas7pa0w/l7jkbssJVsRhVDs07IdDq7h9KHswZOgItnwJAgtVtQ==

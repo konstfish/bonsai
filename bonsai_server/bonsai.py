@@ -18,7 +18,7 @@ default_handler.setFormatter(
 logger.addHandler(default_handler)
 
 rethink_server = "rethink"
-rethink_server = "10.0.1.108"
+#rethink_server = "10.0.1.108"
 rethink_port = 28015
 rethink_database = "bonsai"
 
@@ -37,7 +37,7 @@ class RethinkServerConnection():
     self.conn.close()
 
 with RethinkServerConnection() as conn:
-  if(rethink_database not in  r.db_list().run(conn)):
+  if(rethink_database not in r.db_list().run(conn)):
     logger.info('Creating DB: ' + rethink_database)
     r.db_create(rethink_database).run(conn)
   else:
