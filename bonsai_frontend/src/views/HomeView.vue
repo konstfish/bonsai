@@ -1,30 +1,32 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <h1>Metric Overview</h1>
 
-    <vue-countdown :time="2 * 24 * 60 * 60 * 1000" v-slot="{ days, hours, minutes, seconds }">
-      Time Remaining: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds.
-    </vue-countdown>
+    <div class="metric-container">
+      <div class="metric-card" v-for="metric in this.metrics" v-bind:key="metric">
+        <h4>{{ metric.job }}</h4>
+        <h5>{{ metric.host }}</h5>
 
-    <div>
-      <div v-for="metric in this.metrics" v-bind:key="metric">
-        <h4>{{ metric.host }}</h4>
-        <h5>{{ metric.job }}</h5>
-        
         <div v-for="(value, point) in metric.values" v-bind:key="point.point">
           {{ point }} - {{ value }}
         </div>
 
+        <br>
+        <time-since :date="new Date(metric.date)" />
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-
+import TimeSince from '@/components/TimeSince';
 import io from 'socket.io-client';
 
 export default {
+    components: {
+      TimeSince
+    },
     data() {
         return {
             metrics: {},
@@ -43,3 +45,20 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.metric-container {
+    display: flex;
+}
+
+.metric-card{
+  padding: 12px;
+  margin: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.4),0 6px 20px 0 rgba(0,0,0,.3);
+
+  height: 220px;
+  width: 220px;
+}
+</style>

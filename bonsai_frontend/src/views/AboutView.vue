@@ -1,9 +1,16 @@
 <template>
-    <v-network-graph
-    :nodes="nodes"
-    :edges="edges"
-    :configs="configs"
-    />
+    <div class="home">
+      <h1>Node Graph</h1>
+      <v-network-graph
+      :nodes="nodes"
+      :edges="edges"
+      :configs="configs"
+      >
+      <template #edge-label="{ edge, ...slotProps }">
+        <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" />
+      </template>
+    </v-network-graph>
+    </div>
 </template>
 
 <script>
@@ -20,6 +27,7 @@ export default {
         return {
             metrics: {},
             socket: io('', {path: "/ws"}),
+            //socket: io('http://10.0.1.108:3000', {path: "/ws"}),
             nodes: {
               Bonsai: { name: "Bonsai", color: "lightgreen", size: 16 },
             },
@@ -47,7 +55,7 @@ export default {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "blue"}
         this.edges[row.id + "-edge"] = {
-          source: "Bonsai", target: row.id
+          source: "Bonsai", target: row.id, label: row.job
         }
       })
     },
@@ -56,3 +64,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.v-network-graph{
+  height: 500px;
+}
+</style>

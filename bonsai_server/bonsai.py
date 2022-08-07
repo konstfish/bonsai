@@ -65,7 +65,7 @@ def push():
 
   #test = r.table('metrics').filter({"host": rjson["host"], "job": rjson["job"]}).run(conn)
 
-  with RethinkServerConnection as conn:
+  with RethinkServerConnection() as conn:
     print(r.table('metrics').insert(rjson, conflict="update").run(conn))
 
   #r.table("metrics").filter({"job": rjson[job], "host": rjson[host]}).update(rjson).run()
