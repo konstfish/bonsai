@@ -19,4 +19,11 @@ app.use(VNetworkGraph)
 
 app.component(VueCountdown.name, VueCountdown);
 
+app.config.globalProperties.socket_io_server = '';
+//app.config.globalProperties.socket_io_server = 'http://localhost:9000';
+
+app.config.globalProperties.api_server = 'http://rest:4000';
+//app.config.globalProperties.api_server = 'http://localhost:4000';
+
+
 app.mount('#app');

@@ -25,13 +25,13 @@ import {
 export default {
     data() {
         return {
-            metrics: {},
-            socket: io('', {path: "/ws"}),
-            //socket: io('http://10.0.1.108:3000', {path: "/ws"}),
+            metrics: reactive({}),
+            //socket: io('', {path: "/ws"}),
+            socket: io(this.socket_io_server, {path: "/ws"}),
             nodes: {
               Bonsai: { name: "Bonsai", color: "lightgreen", size: 16 },
             },
-            edges: {},
+            edges: reactive({}),
             configs: reactive(
               vNG.defineConfigs({
                 view: {
@@ -51,13 +51,19 @@ export default {
         }
     },
     created() {
-      this.socket.on("test", (row) => {
+      this.socket.on("general_update", (row) => {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "blue"}
         this.edges[row.id + "-edge"] = {
           source: "Bonsai", target: row.id, label: row.job
         }
-      })
+      });
+
+      this.socket.on("deletion_update", (row) => {
+        console.log(row)
+        delete this.nodes[row.id]
+        delete this.edges[row.id + "-edge"]
+      });
     },
 
     methods: {

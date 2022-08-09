@@ -30,15 +30,20 @@ export default {
     data() {
         return {
             metrics: {},
-            socket: io('', {path: "/ws"}),
-            //socket: io('http://10.0.1.108:3000', {path: "/ws"}),
+            //socket: io('', {path: "/ws"}),
+            socket: io(this.socket_io_server, {path: "/ws"}),
         }
     },
     created() {
-      this.socket.on("test", (row) => {
+      this.socket.on("general_update", (row) => {
         console.log(row)
         this.metrics[row.id] = row
-      })
+      });
+
+      this.socket.on("deletion_update", (row) => {
+        console.log(row)
+        delete this.metrics[row.id]
+      });
     },
 
     methods: {

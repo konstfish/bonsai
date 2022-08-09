@@ -19,15 +19,25 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-r.connect({host: 'rethink', port: 28015, db: "bonsai"})
+const rethinkhost = 'rethink'
+// const rethinkhost = '10.0.1.108'
+
+r.connect({host: rethinkhost, port: 28015, db: "bonsai"})
     .then(function(connection) {
         r.table('metrics').changes().run(connection, function(err, cursor) {
             if (err) throw err;
             cursor.each(function(err, row) {
                 if (err) throw err;
+                
                 // console.log(JSON.stringify(row, null, 2));
-                console.log("emit")
-                io.emit("test", row.new_val)
+
+                if(row.new_val != null){
+                    console.log("general_update")
+                    io.emit("general_update", row.new_val)
+                } else {
+                    console.log("deletion_update")
+                    io.emit("deletion_update", row.old_val)
+                }
             });
         });
 
@@ -42,7 +52,7 @@ r.connect({host: 'rethink', port: 28015, db: "bonsai"})
                 cursor.each(function(err, row) {
                     if (err) throw err;
                     // console.log(JSON.stringify(row, null, 2));
-                    socket.emit("test", row)
+                    socket.emit("general_update", row)
                 });
             });
         })

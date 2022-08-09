@@ -3,7 +3,9 @@
     <nav>
       <h1>Bonsai</h1>
       <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
+      <router-link to="/nodes">Node Graph</router-link>
+      <br>
+      <router-link to="/admin">Admin Panel</router-link>
     </nav>
 
     <router-view/>

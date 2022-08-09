@@ -17,8 +17,8 @@ default_handler.setFormatter(
 )
 logger.addHandler(default_handler)
 
-rethink_server = "rethink"
-#rethink_server = "10.0.1.108"
+#rethink_server = "rethink"
+rethink_server = "10.0.1.108"
 rethink_port = 28015
 rethink_database = "bonsai"
 
@@ -66,12 +66,19 @@ def push():
   #test = r.table('metrics').filter({"host": rjson["host"], "job": rjson["job"]}).run(conn)
 
   with RethinkServerConnection() as conn:
-    print(r.table('metrics').insert(rjson, conflict="update").run(conn))
+    print(r.table("metrics").insert(rjson, conflict="update").run(conn))
 
   #r.table("metrics").filter({"job": rjson[job], "host": rjson[host]}).update(rjson).run()
 
   print(request)
 
+  return {"status": "200"}
+
+@app.route("/api/admin/purge")
+def admin_purge():
+  with RethinkServerConnection() as conn:
+    r.table("metrics").delete().run(conn)
+  
   return {"status": "200"}
 
 if __name__ == '__main__':
