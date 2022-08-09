@@ -74,7 +74,7 @@ def push():
 
   return {"status": "200"}
 
-@app.route("/api/admin/purge")
+@app.route("/admin/purge")
 def admin_purge():
   with RethinkServerConnection() as conn:
     r.table("metrics").delete().run(conn)

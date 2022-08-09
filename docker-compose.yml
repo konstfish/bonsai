@@ -46,6 +46,7 @@ services:
       - 3000:3000
     links:
       - "socket:socket"
+      - "server:server"
     volumes:
       - ./data_temp:/usr/share/nginx/html/data_temp
     restart: always
