@@ -38,17 +38,17 @@ services:
       - 9000:9000
     restart: always
 
-#  frontend:
-#    depends_on:
-#      - "socket"
-#    build: ./bonsai_frontend/
-#    ports:
-#      - 3000:3000
-#    links:
-#      - "socket:socket"
-#    volumes:
-#      - ./data_temp:/usr/share/nginx/html/data_temp
-#    restart: always
+  frontend:
+    depends_on:
+      - "socket"
+    build: ./bonsai_frontend/
+    ports:
+      - 3000:3000
+    links:
+      - "socket:socket"
+    volumes:
+      - ./data_temp:/usr/share/nginx/html/data_temp
+    restart: always
 
   local_exporter:
     depends_on:
