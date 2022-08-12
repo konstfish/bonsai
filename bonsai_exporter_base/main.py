@@ -1,10 +1,33 @@
 from BonsaiClient import BonsaiClient
-from BonsaiExporterCPU import BonsaiExporterCPU
-from BonsaiExporterMEM import BonsaiExporterMEM
-from BonsaiExporterNET import BonsaiExporterNET
-from BonsaiExporterDISK import BonsaiExporterDISK
+import importlib
+from BonsaiConfigLoader import BonsaiConfigLoader
 
-BonsaiClient("http://10.0.1.108:4000/push", jobname="basic_exporter", rate=1, exporters=[
+b = BonsaiConfigLoader()
+
+print(b)
+
+for exporter in b.config['exporters']:
+    b.config['exporters'][exporter]['class'] = getattr(getattr(__import__("exporters." + exporter), exporter), exporter)
+
+if __name__ == "__main__":
+    exporters = []
+    for exporter in b.config['exporters']:
+        exporters.append(b.config['exporters'][exporter]['class'](opt=b.config['exporters'][exporter]['options']))
+        print("Initialized Exporter", exporter)
+
+    BonsaiClient(b.config['bonsai_server'], jobname=b.config['jobname'], rate=b.config['rate'], exporters=exporters)
+
+
+"""
+from exporters.BonsaiExporterCPU import BonsaiExporterCPU
+from exporters.BonsaiExporterMEM import BonsaiExporterMEM
+from exporters.BonsaiExporterNET import BonsaiExporterNET
+from exporters.BonsaiExporterDISK import BonsaiExporterDISK
+"""
+
+"""
+BonsaiClient(b.config['bonsai_server'], jobname=b.config['jobname'], rate=b.config['rate'], exporters=[
+
     BonsaiExporterCPU(opt={
         "individual_cores": True,
         "core_count": True,
@@ -22,3 +45,4 @@ BonsaiClient("http://10.0.1.108:4000/push", jobname="basic_exporter", rate=1, ex
         "detailed": True
     }),
 ])
+"""

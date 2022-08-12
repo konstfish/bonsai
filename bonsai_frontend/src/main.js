@@ -19,10 +19,20 @@ app.use(VNetworkGraph)
 
 app.component(VueCountdown.name, VueCountdown);
 
-app.config.globalProperties.socket_io_server = '';
+console.log(process.env.NODE_ENV)
+
+if(process.env.NODE_ENV === "production"){
+    app.config.globalProperties.socket_io_server = '';
+    app.config.globalProperties.api_server = '';
+}else{
+    app.config.globalProperties.socket_io_server = 'http://localhost:9000';
+    app.config.globalProperties.api_server = 'http://localhost:4000';
+}
+
+//app.config.globalProperties.socket_io_server = '';
 //app.config.globalProperties.socket_io_server = 'http://localhost:9000';
 
-app.config.globalProperties.api_server = '';
+//app.config.globalProperties.api_server = '';
 //app.config.globalProperties.api_server = 'http://localhost:4000';
 
 

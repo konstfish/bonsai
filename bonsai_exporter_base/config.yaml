@@ -1,0 +1,28 @@
+hostname: None
+#bonsai_server: http://10.0.1.108:4000/push
+bonsai_server: http://server:4000/push
+jobname: demo
+rate: 1
+labels:
+  type: test
+exporters:
+  BonsaiExporterCPU:
+    name: CPU
+    labels:
+      service: test
+    options:
+      "individual_cores": True
+      "core_count": True
+      "core_count_logical": True
+  BonsaiExporterMEM:
+    name: MEM
+    options:
+      "include_swap": False
+      "detailed": True
+  BonsaiExporterNET:
+    options:
+      "interfaces": ["ensdfs0"]
+  BonsaiExporterDISK:
+    options:
+      "disks": ['/']
+      "detailed": True

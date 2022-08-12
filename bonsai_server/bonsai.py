@@ -5,6 +5,8 @@ from datetime import datetime
 from flask import Flask
 from flask import request
 
+import os
+
 from rethinkdb import RethinkDB
 r = RethinkDB()
 
@@ -18,7 +20,20 @@ default_handler.setFormatter(
 logger.addHandler(default_handler)
 
 #rethink_server = "rethink"
-rethink_server = "10.0.1.108"
+#rethink_server = "10.0.1.108"
+
+try:
+  dockerCheck = os.environ['IN_DOCKER_CONTAINER']
+except:
+  dockerCheck = 0
+
+if(dockerCheck):
+  rethink_server = "rethink"
+else:
+  rethink_server = "10.0.1.108"
+
+print(rethink_server)
+
 rethink_port = 28015
 rethink_database = "bonsai"
 

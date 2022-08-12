@@ -22,6 +22,7 @@ services:
       - "rethink"
     environment:
       - TZ=Europe/Vienna
+      - IN_DOCKER_CONTAINER=1
     build: ./bonsai_server
     ports:
       - 4000:4000
@@ -47,8 +48,9 @@ services:
     links:
       - "socket:socket"
       - "server:server"
-    volumes:
-      - ./data_temp:/usr/share/nginx/html/data_temp
+    environment:
+      - TZ=Europe/Vienna
+      - IN_DOCKER_CONTAINER=1
     restart: always
 
   local_exporter:
