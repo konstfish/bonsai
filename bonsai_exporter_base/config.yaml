@@ -1,4 +1,5 @@
 hostname: None
+#bonsai_server: http://localhost:4000/push
 #bonsai_server: http://10.0.1.108:4000/push
 bonsai_server: http://server:4000/push
 jobname: demo

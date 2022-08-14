@@ -50,7 +50,6 @@ services:
       - "server:server"
     environment:
       - TZ=Europe/Vienna
-      - IN_DOCKER_CONTAINER=1
     restart: always
 
   local_exporter:
