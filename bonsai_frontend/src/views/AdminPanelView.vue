@@ -3,6 +3,10 @@
     <h1>Admin Panel</h1>
 
     <button @click="purge_database_entries()">Purge DB</button>
+
+    <br>
+
+    <span>{{ metric_amount }}</span>
   </div>
 </template>
 
@@ -13,10 +17,14 @@ export default {
 
   },
   data() {
-    return { }
+    return {
+      metric_amount: 0
+    }
   },
   created() {
-  
+    this.axios.get(this.api_server + "/api/metric/amount").then((response) => {
+        this.metric_amount = response.data.amount
+      })
   },
 
   methods: {

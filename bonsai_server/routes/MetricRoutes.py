@@ -18,4 +18,12 @@ class MetricsPush(Resource):
             out = rethink.r.table("metrics").insert(rjson, conflict="update").run(conn)
             logger.debug(out)
 
-        return {"status": "200"}
+        return {"status": 200}
+
+class MetricAmount(Resource):
+    def get(self):
+        with RethinkServerConnection(rethink_server=rethink) as conn:
+            out = rethink.r.table("metrics").count().run(conn)
+
+        return {"status": 200,
+                "amount": out}

@@ -17,6 +17,8 @@ api = Api(app)
 # metric routes
 api.add_resource(routes.MetricsPush, '/push')
 
+api.add_resource(routes.MetricAmount, '/metric/amount')
+
 # admin routes
 api.add_resource(routes.AdminPurge, '/admin/purge')
 

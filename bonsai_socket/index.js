@@ -20,17 +20,22 @@ app.get('*', function(req, res) {
 });
 
 const rethinkhost = 'rethink'
-// const rethinkhost = '10.0.1.108'
+//const rethinkhost = '10.0.1.108'
 
-r.connect({host: rethinkhost, port: 28015, db: "bonsai"})
-    .then(function(connection) {
-        r.table('metrics').changes().run(connection, function(err, cursor) {
+rethink = r.connect({host: rethinkhost, 
+                    port: 28015, 
+                    db: "bonsai"})
+
+
+rethink.then(function(connection) {
+    r.table('metrics').changes().run(connection, function(err, cursor) {
+        if (err) throw err;
+        cursor.each(function(err, row) {
             if (err) throw err;
-            cursor.each(function(err, row) {
-                if (err) throw err;
-                
-                // console.log(JSON.stringify(row, null, 2));
 
+            console.log(Array.from(io.sockets.sockets.keys()))
+            
+            if(Array.from(io.sockets.sockets.keys()).length > 0){
                 if(row.new_val != null){
                     console.log("general_update")
                     io.emit("general_update", row.new_val)
@@ -38,26 +43,34 @@ r.connect({host: rethinkhost, port: 28015, db: "bonsai"})
                     console.log("deletion_update")
                     io.emit("deletion_update", row.old_val)
                 }
+            }
+        });
+    });
+
+
+    io.sockets.on("connection", function(socket){
+        console.log("connection")
+        console.log(socket.id)
+        
+        r.table('metrics').run(connection, function(err, cursor) {
+            if (err) throw err;
+            cursor.each(function(err, row) {
+                if (err) throw err;
+                // console.log(JSON.stringify(row, null, 2));
+                socket.emit("general_update", row)
             });
         });
 
-        server.listen(9000);
-        console.log("✨ :9000")
-
-        io.sockets.on("connection", function(socket){
-            console.log("connection")
-            
-            r.table('metrics').run(connection, function(err, cursor) {
-                if (err) throw err;
-                cursor.each(function(err, row) {
-                    if (err) throw err;
-                    // console.log(JSON.stringify(row, null, 2));
-                    socket.emit("general_update", row)
-                });
-            });
-        })
+        socket.on("disconnect", (reason) => {
+            console.log("disconnect")
+        });
     })
-    .error(function(error) {
-        console.log('Error connecting to RethinkDB!');
-        console.log(error);
-    });
+
+})
+.error(function(error) {
+    console.log('Error connecting to RethinkDB!');
+    console.log(error);
+});
+
+server.listen(9000);
+console.log("✨ :9000")
