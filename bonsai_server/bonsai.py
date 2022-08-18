@@ -26,3 +26,7 @@ if __name__ == '__main__':
   port = 4000
   logger.info("🌳 Started Bonsai on :" + str(port))
   app.run(host="0.0.0.0", port=port)
+
+if __name__ == 'bonsai':
+  port = 4000
+  logger.info("🌳 Started Bonsai on :" + str(port))
