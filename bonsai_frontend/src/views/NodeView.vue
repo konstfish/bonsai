@@ -51,6 +51,8 @@ export default {
         }
     },
     created() {
+      this.socket.open()
+
       this.socket.on("general_update", (row) => {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "blue"}
@@ -64,6 +66,11 @@ export default {
         delete this.nodes[row.id]
         delete this.edges[row.id + "-edge"]
       });
+    },
+
+    unmounted() {
+      this.socket.close()
+      //this.socket = null
     },
 
     methods: {

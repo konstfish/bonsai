@@ -1,10 +1,10 @@
 // bonsai
 
 // rethinkdb
-var rethink = require('./controllers/rethink')
+var rethink = require('./socket/controllers/rethink')
 var r = rethink.rethink
 
-var dbController = require('./controllers/dbController')
+var dbController = require('./socket/controllers/dbController')
 
 // express server
 var express = require('express');
@@ -21,9 +21,12 @@ global.io = io;
 app.use(express.static('public'));
 app.use(cors())
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
+
+var routesAdmin = require('./api/routes/adminRoutes');
+app.use('/api/admin', routesAdmin);
 
 // socket.io calls
 var socket_list = {}

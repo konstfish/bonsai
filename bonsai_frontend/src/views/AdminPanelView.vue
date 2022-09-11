@@ -22,7 +22,7 @@ export default {
     }
   },
   created() {
-    this.axios.get(this.api_server + "/api/metric/amount").then((response) => {
+    this.axios.get(this.api_server + "/api/admin/amount").then((response) => {
         this.metric_amount = response.data.amount
       })
   },

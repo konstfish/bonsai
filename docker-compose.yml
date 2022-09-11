@@ -21,7 +21,7 @@ services:
     links:
       - "rethink"
     environment:
-      - TZ=Europe/Vienna
+      - TZ=Europe/London
       - IN_DOCKER_CONTAINER=1
     build: ./bonsai_server
     ports:
@@ -49,7 +49,7 @@ services:
       - "socket:socket"
       - "server:server"
     environment:
-      - TZ=Europe/Vienna
+      - TZ=Europe/London
     restart: always
 
   local_exporter:

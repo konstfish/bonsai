@@ -35,6 +35,9 @@ export default {
         }
     },
     created() {
+      //this.socket = io(this.socket_io_server, {path: "/ws"})
+      this.socket.open()
+
       this.socket.on("general_update", (row) => {
         console.log(row)
         this.metrics[row.id] = row
@@ -44,6 +47,11 @@ export default {
         console.log(row)
         delete this.metrics[row.id]
       });
+    },
+
+    unmounted() {
+      this.socket.close()
+      //this.socket = null
     },
 
     methods: {
