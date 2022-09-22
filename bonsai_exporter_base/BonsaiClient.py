@@ -1,5 +1,23 @@
+import logging
+
+def create_logger(name):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+
+    default_handler = logging.StreamHandler()
+    default_handler.setFormatter(
+        logging.Formatter("[%(asctime)s] [%(process)d] [%(levelname)s] [%(module)s] %(message)s")
+    )
+    logger.addHandler(default_handler)
+
+    return logger
+
+logger = create_logger('bonsai')
+
 import socket
 import sched
+import time
+
 import time
 from datetime import datetime
 
@@ -37,12 +55,20 @@ class BonsaiClient:
 
     def run(self):
         try:
+            start_metrics = time.time()
+            metrics = self.build_request()
+            end_metrics = time.time()
+
+            logger.info("[TIME] Scraping: %fs" % (end_metrics - start_metrics))
+
+            start_channel = time.time()
             with grpc.insecure_channel(self.bonsai_server) as channel:
                 stub = bonsai_pb2_grpc.ServerStub(channel)
-                metrics = self.build_request()
                 response = stub.PushMetrics(metrics)
-                
-            print("Recv: ", response.code)
+            end_channel = time.time()
+
+            logger.info("[TIME] Transfer: %fs" % (end_channel - start_channel))
+            logger.info("Recv: %d" % response.code)
         except Exception as e:
             print(e)
 

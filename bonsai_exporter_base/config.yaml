@@ -1,7 +1,7 @@
 hostname: None
 #bonsai_server: http://localhost:4000/push
-#bonsai_server: http://10.0.1.108:4000/push
-bonsai_server: server:50051
+bonsai_server: 82.149.123.143:50051
+#bonsai_server: server:50051
 jobname: demo
 rate: 1
 labels:
