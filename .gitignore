@@ -2,4 +2,4 @@ node_modules
 __pycache__
 .DS_Store
 yarn.lock
-*pb2*
+#*pb2*
