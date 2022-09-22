@@ -25,7 +25,7 @@ services:
       - IN_DOCKER_CONTAINER=1
     build: ./bonsai_server
     ports:
-      - 4000:4000
+      - 50051:50051
     restart: always
 
   socket:

@@ -1,6 +1,5 @@
-gunicorn
-flask
-flask_restful
+grpcio
+grpcio-tools
 
 rethinkdb
 pymongo

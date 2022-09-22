@@ -12,7 +12,7 @@ if('IN_DOCKER_CONTAINER' in os.environ):
   if(os.environ['IN_DOCKER_CONTAINER']):
     rethink_server = "rethink"
 else:
-  rethink_server = "10.0.1.108"
+  rethink_server = "localhost"
 
 rethink_database = "bonsai"
 rethink_port = 28015

@@ -1,32 +1,25 @@
-import logging
-
-from flask import Flask, request
-from flask_restful import Resource, Api
-
 import controllers
-import routes
 
+import proto
+import asyncio
+import grpc
+import bonsai_pb2_grpc
+from BonsaiServer import BonsaiServer
+
+import logging
 logger = logging.getLogger('bonsai')
 
 # mdbc = pymongo.MongoClient('mongodb://database:27017/')
 # r.db("test").table_create("authors").run())
 
-app = Flask(__name__)
-api = Api(app)
-
-# metric routes
-api.add_resource(routes.MetricsPush, '/push')
-
-api.add_resource(routes.MetricAmount, '/metric/amount')
-
-# admin routes
-api.add_resource(routes.AdminPurge, '/admin/purge')
+async def serve() -> None:
+    server = grpc.aio.server()
+    bonsai_pb2_grpc.add_ServerServicer_to_server(BonsaiServer(), server)
+    listen_addr = '[::]:50051'
+    server.add_insecure_port(listen_addr)
+    logging.info("Starting server on %s", listen_addr)
+    await server.start()
+    await server.wait_for_termination()
 
 if __name__ == '__main__':
-  port = 4000
-  logger.info("🌳 Started Bonsai on :" + str(port))
-  app.run(host="0.0.0.0", port=port)
-
-if __name__ == 'bonsai':
-  port = 4000
-  logger.info("🌳 Started Bonsai on :" + str(port))
+    asyncio.run(serve())
