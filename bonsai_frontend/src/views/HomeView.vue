@@ -1,6 +1,14 @@
 <template>
   <div class="home">
     <h1>Metric Overview</h1>
+    
+    {{labels}}
+    {{count}}
+    <div class="label-selectors" v-for="keys, label in this.labels" v-bind:key="label">
+      {{ label }}
+      <v-select :options="keys" @option:deselected="count++" @option:selected="update_socket_listener"></v-select>
+    </div>
+
 
     <div class="metric-container">
       <div class="metric-card" v-for="metric in this.metrics" v-bind:key="metric">
@@ -22,6 +30,7 @@
 <script>
 import TimeSince from '@/components/TimeSince';
 import io from 'socket.io-client';
+import 'vue-select/dist/vue-select.css';
 
 export default {
     components: {
@@ -30,6 +39,8 @@ export default {
     data() {
         return {
             metrics: {},
+            labels: {},
+            count: 0,
             //socket: io('', {path: "/ws"}),
             socket: io(this.socket_io_server, {path: "/ws"}),
         }
@@ -37,6 +48,10 @@ export default {
     created() {
       //this.socket = io(this.socket_io_server, {path: "/ws"})
       this.socket.open()
+
+      this.socket.on("label_list", (row) => {
+        this.labels = row
+      });
 
       this.socket.on("general_update", (row) => {
         console.log(row)
@@ -55,6 +70,26 @@ export default {
     },
 
     methods: {
+      update_socket_listener(event){
+        this.socket.close()
+        this.socket.open()
+        this.socket.send(JSON.stringify({
+          type: "update_listener",
+          content: [event]
+        }));
+      },
+
+      remove_socket_listener(event){
+        console.log(event)
+        this.socket.close()
+        this.socket.open()
+        this.metrics = {}
+
+        this.socket.send(JSON.stringify({
+          type: "remove_listener",
+          content: [event]
+        }));
+      },
     },
 }
 </script>

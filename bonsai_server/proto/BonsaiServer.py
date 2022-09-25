@@ -17,12 +17,16 @@ class BonsaiServer(bonsai_pb2_grpc.ServerServicer):
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.MetricsConfirmation:
         logger.info('Recieved from host %s!' % request.host)
 
+        labels = {}
+        for label in request.labels:
+            labels[label] = request.labels[label].label
+
         rjson = {
             'id': request.id,
             'job': request.job,
             'host': request.host,
             'metrics': json.loads(request.metrics.decode('utf-8')),
-            'labels': request.labels,
+            'labels': labels,
             'date': str(datetime.now())
         }
 

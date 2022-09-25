@@ -53,6 +53,11 @@ export default {
     created() {
       this.socket.open()
 
+      this.socket.send(JSON.stringify({
+        type: "update_listener",
+        content: ['asdf']
+      }));
+
       this.socket.on("general_update", (row) => {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "blue"}

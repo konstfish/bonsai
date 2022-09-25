@@ -37,7 +37,7 @@ class BonsaiClient:
         self.bonsai_server = bonsai_server
         self.jobname = jobname
         self.hostname = hostname
-        self.labels = {'type': 'test'}
+        self.labels = {'type': ['asdf', 'test']}
         self.rate = rate # [s]
 
         self.exporters = exporters
@@ -79,11 +79,17 @@ class BonsaiClient:
         for exporter in self.exporters:
             data[exporter.name] = exporter.get_metrics()
 
+        label_map = {}
+        for label in self.labels:
+            metric_labels = bonsai_pb2.MetricLabels()
+            metric_labels.label.extend(self.labels[label])
+            label_map[label] = metric_labels
+
         metric_req = bonsai_pb2.MetricsRequest(id=self.hostname + self.jobname, 
                                         job=self.jobname, 
                                         host=self.hostname, 
                                         metrics=json.dumps(data).encode('utf-8'),
-                                        labels=self.labels
+                                        labels=label_map
                                         )
 
         return metric_req

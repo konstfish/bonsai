@@ -6,6 +6,9 @@ var r = rethink.rethink
 
 var dbController = require('./socket/controllers/dbController')
 
+// etc
+var jsonMerger = require("json-merger");
+
 // express server
 var express = require('express');
 var app = express();
@@ -30,15 +33,55 @@ app.use('/api/admin', routesAdmin);
 
 // socket.io calls
 var socket_list = {}
+var socket_filter = {}
+
+//r.table('metrics').row({'labels.type': ['test', 'asdf']}).run(function(err, cursor){
+//    console.log(cursor)
+//})
+
 
 io.sockets.on("connection", function(socket){
     console.log("connection -", socket.id)
 
-    socket_list[socket.id] = r.table('metrics').changes({"includeInitial": true}).run(
-        function(err, cursor) {
-            dbController.new_row(err, cursor, socket)
+    // retrieve labels
+    r.table('metrics').getField('labels').run(function(err, cursor){
+        var result = jsonMerger.mergeObjects(cursor);
+        global.io.to(socket.id).emit("label_list", result)
+    });
+
+    socket.on("message", (data) => {
+        const packet = JSON.parse(data);
+
+        //socket_list[socket.id] = r.table('metrics').changes({"includeInitial": true}).run(
+        //    function(err, cursor) {
+        //       dbController.new_row(err, cursor, socket)
+        //    }
+        //);
+
+        console.log(packet)
+
+        if(packet.type == 'update_listener')
+        {
+            console.log("closing")
+            delete socket_list[socket.id]
+
+            console.log("opening")
+            console.log(packet.content[0])
+            socket_list[socket.id] = r.table('metrics')
+                                                .filter(r.row('labels')('type').contains(packet.content[0]))
+                                                .changes({"includeInitial": true})
+                                                .run(
+                                                    function(err, cursor) {
+                                                    dbController.new_row(err, cursor, socket)
+                                                    }
+                                                );
         }
-    );
+        else if(packet.type == 'remove_listener')
+        {
+            console.log("asdfs")
+            delete socket_list[socket.id]
+        }
+    });
 
     socket.on("disconnect", (reason) => {
         console.log("disconnect -", socket.id)

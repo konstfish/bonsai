@@ -1,7 +1,7 @@
 'use strict';
 
 const rethinkhost = 'rethink'
-//const rethinkhost = '10.0.1.108'
+//const rethinkhost = '127.0.0.1'
 
 var r = require('rethinkdbdash')({
     servers: [
