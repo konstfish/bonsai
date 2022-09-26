@@ -4,6 +4,8 @@ from controllers.BonsaiLogger import *
 from controllers.RethinkServer import RethinkServer
 from controllers.RethinkServerConnection import RethinkServerConnection
 
+from controllers.RethinkServerConnection import create_table, create_database
+
 # logger
 logger = create_logger('bonsai')
 
@@ -20,14 +22,7 @@ rethink_port = 28015
 rethink = RethinkServer(rethink_server=rethink_server, rethink_database=rethink_database, rethink_port=rethink_port)
 
 with RethinkServerConnection(rethink) as conn:
-  if(rethink_database not in rethink.r.db_list().run(conn)):
-    logger.info('Creating DB: ' + rethink_database)
-    rethink.r.db_create(rethink_database).run(conn)
-  else:
-    logger.info('DB ' + rethink_database + ' already exists, skipping')
+  create_database(rethink_database, rethink, logger)
 
-  if('metrics' not in rethink.r.db(rethink_database).table_list().run(conn)):
-    logger.info('Creating Table: ' + rethink_database)
-    rethink.r.db(rethink_database).table_create('metrics').run(conn)
-  else:
-    logger.info('Table ' + 'metrics' + ' already exists, skipping')
+  create_table('metrics', rethink_database, rethink, logger)
+  create_table('dashboards', rethink_database, rethink, logger)
