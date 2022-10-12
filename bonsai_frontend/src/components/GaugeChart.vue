@@ -1,0 +1,69 @@
+<template>
+  <div>
+    <apexchart
+      type="radialBar"
+      :options="chartOptions"
+      :series="series"
+    ></apexchart>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    metric: Number
+  },
+  watch: {
+    metric: function(metric){
+      this.series = [ metric.toFixed(1) ]
+    }
+  },
+  data: function() {
+    return {
+      chartOptions: {
+        chart: {
+          id: "bar-gague",
+          width: "100%",
+          height: "100%"
+        },
+        plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          dataLabels: {
+            name: {
+              fontSize: '16px',
+              color: undefined,
+              offsetY: 120
+            },
+            value: {
+              offsetY: -10,
+              fontSize: '18px',
+              color: undefined,
+            }
+          }
+        }
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+            shade: 'dark',
+            shadeIntensity: 0.15,
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 50, 65, 91]
+        },
+      },
+      stroke: {
+        lineCap: 'round'
+      },
+      labels: ["CPU Utilization"],
+      },
+      series: [0],
+    };
+  },
+  created() {
+  },
+};
+</script>

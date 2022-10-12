@@ -12,12 +12,16 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 import vSelect from 'vue-select'
 
+import VueApexCharts from "vue3-apexcharts";
+
 const app = createApp(App);
 
 app.use(router);
 app.use(VueAxios, axios);
 
-app.use(VNetworkGraph)
+app.use(VNetworkGraph);
+
+app.use(VueApexCharts);
 
 app.component('v-select', vSelect);
 

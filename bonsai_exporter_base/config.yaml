@@ -1,13 +1,13 @@
 hostname: None
-bonsai_server: 127.0.0.1:50051
+#bonsai_server: 127.0.0.1:50051
 #bonsai_server: 82.149.123.143:50051
-#bonsai_server: server:50051
+bonsai_server: server:50051
 jobname: demo
 rate: 1
 labels:
- - python
  - asdf
- - as
+ - test
+ - python
 exporters:
   BonsaiExporterCPU:
     name: CPU
