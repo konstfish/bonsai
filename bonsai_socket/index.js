@@ -7,7 +7,6 @@ var r = rethink.rethink
 var dbController = require('./socket/controllers/dbController')
 
 // etc
-var jsonMerger = require("json-merger");
 
 // express server
 var express = require('express');
@@ -45,7 +44,11 @@ io.sockets.on("connection", function(socket){
 
     // retrieve labels
     r.table('metrics').getField('labels').run(function(err, cursor){
-        var result = jsonMerger.mergeObjects(cursor);
+        // convert concatenated list to set to remove duplicates
+        var uSet = new Set([].concat.apply([], cursor));
+        var result = [...uSet];
+
+        // emit result as label_list
         global.io.to(socket.id).emit("label_list", result)
     });
 

@@ -74,6 +74,7 @@ export default {
           type: "update_listener",
           content: [event]
         }));
+        this.metrics = {}
       },
 
       remove_socket_listener(event){

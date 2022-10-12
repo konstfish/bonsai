@@ -15,7 +15,7 @@ if __name__ == "__main__":
         exporters.append(b.config['exporters'][exporter]['class'](opt=b.config['exporters'][exporter]['options']))
         print("Initialized Exporter", exporter)
 
-    BonsaiClient(b.config['bonsai_server'], jobname=b.config['jobname'], rate=b.config['rate'], exporters=exporters)
+    BonsaiClient(b.config['bonsai_server'], jobname=b.config['jobname'], rate=b.config['rate'], exporters=exporters, labels=b.config['labels'])
 
 
 """

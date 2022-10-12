@@ -30,14 +30,14 @@ import bonsai_pb2
 import bonsai_pb2_grpc
 
 class BonsaiClient:
-    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, exporters=[]):
+    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[]):
         if(hostname == None):
             hostname = socket.gethostname()
 
         self.bonsai_server = bonsai_server
         self.jobname = jobname
         self.hostname = hostname
-        self.labels = ['asdf', 'test']
+        self.labels = labels
         self.rate = rate # [s]
 
         self.exporters = exporters
