@@ -54,8 +54,8 @@ export default {
       this.socket.open()
 
       this.socket.send(JSON.stringify({
-        type: "update_listener",
-        content: ['asdf']
+        type: "update_listener_all",
+        content: ['0']
       }));
 
       this.socket.on("general_update", (row) => {

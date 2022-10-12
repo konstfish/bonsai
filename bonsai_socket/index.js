@@ -101,6 +101,21 @@ io.sockets.on("connection", function(socket){
                                                     }
                                                 );
         }
+        else if(packet.type == 'update_listener_all')
+        {
+            console.log("closing")
+            delete socket_list[socket.id]
+
+            console.log("opening")
+            console.log(packet.content[0])
+            socket_list[socket.id] = r.table('metrics')
+                                                .changes({"includeInitial": true})
+                                                .run(
+                                                    function(err, cursor) {
+                                                    dbController.new_row(err, cursor, socket)
+                                                    }
+                                                );
+        }
         else if(packet.type == 'remove_listener')
         {
             console.log("asdfs")
