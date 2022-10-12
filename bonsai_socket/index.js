@@ -68,7 +68,7 @@ io.sockets.on("connection", function(socket){
             console.log("opening")
             console.log(packet.content[0])
             socket_list[socket.id] = r.table('metrics')
-                                                .filter(r.row('labels')('type').contains(packet.content[0]))
+                                                .filter(r.row('labels').contains(packet.content[0]))
                                                 .changes({"includeInitial": true})
                                                 .run(
                                                     function(err, cursor) {

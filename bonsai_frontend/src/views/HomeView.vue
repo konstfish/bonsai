@@ -4,10 +4,7 @@
     
     {{labels}}
     {{count}}
-    <div class="label-selectors" v-for="keys, label in this.labels" v-bind:key="label">
-      {{ label }}
-      <v-select :options="keys" @option:deselected="count++" @option:selected="update_socket_listener"></v-select>
-    </div>
+    <v-select :options="labels" @option:deselected="count++" @option:selected="update_socket_listener"></v-select>
 
 
     <div class="metric-container">

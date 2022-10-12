@@ -16,7 +16,10 @@ service Server {
 
 // The request message containing the user's name.
 message RegistrationRequest {
-  string name = 1;
+  string id = 1;
+  string job = 2;
+  string host = 3;
+  optional string key = 4; 
 }
 
 // The response message containing the greetings
@@ -30,12 +33,12 @@ message MetricsRequest {
   string job = 2;
   string host = 3;
   bytes metrics = 4;
-  map<string, MetricLabels> labels = 5;
+  repeated string labels = 5;
 }
 
-message MetricLabels {
-   repeated string label = 1;
-}
+//message MetricLabels {
+//   repeated string label = 1;
+//}
 
 message MetricsConfirmation {
   int32 code = 1;
