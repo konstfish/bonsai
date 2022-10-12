@@ -52,6 +52,12 @@ io.sockets.on("connection", function(socket){
         global.io.to(socket.id).emit("label_list", result)
     });
 
+    r.table('metrics').getField('host').run(function(err, cursor){
+        // convert concatenated list to set to remove duplicates
+        // emit result as label_list
+        global.io.to(socket.id).emit("host_list", cursor)
+    });
+
     socket.on("message", (data) => {
         const packet = JSON.parse(data);
 
@@ -72,6 +78,22 @@ io.sockets.on("connection", function(socket){
             console.log(packet.content[0])
             socket_list[socket.id] = r.table('metrics')
                                                 .filter(r.row('labels').contains(packet.content[0]))
+                                                .changes({"includeInitial": true})
+                                                .run(
+                                                    function(err, cursor) {
+                                                    dbController.new_row(err, cursor, socket)
+                                                    }
+                                                );
+        }
+        else if(packet.type == 'update_listener_host')
+        {
+            console.log("closing")
+            delete socket_list[socket.id]
+
+            console.log("opening")
+            console.log(packet.content[0])
+            socket_list[socket.id] = r.table('metrics')
+                                                .filter({'host': packet.content[0]})
                                                 .changes({"includeInitial": true})
                                                 .run(
                                                     function(err, cursor) {

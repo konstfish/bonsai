@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             metrics: {},
-            labels: {},
+            labels: [],
             count: 0,
             //socket: io('', {path: "/ws"}),
             socket: io(this.socket_io_server, {path: "/ws"}),

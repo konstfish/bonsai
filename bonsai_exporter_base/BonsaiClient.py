@@ -82,7 +82,17 @@ class BonsaiClient:
         #for label in self.labels:
         #    metric_labels = bonsai_pb2.MetricLabels()
         #    metric_labels.label.extend(self.labels[label])
-
+        
+        """
+        print(
+            {"id": self.hostname + self.jobname, 
+             "job": self.jobname,
+             "host": self.hostname,
+             "metrics": data,
+             "labels": self.labels
+            }
+        )
+        """
         metric_req = bonsai_pb2.MetricsRequest(id=self.hostname + self.jobname, 
                                         job=self.jobname, 
                                         host=self.hostname, 

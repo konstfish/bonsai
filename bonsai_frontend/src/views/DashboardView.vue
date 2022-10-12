@@ -4,6 +4,12 @@
 
     <button @click="addItem">Add an item dynamically</button>
 
+    <br>
+
+    <v-select :options="hosts" @option:selected="update_socket_listener"></v-select>
+  
+    <br>
+  
     <div class="grid-container">
       <grid-layout
               v-model:layout="layout"
@@ -47,8 +53,12 @@
 <script>
 import io from 'socket.io-client';
 
+// grid layout
 import {GridLayout, GridItem} from "vue3-grid-layout";
+import 'vue-select/dist/vue-select.css';
+
 // https://apexcharts.com/vue-chart-demos/radialbar-charts/stroked-gauge/
+// charts
 import BarChart from '../components/BarChart.vue'
 import GaugeChart from '../components/GaugeChart.vue'
 import AreaChart from '../components/AreaChart.vue'
@@ -74,29 +84,25 @@ export default {
 
       passed_data: {"2": 100, "3": {date: Date.now(), val: 100}},
       metrics: {},
-      labels: {},
+      hosts: [],
       socket: io(this.socket_io_server, {path: "/ws"}),
     }
   },
   created() {
     this.socket.open()
 
-    this.socket.on("label_list", (row) => {
-      this.labels = row
+    this.socket.on("host_list", (row) => {
+      this.hosts = row
     });
 
     this.socket.on("general_update", (row) => {
+      console.log(row)
       this.metrics = row
       this.passed_data["1"] = row.metrics.CPU.individual_cores
       this.passed_data["2"] = row.metrics.CPU.percent
       this.passed_data["3"] = {date: row.date, val: row.metrics.CPU.percent}
       this.passed_data["4"] = row.metrics.CPU.individual_cores
     });
-
-    this.socket.send(JSON.stringify({
-      type: "update_listener",
-      content: ["asd"]
-    }));
 
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'))
@@ -121,6 +127,17 @@ export default {
             // Increment the counter to ensure key is always unique.
             console.log(this.layout)
         },
+
+      update_socket_listener(event){
+        this.socket.close()
+        this.socket.open()
+
+        this.socket.send(JSON.stringify({
+          type: "update_listener_host",
+          content: [event]
+        }));
+        this.metrics = {}
+      },
   },
 }
 </script>
@@ -158,6 +175,4 @@ export default {
     background-repeat: repeat;
     width: 80%;
 }
-
-
 </style>

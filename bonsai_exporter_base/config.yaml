@@ -5,9 +5,9 @@ bonsai_server: server:50051
 jobname: demo
 rate: 1
 labels:
- - asdf
- - test
- - python
+  - python
+  - test
+  - asf
 exporters:
   BonsaiExporterCPU:
     name: CPU
