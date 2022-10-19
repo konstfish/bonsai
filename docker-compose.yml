@@ -1,10 +1,10 @@
 version: '3.9'
 services:
-  mongodb:
-    image: mongo:4.4.6
-    volumes:
-      - mongodb_data:/data/db
-    restart: always
+#  mongodb:
+#    image: mongo:4.4.6
+#    volumes:
+#      - mongodb_data:/data/db
+#    restart: always
 
   rethink:
     image: rethinkdb:latest
@@ -51,6 +51,20 @@ services:
     environment:
       - TZ=Europe/London
     restart: always
+
+#  https-localhost:
+#    image: konstfish/https-localhost
+#    volumes:
+#      - ~/mkcert:/certs
+#    ports:
+#      - 443:443
+#      - 80:80
+#    links:
+#      - frontend
+#    environment:
+#      HOST: frontend
+#      PORT: 3000
+#    restart: always
 
   local_exporter:
     depends_on:

@@ -3,7 +3,7 @@
     <apexchart
       type="area"
       width="100%"
-      height="250"
+      height="250px"
       :options="chartOptions"
       :series="series"
     ></apexchart>

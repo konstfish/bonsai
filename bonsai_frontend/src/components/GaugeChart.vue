@@ -1,6 +1,8 @@
 <template>
   <div>
     <apexchart
+      width="100%"
+      height="250"
       type="radialBar"
       :options="chartOptions"
       :series="series"
@@ -23,8 +25,6 @@ export default {
       chartOptions: {
         chart: {
           id: "bar-gague",
-          width: "100%",
-          height: "100%"
         },
         plotOptions: {
         radialBar: {
@@ -48,7 +48,7 @@ export default {
         type: 'gradient',
         gradient: {
             shade: 'dark',
-            shadeIntensity: 0.15,
+            shadeIntensity: 0.0,
             inverseColors: false,
             opacityFrom: 1,
             opacityTo: 1,

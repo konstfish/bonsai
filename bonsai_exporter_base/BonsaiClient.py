@@ -72,7 +72,7 @@ class BonsaiClient:
         except Exception as e:
             print(e)
 
-        self.event_loop.enter(self.rate, 5, self.run)
+        self.event_loop.enter(self.rate, 1, self.run)
 
     def build_request(self):
         data = {}
@@ -93,6 +93,8 @@ class BonsaiClient:
             }
         )
         """
+
+        print(json.dumps(data).encode('utf-8'))
         metric_req = bonsai_pb2.MetricsRequest(id=self.hostname + self.jobname, 
                                         job=self.jobname, 
                                         host=self.hostname, 

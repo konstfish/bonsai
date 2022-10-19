@@ -28,6 +28,7 @@
                     :w="item.w"
                     :minW="item.minW"
                     :minH="item.minH"
+                    :maxH="item.maxH"
                     :h="item.h"
                     :i="item.i"
                     :key="item.i">
@@ -76,13 +77,13 @@ export default {
   data() {
     return {
       layout: [
-                {"x":0,"y":7,"w":6,"h":9,"i":"1", "minW":6, "minH": 7},
-                {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7},
-                {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7},
-                {"x":6,"y":7,"w":6,"h":9,"i":"4", "minW":6, "minH": 9},
+                {"x":0,"y":7,"w":6,"h":7,"i":"1", "minW":6, "minH": 7, "maxH": 7},
+                {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7, "maxH": 7},
+                {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7, "maxH": 7},
+                {"x":6,"y":7,"w":6,"h":12,"i":"4", "minW":6, "minH": 9, "maxH": 12},
             ],
 
-      passed_data: {"2": 100, "3": {date: Date.now(), val: 100}},
+      passed_data: {},
       metrics: {},
       hosts: [],
       socket: io(this.socket_io_server, {path: "/ws"}),
@@ -131,7 +132,8 @@ export default {
       update_socket_listener(event){
         this.socket.close()
         this.socket.open()
-
+        // loop over dashboard items 
+        this.passed_data = {}
         this.socket.send(JSON.stringify({
           type: "update_listener_host",
           content: [event]
@@ -159,8 +161,10 @@ export default {
     -o-user-select: none;
     user-select: none;
     border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
+/*
 .vue-grid-layout{
     background-size: calc(calc(100% - 5px) / 12) 40px;
     background-image: linear-gradient(
@@ -174,5 +178,5 @@ export default {
     position: absolute;
     background-repeat: repeat;
     width: 80%;
-}
+}*/
 </style>
