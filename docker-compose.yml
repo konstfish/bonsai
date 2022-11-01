@@ -28,6 +28,19 @@ services:
       - 50051:50051
     restart: always
 
+  rest_interface:
+    depends_on:
+      - "server"
+    links:
+      - "server"
+    environment:
+      - TZ=Europe/London
+      - IN_DOCKER_CONTAINER=1
+    build: ./bonsai_rest_layer
+    ports:
+      - 4000:4000
+    restart: always
+
   socket:
     depends_on:
       - "server"

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.konstfish.bonsai";
+option java_outer_classname = "BonsaiProto";
+option objc_class_prefix = "HLW";
+
+package bonsai;
+
+// The greeting service definition.
+service Server {
+  // Sends a greeting
+  rpc RegisterClient (RegistrationRequest) returns (RegistrationConfirmation) {}
+  rpc PushMetrics (MetricsRequest) returns (MetricsConfirmation) {}
+}
+
+// The request message containing the user's name.
+message RegistrationRequest {
+  string id = 1;
+  string job = 2;
+  string host = 3;
+  optional string key = 4; 
+}
+
+// The response message containing the greetings
+message RegistrationConfirmation {
+  string message = 1;
+}
+
+
+message MetricsRequest {
+  string id = 1;
+  string job = 2;
+  string host = 3;
+  bytes metrics = 4;
+  repeated string labels = 5;
+}
+
+//message MetricLabels {
+//   repeated string label = 1;
+//}
+
+message MetricsConfirmation {
+  int32 code = 1;
+  string confirm = 2;
+}

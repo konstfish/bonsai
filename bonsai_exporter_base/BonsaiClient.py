@@ -94,7 +94,7 @@ class BonsaiClient:
         )
         """
 
-        print(json.dumps(data).encode('utf-8'))
+        #print(json.dumps(data).encode('utf-8'))
         metric_req = bonsai_pb2.MetricsRequest(id=self.hostname + self.jobname, 
                                         job=self.jobname, 
                                         host=self.hostname, 
