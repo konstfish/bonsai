@@ -42,7 +42,8 @@ class BonsaiClient:
 
         self.exporters = exporters
 
-        self.register()
+        self.key = self.register()
+        print(self.key)
 
         # loop
         self.event_loop = sched.scheduler(time.time, time.sleep)
@@ -50,8 +51,28 @@ class BonsaiClient:
         self.event_loop.run()
 
     def register(self):
-        # TODO, register with Bonsai Server
-        pass
+        logger.info("Strating Registration process")
+        code = 400
+
+        while(code != 200):
+            #print(json.dumps(data).encode('utf-8'))
+            registration_req = bonsai_pb2.RegistrationRequest( 
+                                            job=self.jobname, 
+                                            host=self.hostname, 
+                                            interval=self.rate,
+                                            labels=self.labels
+                                            )
+
+            with grpc.insecure_channel(self.bonsai_server) as channel:
+                stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                response = stub.RegisterClient(registration_req)
+
+            code = response.code
+            if(code != 200):
+                logger.info("Unable to retrieve Registration, trying again in 5 Seconds")
+                time.sleep(5)
+
+        return response.exporter_key
 
     def run(self):
         try:
@@ -63,7 +84,7 @@ class BonsaiClient:
 
             start_channel = time.time()
             with grpc.insecure_channel(self.bonsai_server) as channel:
-                stub = bonsai_pb2_grpc.ServerStub(channel)
+                stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
                 response = stub.PushMetrics(metrics)
             end_channel = time.time()
 
@@ -79,30 +100,12 @@ class BonsaiClient:
         for exporter in self.exporters:
             data[exporter.name] = exporter.get_metrics()
 
-        #for label in self.labels:
-        #    metric_labels = bonsai_pb2.MetricLabels()
-        #    metric_labels.label.extend(self.labels[label])
-        
-        """
-        print(
-            {"id": self.hostname + self.jobname, 
-             "job": self.jobname,
-             "host": self.hostname,
-             "metrics": data,
-             "labels": self.labels
-            }
-        )
-        """
+        # print(data)        
 
         #print(json.dumps(data).encode('utf-8'))
-        metric_req = bonsai_pb2.MetricsRequest(id=self.hostname + self.jobname, 
-                                        job=self.jobname, 
-                                        host=self.hostname, 
-                                        metrics=json.dumps(data).encode('utf-8'),
-                                        labels=self.labels
-                                        )
+        metric_req = bonsai_pb2.MetricsRequest(
+                        exporter_key=self.key,
+                        metrics=json.dumps(data).encode('utf-8')
+                        )
 
         return metric_req
-
-    
-    

@@ -34,7 +34,7 @@ if(process.env.NODE_ENV === "production"){
     app.config.globalProperties.api_server = '';
 }else{
     app.config.globalProperties.socket_io_server = 'http://localhost:9000';
-    app.config.globalProperties.api_server = 'http://localhost:4000';
+    app.config.globalProperties.api_server = 'http://localhost:9000';
 }
 
 app.mount('#app');

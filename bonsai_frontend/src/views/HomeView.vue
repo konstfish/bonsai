@@ -9,8 +9,8 @@
 
     <div class="metric-container">
       <div class="metric-card" v-for="metric in this.metrics" v-bind:key="metric">
-        <h4>{{ metric.job }}</h4>
-        <h5>{{ metric.host }}</h5>
+        <h4>{{ hosts[metric.id].job }}</h4>
+        <h5>{{ hosts[metric.id].host }}</h5>
 
         <div v-for="(metrics, point) in metric.metrics" v-bind:key="point.point">
           {{ point }} - {{ metrics }}
@@ -36,6 +36,7 @@ export default {
     data() {
         return {
             metrics: {},
+            hosts: {},
             labels: [],
             count: 0,
             //socket: io('', {path: "/ws"}),
@@ -50,15 +51,25 @@ export default {
         this.labels = row
       });
 
-      this.socket.on("general_update", (row) => {
+      this.socket.on("hosts_general_update", (row) => {
+        this.hosts[row.id] = row
+      });
+
+      this.socket.on("metrics_general_update", (row) => {
         console.log(row)
         this.metrics[row.id] = row
       });
 
-      this.socket.on("deletion_update", (row) => {
+      this.socket.on("metrics_deletion_update", (row) => {
         console.log(row)
         delete this.metrics[row.id]
+        delete this.hosts[row.id]
       });
+
+      this.socket.send(JSON.stringify({
+          type: "get_labels",
+          content: []
+        }));
     },
 
     unmounted() {
@@ -70,11 +81,24 @@ export default {
       update_socket_listener(event){
         this.socket.close()
         this.socket.open()
+
+        this.metrics = {}
+        this.hosts = {}
+        
         this.socket.send(JSON.stringify({
           type: "update_listener",
           content: [event]
         }));
-        this.metrics = {}
+
+        this.socket.send(JSON.stringify({
+          type: "update_listener_host",
+          content: [event]
+        }));
+
+        this.socket.send(JSON.stringify({
+          type: "update_listener",
+          content: [event]
+        }));
       },
 
       remove_socket_listener(event){

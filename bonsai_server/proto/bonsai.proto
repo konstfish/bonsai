@@ -8,38 +8,39 @@ option objc_class_prefix = "HLW";
 package bonsai;
 
 // The greeting service definition.
-service Server {
+service BonsaiService {
   // Sends a greeting
   rpc RegisterClient (RegistrationRequest) returns (RegistrationConfirmation) {}
   rpc PushMetrics (MetricsRequest) returns (MetricsConfirmation) {}
 }
 
-// The request message containing the user's name.
+/// registration
+// request
 message RegistrationRequest {
-  string id = 1;
-  string job = 2;
-  string host = 3;
-  optional string key = 4; 
+  string job = 1;
+  string host = 2;
+  float interval = 3;
+  repeated string labels = 4;
 }
 
-// The response message containing the greetings
+// confirmation
 message RegistrationConfirmation {
-  string message = 1;
+  int32 code = 1;
+  string exporter_key = 2;
 }
 
-
+/// metrics
+// metric request
 message MetricsRequest {
-  string id = 1;
-  string job = 2;
-  string host = 3;
-  bytes metrics = 4;
-  repeated string labels = 5;
+  string exporter_key = 1; 
+  bytes metrics = 2;
 }
 
 //message MetricLabels {
 //   repeated string label = 1;
 //}
 
+// metric confirmation
 message MetricsConfirmation {
   int32 code = 1;
   string confirm = 2;

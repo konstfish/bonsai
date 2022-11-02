@@ -54,11 +54,11 @@ export default {
       this.socket.open()
 
       this.socket.send(JSON.stringify({
-        type: "update_listener_all",
+        type: "update_listener_host",
         content: ['0']
       }));
 
-      this.socket.on("general_update", (row) => {
+      this.socket.on("hosts_general_update", (row) => {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "blue"}
         this.edges[row.id + "-edge"] = {
@@ -66,7 +66,7 @@ export default {
         }
       });
 
-      this.socket.on("deletion_update", (row) => {
+      this.socket.on("hosts_deletion_update", (row) => {
         console.log(row)
         delete this.nodes[row.id]
         delete this.edges[row.id + "-edge"]

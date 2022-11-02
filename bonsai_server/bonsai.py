@@ -32,7 +32,7 @@ _cleanup_coroutines = []
 
 async def serve() -> None:
     server = grpc.aio.server()
-    bonsai_pb2_grpc.add_ServerServicer_to_server(BonsaiServer(), server)
+    bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(), server)
     listen_addr = '[::]:50051'
     server.add_insecure_port(listen_addr)
     logger.info("Starting server on %s", listen_addr)

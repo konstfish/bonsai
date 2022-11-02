@@ -7,4 +7,3 @@ class RethinkServer():
     self.rethink_server = rethink_server
     self.rethink_port = rethink_port
     self.rethink_database = rethink_database
-

@@ -1,7 +1,9 @@
 'use strict';
 
-const rethinkhost = 'rethink'
-//const rethinkhost = '127.0.0.1'
+var rethinkhost = '127.0.0.1'
+if(process.env.IN_DOCKER_CONTAINER == 1){
+    var rethinkhost = 'rethink'
+}
 
 var r = require('rethinkdbdash')({
     servers: [

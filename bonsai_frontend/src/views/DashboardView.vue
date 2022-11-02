@@ -92,11 +92,16 @@ export default {
   created() {
     this.socket.open()
 
-    this.socket.on("host_list", (row) => {
+    this.socket.send(JSON.stringify({
+      type: "get_hostnames",
+      content: []
+    }));
+
+    this.socket.on("hostname_list", (row) => {
       this.hosts = row
     });
 
-    this.socket.on("general_update", (row) => {
+    this.socket.on("metrics_general_update", (row) => {
       console.log(row)
       this.metrics = row
       this.passed_data["1"] = row.metrics.CPU.individual_cores
@@ -135,7 +140,7 @@ export default {
         // loop over dashboard items 
         this.passed_data = {}
         this.socket.send(JSON.stringify({
-          type: "update_listener_host",
+          type: "update_listener_metrics_host",
           content: [event]
         }));
         this.metrics = {}
@@ -151,17 +156,18 @@ export default {
 }
 
 .vue-grid-item {
-    background: white;
-    color: black;
-    transition-duration: 100ms;
-    z-index: 2;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  background: white;
+  color: black;
+  transition-duration: 100ms;
+  z-index: 2;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.vue-grid-item.vue-grid-placeholder {
+  background: lightgreen !important;
+  border-radius: 8px;
 }
 
 /*

@@ -5,7 +5,7 @@ import grpc
 import bonsai_pb2 as bonsai__pb2
 
 
-class ServerStub(object):
+class BonsaiServiceStub(object):
     """The greeting service definition.
     """
 
@@ -16,18 +16,18 @@ class ServerStub(object):
             channel: A grpc.Channel.
         """
         self.RegisterClient = channel.unary_unary(
-                '/bonsai.Server/RegisterClient',
+                '/bonsai.BonsaiService/RegisterClient',
                 request_serializer=bonsai__pb2.RegistrationRequest.SerializeToString,
                 response_deserializer=bonsai__pb2.RegistrationConfirmation.FromString,
                 )
         self.PushMetrics = channel.unary_unary(
-                '/bonsai.Server/PushMetrics',
+                '/bonsai.BonsaiService/PushMetrics',
                 request_serializer=bonsai__pb2.MetricsRequest.SerializeToString,
                 response_deserializer=bonsai__pb2.MetricsConfirmation.FromString,
                 )
 
 
-class ServerServicer(object):
+class BonsaiServiceServicer(object):
     """The greeting service definition.
     """
 
@@ -45,7 +45,7 @@ class ServerServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_ServerServicer_to_server(servicer, server):
+def add_BonsaiServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'RegisterClient': grpc.unary_unary_rpc_method_handler(
                     servicer.RegisterClient,
@@ -59,12 +59,12 @@ def add_ServerServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'bonsai.Server', rpc_method_handlers)
+            'bonsai.BonsaiService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class Server(object):
+class BonsaiService(object):
     """The greeting service definition.
     """
 
@@ -79,7 +79,7 @@ class Server(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/bonsai.Server/RegisterClient',
+        return grpc.experimental.unary_unary(request, target, '/bonsai.BonsaiService/RegisterClient',
             bonsai__pb2.RegistrationRequest.SerializeToString,
             bonsai__pb2.RegistrationConfirmation.FromString,
             options, channel_credentials,
@@ -96,7 +96,7 @@ class Server(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/bonsai.Server/PushMetrics',
+        return grpc.experimental.unary_unary(request, target, '/bonsai.BonsaiService/PushMetrics',
             bonsai__pb2.MetricsRequest.SerializeToString,
             bonsai__pb2.MetricsConfirmation.FromString,
             options, channel_credentials,

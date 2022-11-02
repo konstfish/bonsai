@@ -25,4 +25,5 @@ with RethinkServerConnection(rethink) as conn:
   create_database(rethink_database, rethink, logger)
 
   create_table('metrics', rethink_database, rethink, logger)
+  create_table('hosts', rethink_database, rethink, logger)
   create_table('dashboards', rethink_database, rethink, logger)

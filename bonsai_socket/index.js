@@ -5,8 +5,7 @@ var rethink = require('./socket/controllers/rethink')
 var r = rethink.rethink
 
 var dbController = require('./socket/controllers/dbController')
-
-// etc
+var socketController = require('./socket/controllers/socketController')
 
 // express server
 var express = require('express');
@@ -23,6 +22,7 @@ global.io = io;
 app.use(express.static('public'));
 app.use(cors())
 
+// register express endpoints
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -32,94 +32,51 @@ app.use('/api/admin', routesAdmin);
 
 // socket.io calls
 var socket_list = {}
-var socket_filter = {}
-
-//r.table('metrics').row({'labels.type': ['test', 'asdf']}).run(function(err, cursor){
-//    console.log(cursor)
-//})
-
 
 io.sockets.on("connection", function(socket){
     console.log("connection -", socket.id)
 
-    // retrieve labels
-    r.table('metrics').getField('labels').run(function(err, cursor){
-        // convert concatenated list to set to remove duplicates
-        var uSet = new Set([].concat.apply([], cursor));
-        var result = [...uSet];
 
-        // emit result as label_list
-        global.io.to(socket.id).emit("label_list", result)
-    });
-
-    r.table('metrics').getField('host').run(function(err, cursor){
-        // convert concatenated list to set to remove duplicates
-        // emit result as label_list
-        global.io.to(socket.id).emit("host_list", cursor)
-    });
-
+    // socket on handlers
+    /// message
     socket.on("message", (data) => {
         const packet = JSON.parse(data);
-
-        //socket_list[socket.id] = r.table('metrics').changes({"includeInitial": true}).run(
-        //    function(err, cursor) {
-        //       dbController.new_row(err, cursor, socket)
-        //    }
-        //);
-
         console.log(packet)
 
-        if(packet.type == 'update_listener')
-        {
-            console.log("closing")
-            delete socket_list[socket.id]
+        // static
+        if(packet.type == 'get_labels'){
+            // retrieve labels
+            dbController.getLabels(function(res){
+                socketController.brodcastMessage("label_list", res, socket)
+            })
+        }
+        else if(packet.type == 'get_hosts'){
+            // retrieve hosts
+            dbController.getHosts(function(res){
+                socketController.brodcastMessage("host_list", res, socket)
+            })
+        }
+        else if(packet.type == 'get_hostnames'){
+            // retrieve hosts
+            dbController.getHostnames(function(res){
+                socketController.brodcastMessage("hostname_list", res, socket)
+            })
+        }
 
-            console.log("opening")
-            console.log(packet.content[0])
-            socket_list[socket.id] = r.table('metrics')
-                                                .filter(r.row('labels').contains(packet.content[0]))
-                                                .changes({"includeInitial": true})
-                                                .run(
-                                                    function(err, cursor) {
-                                                    dbController.new_row(err, cursor, socket)
-                                                    }
-                                                );
+        // listeners
+        else if(packet.type == 'update_listener')
+        {
+            var labels = packet.content[0];
+            dbController.getMetricsByLabelListener(socket, labels);
+        }
+        else if(packet.type == 'update_listener_metrics_host')
+        {
+            var host = packet.content[0];
+            dbController.getMetricsByHostListener(socket, host);
         }
         else if(packet.type == 'update_listener_host')
         {
-            console.log("closing")
-            delete socket_list[socket.id]
-
-            console.log("opening")
-            console.log(packet.content[0])
-            socket_list[socket.id] = r.table('metrics')
-                                                .filter({'host': packet.content[0]})
-                                                .changes({"includeInitial": true})
-                                                .run(
-                                                    function(err, cursor) {
-                                                    dbController.new_row(err, cursor, socket)
-                                                    }
-                                                );
-        }
-        else if(packet.type == 'update_listener_all')
-        {
-            console.log("closing")
-            delete socket_list[socket.id]
-
-            console.log("opening")
-            console.log(packet.content[0])
-            socket_list[socket.id] = r.table('metrics')
-                                                .changes({"includeInitial": true})
-                                                .run(
-                                                    function(err, cursor) {
-                                                    dbController.new_row(err, cursor, socket)
-                                                    }
-                                                );
-        }
-        else if(packet.type == 'remove_listener')
-        {
-            console.log("asdfs")
-            delete socket_list[socket.id]
+            dbController.getHostsListener(socket);
         }
     });
 
