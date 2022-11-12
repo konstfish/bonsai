@@ -1,6 +1,6 @@
 <template>
     <span>
-        Last updated
+        {{ message }}
         <span v-if="days"> {{days}} days</span> 
         <span v-if="hours"> {{hours}} hours</span> 
         <span v-if="minutes"> {{minutes}} minutes</span> 
@@ -29,6 +29,9 @@ export default {
   props:{
     date:{
       required:true
+    },
+    message:{
+      required: false
     }
   },
   mounted() {

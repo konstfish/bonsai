@@ -56,11 +56,17 @@ class BonsaiClient:
 
         while(code != 200):
             #print(json.dumps(data).encode('utf-8'))
+
+            exporter_list = []
+            for exporter in self.exporters:
+                exporter_list.append(exporter.name)
+
             registration_req = bonsai_pb2.RegistrationRequest( 
                                             job=self.jobname, 
                                             host=self.hostname, 
                                             interval=self.rate,
-                                            labels=self.labels
+                                            labels=self.labels,
+                                            scrapers=exporter_list
                                             )
 
             with grpc.insecure_channel(self.bonsai_server) as channel:

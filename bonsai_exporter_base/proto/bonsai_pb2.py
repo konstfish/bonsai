@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62onsai.proto\x12\x06\x62onsai\"R\n\x13RegistrationRequest\x12\x0b\n\x03job\x18\x01 \x01(\t\x12\x0c\n\x04host\x18\x02 \x01(\t\x12\x10\n\x08interval\x18\x03 \x01(\x02\x12\x0e\n\x06labels\x18\x04 \x03(\t\">\n\x18RegistrationConfirmation\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x14\n\x0c\x65xporter_key\x18\x02 \x01(\t\"7\n\x0eMetricsRequest\x12\x14\n\x0c\x65xporter_key\x18\x01 \x01(\t\x12\x0f\n\x07metrics\x18\x02 \x01(\x0c\"4\n\x13MetricsConfirmation\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0f\n\x07\x63onfirm\x18\x02 \x01(\t2\xa8\x01\n\rBonsaiService\x12Q\n\x0eRegisterClient\x12\x1b.bonsai.RegistrationRequest\x1a .bonsai.RegistrationConfirmation\"\x00\x12\x44\n\x0bPushMetrics\x12\x16.bonsai.MetricsRequest\x1a\x1b.bonsai.MetricsConfirmation\"\x00\x42/\n\x18io.grpc.konstfish.bonsaiB\x0b\x42onsaiProtoP\x01\xa2\x02\x03HLWb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x62onsai.proto\x12\x06\x62onsai\"d\n\x13RegistrationRequest\x12\x0b\n\x03job\x18\x01 \x01(\t\x12\x0c\n\x04host\x18\x02 \x01(\t\x12\x10\n\x08interval\x18\x03 \x01(\x02\x12\x0e\n\x06labels\x18\x04 \x03(\t\x12\x10\n\x08scrapers\x18\x05 \x03(\t\">\n\x18RegistrationConfirmation\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x14\n\x0c\x65xporter_key\x18\x02 \x01(\t\"7\n\x0eMetricsRequest\x12\x14\n\x0c\x65xporter_key\x18\x01 \x01(\t\x12\x0f\n\x07metrics\x18\x02 \x01(\x0c\"4\n\x13MetricsConfirmation\x12\x0c\n\x04\x63ode\x18\x01 \x01(\x05\x12\x0f\n\x07\x63onfirm\x18\x02 \x01(\t2\xa8\x01\n\rBonsaiService\x12Q\n\x0eRegisterClient\x12\x1b.bonsai.RegistrationRequest\x1a .bonsai.RegistrationConfirmation\"\x00\x12\x44\n\x0bPushMetrics\x12\x16.bonsai.MetricsRequest\x1a\x1b.bonsai.MetricsConfirmation\"\x00\x42/\n\x18io.grpc.konstfish.bonsaiB\x0b\x42onsaiProtoP\x01\xa2\x02\x03HLWb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'bonsai_pb2', globals())
@@ -22,13 +22,13 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\030io.grpc.konstfish.bonsaiB\013BonsaiProtoP\001\242\002\003HLW'
   _REGISTRATIONREQUEST._serialized_start=24
-  _REGISTRATIONREQUEST._serialized_end=106
-  _REGISTRATIONCONFIRMATION._serialized_start=108
-  _REGISTRATIONCONFIRMATION._serialized_end=170
-  _METRICSREQUEST._serialized_start=172
-  _METRICSREQUEST._serialized_end=227
-  _METRICSCONFIRMATION._serialized_start=229
-  _METRICSCONFIRMATION._serialized_end=281
-  _BONSAISERVICE._serialized_start=284
-  _BONSAISERVICE._serialized_end=452
+  _REGISTRATIONREQUEST._serialized_end=124
+  _REGISTRATIONCONFIRMATION._serialized_start=126
+  _REGISTRATIONCONFIRMATION._serialized_end=188
+  _METRICSREQUEST._serialized_start=190
+  _METRICSREQUEST._serialized_end=245
+  _METRICSCONFIRMATION._serialized_start=247
+  _METRICSCONFIRMATION._serialized_end=299
+  _BONSAISERVICE._serialized_start=302
+  _BONSAISERVICE._serialized_end=470
 # @@protoc_insertion_point(module_scope)

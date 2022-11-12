@@ -3,11 +3,17 @@ import HomeView from '../views/HomeView.vue'
 import NodeView from '../views/NodeView.vue'
 import AdminPanelView from '../views/AdminPanelView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import NodeOverviewView from '../views/NodeOverviewView.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
+    component: NodeOverviewView
+  },
+  {
+    path: '/home2',
+    name: 'home2',
     component: HomeView
   },
   {

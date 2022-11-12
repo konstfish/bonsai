@@ -78,6 +78,10 @@ io.sockets.on("connection", function(socket){
         {
             dbController.getHostsListener(socket);
         }
+        else if(packet.type == 'udpate_listener_updates')
+        {
+            dbController.getMetricsListener(socket);
+        }
     });
 
     socket.on("disconnect", (reason) => {

@@ -76,6 +76,17 @@ exports.getHostsListener = function(socket){
     });
 }
 
+// listener > all metrics
+exports.getMetricsListener = function(socket){
+    r.table('metrics')
+    .changes({"includeInitial": true})
+    .run(function(err, cursor) {
+        if (err) throw err;
+
+        module.exports.pushMetricUpdate(cursor, socket);
+    });
+}
+
 // listener > metrics by labels
 exports.getMetricsByLabelListener = function(socket, labels){
     module.exports.getHostsByLabel(labels, function(labels){
@@ -120,6 +131,20 @@ exports.pushMetricChanges = function(cursor, type, socket){
                 console.log((type + "_deletion_update"), " - ", socket.id)
                 socketController.brodcastMessage((type + "_deletion_update"), row.old_val, socket)
             }
+        }else{
+            console.log("closing ----------------------------")
+            cursor.close()
+        }
+    });
+}
+
+exports.pushMetricUpdate = function(cursor, socket){
+    cursor.each(function(err, row) {
+        if (err) console.log(err);
+
+        if(socketController.checkIfSocket(socket)){
+            console.log(("metric_update"), " - ", socket.id)
+            socketController.brodcastMessage("metric_update", row.new_val.id, socket)
         }else{
             console.log("closing ----------------------------")
             cursor.close()

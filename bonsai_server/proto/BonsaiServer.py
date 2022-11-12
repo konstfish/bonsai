@@ -32,6 +32,7 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
             'host': request.host,
             'interval': request.interval,
             'labels': request.labels,
+            'scrapers': request.scrapers,
             'registration_date': str(datetime.now())
         }
 

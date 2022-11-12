@@ -88,7 +88,7 @@ services:
     links:
       - "server:server"
     volumes:
-      - "./bonsai_exporter_base/config.yaml:/opt/config.yaml"
+      - "./bonsai_exporter_base/config_container.yaml:/opt/config.yaml"
     build: ./bonsai_exporter_base
     restart: always
     deploy:

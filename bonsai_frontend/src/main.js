@@ -14,6 +14,13 @@ import vSelect from 'vue-select'
 
 import VueApexCharts from "vue3-apexcharts";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+import { faServer } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faServer)
+
 const app = createApp(App);
 
 app.use(router);
@@ -26,6 +33,8 @@ app.use(VueApexCharts);
 app.component('v-select', vSelect);
 
 app.component(VueCountdown.name, VueCountdown);
+
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 console.log(process.env.NODE_ENV)
 

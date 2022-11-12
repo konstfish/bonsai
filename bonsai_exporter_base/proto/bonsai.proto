@@ -21,6 +21,7 @@ message RegistrationRequest {
   string host = 2;
   float interval = 3;
   repeated string labels = 4;
+  repeated string scrapers = 5;
 }
 
 // confirmation

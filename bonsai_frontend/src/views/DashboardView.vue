@@ -77,10 +77,10 @@ export default {
   data() {
     return {
       layout: [
-                {"x":0,"y":7,"w":6,"h":7,"i":"1", "minW":6, "minH": 7, "maxH": 7},
-                {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7, "maxH": 7},
-                {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7, "maxH": 7},
-                {"x":6,"y":7,"w":6,"h":12,"i":"4", "minW":6, "minH": 9, "maxH": 12},
+                {"x":0,"y":7,"w":6,"h":7,"i":"1", "minW":6, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "individual_cores"},
+                {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "percent"},
+                {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7, "maxH": 7, "metric_type": "multiple", "metric": "percent"},
+                {"x":6,"y":7,"w":6,"h":12,"i":"4", "minW":6, "minH": 9, "maxH": 12, "metric_type": "single", "metric": "individual_cores"},
             ],
 
       passed_data: {},
@@ -104,10 +104,19 @@ export default {
     this.socket.on("metrics_general_update", (row) => {
       console.log(row)
       this.metrics = row
+
+      this.layout.forEach((block) => {
+        if(block.metric_type == "single"){
+          this.passed_data[block.i] = row.metrics.CPU[block.metric]
+        }else{
+          this.passed_data[block.i] = {date: row.date, val: row.metrics.CPU[block.metric]}
+        }
+      });
+      /*
       this.passed_data["1"] = row.metrics.CPU.individual_cores
       this.passed_data["2"] = row.metrics.CPU.percent
       this.passed_data["3"] = {date: row.date, val: row.metrics.CPU.percent}
-      this.passed_data["4"] = row.metrics.CPU.individual_cores
+      this.passed_data["4"] = row.metrics.CPU.individual_cores*/
     });
 
     setTimeout(() => {
