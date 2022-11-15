@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./bonsai_socket
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
             ghcr.io/konstfish/bonsai_socket:${{ github.sha }}
@@ -44,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./bonsai_server
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
             ghcr.io/konstfish/bonsai_server:${{ github.sha }}
@@ -54,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./bonsai_frontend
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
             ghcr.io/konstfish/bonsai_frontend:${{ github.sha }}
@@ -64,7 +64,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./bonsai_exporter_base
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
             ghcr.io/konstfish/bonsai_exporter_base:${{ github.sha }}
