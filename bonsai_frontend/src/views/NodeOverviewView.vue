@@ -110,10 +110,12 @@ export default {
       },
 
       blink(id){
-        document.getElementById(id).style.backgroundColor = 'lightgreen'
-        setTimeout(()=>{
-          document.getElementById(id).style.background = 'lightgray'
-        },300)
+        if(document.getElementById(id) != null){
+          document.getElementById(id).style.backgroundColor = 'lightgreen'
+          setTimeout(()=>{
+            document.getElementById(id).style.background = 'lightgray'
+          },300)
+        }
       }
     },
 }

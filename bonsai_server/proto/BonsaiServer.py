@@ -58,6 +58,13 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
         #with RethinkServerConnection(rethink_server=rethink) as conn:
         #    out = rethink.r.table("hosts").get
 
+        with RethinkServerConnection(rethink_server=rethink) as conn:
+            out = rethink.r.table('hosts').get_field('id').run(conn)
+        
+        if(request.exporter_key not in out):
+            logger.info('Host %s not registered' % request.exporter_key)
+            return bonsai_pb2.MetricsConfirmation(code=401, confirm="not registered")
+
         rjson = {
             'id': request.exporter_key,
             'metrics': json.loads(request.metrics.decode('utf-8')),

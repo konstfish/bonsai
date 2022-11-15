@@ -43,7 +43,7 @@ class BonsaiClient:
         self.exporters = exporters
 
         self.key = self.register()
-        print(self.key)
+        logger.info("Recieved Key: %s" % self.key)
 
         # loop
         self.event_loop = sched.scheduler(time.time, time.sleep)
@@ -96,6 +96,11 @@ class BonsaiClient:
 
             logger.info("[TIME] Transfer: %fs" % (end_channel - start_channel))
             logger.info("Recv: %d" % response.code)
+
+            # TODO clean this up
+            if(response.code == 401):
+                self.register()
+
         except Exception as e:
             print(e)
 
