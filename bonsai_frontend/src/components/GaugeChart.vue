@@ -2,7 +2,7 @@
   <div>
     <apexchart
       width="100%"
-      height="250"
+      height="300"
       type="radialBar"
       :options="chartOptions"
       :series="series"
@@ -33,13 +33,14 @@ export default {
           dataLabels: {
             name: {
               fontSize: '16px',
-              color: undefined,
-              offsetY: 120
+              color: 'var(--text-color-primary)',
+              offsetY: 120,
+              show: false,
             },
             value: {
               offsetY: -10,
               fontSize: '18px',
-              color: undefined,
+              color: 'var(--text-color-primary)',
             }
           }
         }

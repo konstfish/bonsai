@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-      <h1>Node Graph</h1>
+      <h1><font-awesome-icon icon="fa-solid fa-circle-nodes" /> Node Graph</h1>
       <v-network-graph
       :nodes="nodes"
       :edges="edges"
@@ -45,6 +45,9 @@ export default {
                     // radius: node => node.size,
                     color: node => node.color,
                   },
+                  label: {
+                    color: "var(--text-color-primary)",
+                  }
                 },
                 edge: {
                   normal: {
@@ -59,6 +62,9 @@ export default {
                       margin: -5,
                       color: edge => edge.update_color
                     },
+                  },
+                  label: {
+                    color: "var(--text-color-primary)",
                   }
                 },
               })
@@ -122,6 +128,6 @@ export default {
 
 <style scoped>
 .v-network-graph{
-  height: 500px;
+  height: 80vh;
 }
 </style>

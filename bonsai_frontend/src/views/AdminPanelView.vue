@@ -1,12 +1,11 @@
 <template>
   <div class="home">
-    <h1>Admin Panel</h1>
-
-    <button @click="purge_database_entries()">Purge DB</button>
-
-    <br>
+    <h1><font-awesome-icon icon="fa-solid fa-hammer" /> Admin Panel</h1>
 
     <span>{{ metric_amount }}</span>
+
+    <button @click="purge_database_entries()">Purge DB</button>
+  
   </div>
 </template>
 
@@ -32,9 +31,7 @@ export default {
       this.axios.get(this.api_server + "/api/admin/purge").then((response) => {
         console.log(response.data)
       })
-    },
-
-    
+    },    
   },
 }
 </script>

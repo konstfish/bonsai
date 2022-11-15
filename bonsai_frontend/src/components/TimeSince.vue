@@ -2,7 +2,7 @@
     <span>
         {{ message }}
         <span v-if="days"> {{days}} days</span> 
-        <span v-if="hours"> {{hours}} hours</span> 
+        <span v-if="hours"> {{hours}} hours </span> 
         <span v-if="minutes"> {{minutes}} minutes</span> 
         {{seconds}} seconds ago
     </span>

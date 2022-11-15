@@ -35,20 +35,20 @@ export default {
           dataLabels: {
             name: {
               fontSize: '16px',
-              color: undefined,
+              color: 'var(--text-color-primary)',
               offsetY: 120
             },
             value: {
               offsetY: -10,
               fontSize: '18px',
-              color: undefined,
+              color: 'var(--text-color-primary)',
             },
             total: {
               show: true,
               label: "",
               offsetY: -10,
               fontSize: '18px',
-              color: undefined,
+              color: 'var(--text-color-primary)',
               formatter: function (arr) {
                 console.log(arr)
                 return (arr.globals.seriesTotals.reduce((a,b) => a + b, 0) / arr.globals.seriesTotals.length).toFixed(1) + "%"; 

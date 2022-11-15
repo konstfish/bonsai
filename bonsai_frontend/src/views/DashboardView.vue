@@ -1,12 +1,10 @@
 <template>
   <div class="home">
-    <h1>Dashboard</h1>
+    <h1><font-awesome-icon icon="fa-solid fa-chart-line" /> Dashboard</h1>
 
-    <button @click="addItem">Add an item dynamically</button>
+    <!--<button @click="addItem">Add an item dynamically</button>-->
 
-    <br>
-
-    <v-select :options="hosts" @option:selected="update_socket_listener"></v-select>
+    <v-select class="style-chooser" :options="hosts" @option:selected="update_socket_listener"></v-select>
   
     <br>
   
@@ -14,12 +12,12 @@
       <grid-layout
               v-model:layout="layout"
               :col-num="12"
-              :row-height="30"
+              :row-height="32"
               :is-draggable="true"
               :is-resizable="true"
               :is-mirrored="false"
               :vertical-compact="true"
-              :margin="[10, 10, 10, 10]"
+              :margin="[10, 10]"
               :use-css-transforms="true">
 
           <grid-item v-for="item in layout"
@@ -32,7 +30,8 @@
                     :h="item.h"
                     :i="item.i"
                     :key="item.i">
-              {{ item.i }}
+
+              <span class="item-tile"><font-awesome-icon icon="fa-solid fa-chart-line" /> {{ item.i }}</span>
               
               <BarChart v-if="item.i == '1'" :metric=this.passed_data[item.i] />
 
@@ -45,8 +44,9 @@
           </grid-item>
 
       </grid-layout>
-
     </div>
+
+    <br><br><br><br><br><br><br>
 
   </div>
 </template>
@@ -80,7 +80,8 @@ export default {
                 {"x":0,"y":7,"w":6,"h":7,"i":"1", "minW":6, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "individual_cores"},
                 {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "percent"},
                 {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7, "maxH": 7, "metric_type": "multiple", "metric": "percent"},
-                {"x":6,"y":7,"w":6,"h":12,"i":"4", "minW":6, "minH": 9, "maxH": 12, "metric_type": "single", "metric": "individual_cores"},
+                {"x":6,"y":7,"w":6,"h":10,"i":"4", "minW":6, "minH": 9, "maxH": 12, "metric_type": "single", "metric": "individual_cores"},
+                {"x":0,"y":15,"w":6,"h":10,"i":"4", "minW":6, "minH": 9, "maxH": 12, "metric_type": "single", "metric": "individual_cores"},
             ],
 
       passed_data: {},
@@ -159,23 +160,52 @@ export default {
 </script>
 
 <style scoped>
+.home{
+  height: auto;
+}
+
 .grid-container{
-  height: 100%;
   width: 100%;
 }
 
+.style-chooser{
+  width: 250px;
+  background: var(--background-color-secondary) !important;
+  color: var(--text-color-primary) !important;
+  border-radius: 4px;
+}
+
+.style-chooser .vs__search::placeholder,
+.style-chooser .vs__dropdown-toggle,
+.style-chooser .vs__dropdown-menu {
+  background: var(--background-color-secondary);
+  border: none;
+  color: var(--text-color-primary);
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
+
+.style-chooser .vs__clear,
+.style-chooser .vs__open-indicator {
+  fill: var(--text-color-primary);
+}
+
+
 .vue-grid-item {
-  background: white;
-  color: black;
+  background: var(--background-color-secondary);
+  color: var(--text-color-primary);
   transition-duration: 100ms;
   z-index: 2;
   user-select: none;
+
+  padding: 8px;
+
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
-.vue-grid-item.vue-grid-placeholder {
-  background: lightgreen !important;
+.vue-grid-item.vue-grid-placeholder{
+  background: var(--accent-color) !important;
   border-radius: 8px;
 }
 

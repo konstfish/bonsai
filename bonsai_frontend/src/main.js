@@ -17,9 +17,17 @@ import VueApexCharts from "vue3-apexcharts";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faServer } from '@fortawesome/free-solid-svg-icons'
+import { faServer, faChartLine, faHouse, faCircleNodes, faHammer, faSeedling } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faServer)
+library.add(faChartLine)
+library.add(faCircleNodes)
+library.add(faHouse)
+library.add(faHammer)
+library.add(faSeedling)
+
+library.add(faHeart)
 
 import { TroisJSVuePlugin } from 'troisjs';
 
