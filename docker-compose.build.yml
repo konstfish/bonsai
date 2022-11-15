@@ -3,18 +3,14 @@ services:
   server:
     build: 
       context: ./bonsai_server
-      target: bonsai_server
   socket:
     build: 
       context: ./bonsai_socket
-      target: bonsai_socket
 
   frontend:
     build: 
       context: ./bonsai_frontend/
-      target: bonsai_frontend
 
   local_exporter:
     build: 
       context: ./bonsai_exporter_base
-      target: bonsai_exporter_base
