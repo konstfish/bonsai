@@ -37,8 +37,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v7
           push: true
           tags: |
-            konstfish/bonsai_socket:${{ github.sha }}
-            konstfish/bonsai_socket:latest
+            ghcr.io/konstfish/bonsai_socket:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_socket:latest
 
       - name: Build bonsai_server
         uses: docker/build-push-action@v2
@@ -47,8 +47,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v7
           push: true
           tags: |
-            konstfish/bonsai_server:${{ github.sha }}
-            konstfish/bonsai_server:latest
+            ghcr.io/konstfish/bonsai_server:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_server:latest
 
       - name: Build bonsai_frontend
         uses: docker/build-push-action@v2
@@ -57,8 +57,8 @@ jobs:
           platforms: linux/amd64,linux/arm/v7
           push: true
           tags: |
-            konstfish/bonsai_frontend:${{ github.sha }}
-            konstfish/bonsai_frontend:latest
+            ghcr.io/konstfish/bonsai_frontend:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_frontend:latest
 
       - name: Build bonsai_exporter_base 
         uses: docker/build-push-action@v2
@@ -67,5 +67,5 @@ jobs:
           platforms: linux/amd64,linux/arm/v7
           push: true
           tags: |
-            konstfish/bonsai_exporter_base:${{ github.sha }}
-            konstfish/bonsai_exporter_base:latest
+            ghcr.io/konstfish/bonsai_exporter_base:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_exporter_base:latest
