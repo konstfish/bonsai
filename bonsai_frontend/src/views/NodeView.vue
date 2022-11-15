@@ -41,10 +41,25 @@ export default {
                 },
                 node: {
                   normal: {
-                    type: "circle",
+                    type: "square",
                     // radius: node => node.size,
                     color: node => node.color,
                   },
+                },
+                edge: {
+                  normal: {
+                    color: edge => edge.color,
+                    dashed: edge => edge.dashed,
+                  },
+                  marker: {
+                    source: {
+                      type: "arrow",
+                      width: 4,
+                      height: 4,
+                      margin: -5,
+                      color: edge => edge.update_color
+                    },
+                  }
                 },
               })
             )
@@ -53,16 +68,16 @@ export default {
     created() {
       this.socket.open()
 
-      this.socket.send(JSON.stringify({
-        type: "update_listener_host",
-        content: ['0']
-      }));
-
       this.socket.on("hosts_general_update", (row) => {
         console.log(row)
-        this.nodes[row.id] = { name: row.host, color: "blue"}
+        this.nodes[row.id] = { name: row.host, color: "lightblue"}
         this.edges[row.id + "-edge"] = {
-          source: "Bonsai", target: row.id, label: row.job
+          source: "Bonsai", 
+          target: row.id, 
+          label: row.job,
+          color: "lightblue", 
+          dashed: true,
+          update_color: "lightgreen"
         }
       });
 
@@ -71,6 +86,22 @@ export default {
         delete this.nodes[row.id]
         delete this.edges[row.id + "-edge"]
       });
+
+      this.socket.on("metric_update", (id) => {
+        console.log(id);
+        this.blink(id);
+      })
+
+      this.socket.send(JSON.stringify({
+        type: "update_listener_host",
+        content: []
+      }));
+
+      this.socket.send(JSON.stringify({
+        type: "udpate_listener_updates",
+        content: []
+      }));
+
     },
 
     unmounted() {
@@ -79,6 +110,12 @@ export default {
     },
 
     methods: {
+      blink(id){
+        this.nodes[id]["color"] = 'lightgreen'
+        setTimeout(()=>{
+          this.nodes[id]["color"] = 'lightblue'
+        },300)
+      }
     },
 }
 </script>

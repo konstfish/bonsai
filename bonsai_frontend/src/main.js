@@ -21,6 +21,8 @@ import { faServer } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faServer)
 
+import { TroisJSVuePlugin } from 'troisjs';
+
 const app = createApp(App);
 
 app.use(router);
@@ -35,6 +37,8 @@ app.component('v-select', vSelect);
 app.component(VueCountdown.name, VueCountdown);
 
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+app.use(TroisJSVuePlugin);
 
 console.log(process.env.NODE_ENV)
 

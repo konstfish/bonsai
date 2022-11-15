@@ -10,4 +10,6 @@ RUN yarn install
 
 EXPOSE 2701
 
+LABEL name="bonsai_socket"
+
 ENTRYPOINT [ "yarn", "serve" ]

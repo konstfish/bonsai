@@ -17,4 +17,6 @@ COPY --from=builder /opt/web/dist /usr/share/nginx/html
 RUN rm -v /etc/nginx/nginx.conf
 ADD nginx.conf /etc/nginx/
 
+LABEL name="bonsai_frontend"
+
 CMD ["nginx", "-g", "daemon off;"]

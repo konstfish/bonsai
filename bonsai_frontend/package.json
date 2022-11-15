@@ -17,6 +17,8 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "socket.io-client": "^4.5.1",
+    "three": "0.134",
+    "troisjs": "^0.3.4",
     "v-network-graph": "^0.6.5",
     "vue": "3",
     "vue-axios": "^3.4.1",

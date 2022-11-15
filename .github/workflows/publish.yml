@@ -1,0 +1,19 @@
+# Publish docker containers to github registry
+name: Publish
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: publish
+      uses: pennsignals/publish_docker-compose@v0.1.0
+      with:
+        docker_compose: 'docker-compose.build.yml'
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"

@@ -21,6 +21,16 @@
       </div>
     </div>
 
+  <Renderer ref="renderer">
+    <Camera :position="{ z: 5 }" />
+    <Scene>
+      <PointLight :position="{ y: 50, z: 50 }" />
+      <Box ref="box" :rotation="{ y: Math.PI / 4, z: Math.PI / 4 }" :scale="{ x: 1, y: 3, z: 0.25 }">
+        <LambertMaterial />
+      </Box>
+    </Scene>
+  </Renderer>
+
   </div>
 </template>
 
@@ -41,6 +51,7 @@ export default {
             count: 0,
             //socket: io('', {path: "/ws"}),
             socket: io(this.socket_io_server, {path: "/ws"}),
+            box: {}
         }
     },
     created() {
@@ -58,6 +69,9 @@ export default {
       this.socket.on("metrics_general_update", (row) => {
         console.log(row)
         this.metrics[row.id] = row
+        this.box.x = row.metrics.ACCEL.x
+        this.box.y = row.metrics.ACCEL.y
+        this.box.z = row.metrics.ACCEL.z
       });
 
       this.socket.on("metrics_deletion_update", (row) => {
@@ -70,6 +84,16 @@ export default {
           type: "get_labels",
           content: []
         }));
+    },
+
+    mounted() {
+      const renderer = this.$refs.renderer;
+      const box = this.$refs.box.mesh;
+      renderer.onBeforeRender(() => {
+        box.rotation.x = this.box.y;
+        box.rotation.y = this.box.x;
+        box.rotation.z = this.box.z;
+      });
     },
 
     unmounted() {

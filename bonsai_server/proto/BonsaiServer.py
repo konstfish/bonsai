@@ -48,10 +48,15 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
     async def PushMetrics(self, request: bonsai_pb2.MetricsRequest,
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.MetricsConfirmation:
         logger.info('Recieved from host %s!' % request.exporter_key)
-
+        
         #labels = {}
         #for label in request.labels:
         #    labels[label] = request.labels[label].label
+
+
+        # TODO filter out unregistered hosts
+        #with RethinkServerConnection(rethink_server=rethink) as conn:
+        #    out = rethink.r.table("hosts").get
 
         rjson = {
             'id': request.exporter_key,
