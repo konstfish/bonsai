@@ -30,21 +30,25 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build bonsai_server
-        uses: docker/build-push-action@v2
-        with:
-          context: ./bonsai_server
-          platforms: linux/amd64,linux/arm/v7
-          push: true
-          tags: bonsai_server:latest
-
       - name: Build bonsai_socket
         uses: docker/build-push-action@v2
         with:
           context: ./bonsai_socket
           platforms: linux/amd64,linux/arm/v7
           push: true
-          tags: bonsai_socket:latest
+          tags: |
+            konstfish/bonsai_socket:${{ github.sha }}
+            konstfish/bonsai_socket:latest
+
+      - name: Build bonsai_server
+        uses: docker/build-push-action@v2
+        with:
+          context: ./bonsai_server
+          platforms: linux/amd64,linux/arm/v7
+          push: true
+          tags: |
+            konstfish/bonsai_server:${{ github.sha }}
+            konstfish/bonsai_server:latest
 
       - name: Build bonsai_frontend
         uses: docker/build-push-action@v2
@@ -52,7 +56,9 @@ jobs:
           context: ./bonsai_frontend
           platforms: linux/amd64,linux/arm/v7
           push: true
-          tags: bonsai_frontend:latest
+          tags: |
+            konstfish/bonsai_frontend:${{ github.sha }}
+            konstfish/bonsai_frontend:latest
 
       - name: Build bonsai_exporter_base 
         uses: docker/build-push-action@v2
@@ -60,4 +66,6 @@ jobs:
           context: ./bonsai_exporter_base
           platforms: linux/amd64,linux/arm/v7
           push: true
-          tags: bonsai_exporter_base:latest
+          tags: |
+            konstfish/bonsai_exporter_base:${{ github.sha }}
+            konstfish/bonsai_exporter_base:latest
