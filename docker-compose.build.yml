@@ -1,57 +1,20 @@
 version: '3.9'
 services:
   server:
-    depends_on:
-      - "rethink"
-    links:
-      - "rethink"
-    environment:
-      - TZ=Europe/London
-      - IN_DOCKER_CONTAINER=1
-    build: ./bonsai_server
-    ports:
-      - 50051:50051
-    restart: always
-
+    build: 
+      context: ./bonsai_server
+      target: bonsai_server
   socket:
-    depends_on:
-      - "server"
-      - "rethink"
-    links:
-      - "rethink"
-    environment:
-      - TZ=Europe/London
-      - IN_DOCKER_CONTAINER=1
-    build: ./bonsai_socket
-    ports:
-      - 9000:9000
-    restart: always
+    build: 
+      context: ./bonsai_socket
+      target: bonsai_socket
 
   frontend:
-    depends_on:
-      - "socket"
-    build: ./bonsai_frontend/
-    ports:
-      - 3000:3000
-    links:
-      - "socket:socket"
-      - "server:server"
-    environment:
-      - TZ=Europe/London
-    restart: always
+    build: 
+      context: ./bonsai_frontend/
+      target: bonsai_frontend
 
   local_exporter:
-    depends_on:
-      - "server"
-    links:
-      - "server:server"
-    volumes:
-      - "./bonsai_exporter_base/config_container.yaml:/opt/config.yaml"
-    build: ./bonsai_exporter_base
-    restart: always
-    deploy:
-      replicas: 3
-
-volumes:
-  mongodb_data:
-  rethink_data:
+    build: 
+      context: ./bonsai_exporter_base
+      target: bonsai_exporter_base
