@@ -1,7 +1,11 @@
 <template>
   <div class="home">
-    <h1><font-awesome-icon icon="fa-solid fa-hammer" /> Admin Panel</h1>
-
+    <div class="header">
+      <h1>
+        <font-awesome-icon icon="fa-solid fa-hammer" /> Admin Panel
+      </h1>
+    </div>
+    
     <span>{{ metric_amount }}</span>
 
     <button @click="purge_database_entries()">Purge DB</button>

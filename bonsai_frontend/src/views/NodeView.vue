@@ -1,16 +1,23 @@
 <template>
-    <div class="home">
-      <h1><font-awesome-icon icon="fa-solid fa-circle-nodes" /> Node Graph</h1>
-      <v-network-graph
-      :nodes="nodes"
-      :edges="edges"
-      :configs="configs"
-      >
-      <template #edge-label="{ edge, ...slotProps }">
-        <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" />
-      </template>
-    </v-network-graph>
+  <div class="home">
+    <div class="header">
+      <h1>
+        <font-awesome-icon icon="fa-solid fa-circle-nodes" /> Node Graph
+      </h1>
     </div>
+
+    <div class="network-graph-wrapper">
+      <v-network-graph
+        :nodes="nodes"
+        :edges="edges"
+        :configs="configs"
+        >
+        <template #edge-label="{ edge, ...slotProps }">
+          <v-edge-label :text="edge.label" align="center" vertical-align="above" v-bind="slotProps" />
+        </template>
+      </v-network-graph>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -128,6 +135,18 @@ export default {
 
 <style scoped>
 .v-network-graph{
-  height: 80vh;
+  height: 90vh;
+
+  /*
+  border-radius: var(--border-rad-primary);
+  background-color: var(--background-color-secondary);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  */
+  
+  margin: 12px;
+}
+
+.home{
+  overflow: hidden;
 }
 </style>

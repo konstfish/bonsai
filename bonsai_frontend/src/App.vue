@@ -1,17 +1,25 @@
 <template>
-  <div class="wrapper">
-    
+  <div class="wrapper">    
     <div class="nav-wrapper">
       <nav>
-        <router-link to="/"><font-awesome-icon icon="fa-solid fa-house" /> Home</router-link>
-        <router-link to="/nodes"><font-awesome-icon icon="fa-solid fa-circle-nodes" /> Node Graph</router-link>
-        <router-link to="/dash"><font-awesome-icon icon="fa-solid fa-chart-line" /> Dashboard</router-link>
-        <router-link to="/admin"><font-awesome-icon icon="fa-solid fa-hammer" /> Admin Panel</router-link>
+        <router-link to="/">
+          <font-awesome-icon icon="fa-solid fa-house" /> <span>Home</span>
+        </router-link>
+        <router-link to="/nodes">
+          <font-awesome-icon icon="fa-solid fa-circle-nodes" /> <span>Node Graph</span>
+        </router-link>
+        <router-link to="/dash">
+          <font-awesome-icon icon="fa-solid fa-chart-line" /> <span>Dashboard</span>
+        </router-link>
+        <router-link to="/admin">
+          <font-awesome-icon icon="fa-solid fa-hammer" /> <span>Admin Panel</span>
+        </router-link>
       </nav>
+
       <span class="made-with">Made with <font-awesome-icon icon="fa-regular fa-heart" /></span>
     </div>
 
-    <div class="nav-spacer"></div>
+    <!--<div class="nav-spacer"></div>-->
 
     <router-view/>
   </div>
@@ -33,6 +41,9 @@
 
   --font-size: 12px;
   --font-size-secondary: 8px;
+
+  --border-rad-primary: 8px;
+  --border-rad-secondary: 6px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -50,16 +61,15 @@
 }
 
 html, body{
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
 
   margin: 0px;
   background-color: var(--background-color-primary);
+  overflow: hidden;
 }
 
-body, html{
-}
-
-h1, h2, h3, h4, h5, h6, span{
+h1, h2, h3, h4, h5, h6, span, div{
   color: var(--text-color-primary);
 }
 
@@ -70,40 +80,61 @@ h1, h2, h3, h4, h5, h6, span{
   height: 100%;
 }
 
-.nav-spacer{
-  height: 100%;
-  margin-right: calc(180px + 16px);
+.wrapper {
+  display: grid; 
+  grid-template-columns: 0.3fr 1.7fr 1fr; 
+  grid-template-rows: 1.9fr 1fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "nav-wrapper router-view router-view"
+    "nav-wrapper router-view router-view"; 
+}
+
+.nav-wrapper { grid-area: nav-wrapper; }
+.home { grid-area: router-view; }
+
+.home{
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.header{
+  border-radius: var(--border-rad-primary);
+  margin: 12px;
+
+  padding: 12px;
+  background-color: var(--background-color-secondary);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.header h1{
+  margin: 0;
 }
 
 .nav-wrapper{
   display: flex;
   flex-wrap: wrap;
 
-  position: fixed;
-  right: 0;
-  top: 0;
-  left: 0;
-
   background-color: var(--background-color-secondary);
 
-  width: 180px;
   height: calc(100% - 24px);
-  margin-top: 12px;
-  margin-bottom: 12px;
+  width: 180px;
 
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-radius: var(--border-rad-primary);
+  margin: 12px;
+  margin-right: 0px;
 
-  margin-right: 24px;
+
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.05s;
 }
 
 nav {
   display: flex;
   flex-direction: column;
-  width: 180px;
   padding: 12px;
 }
+
 
 nav a {
   font-weight: bold;
@@ -113,6 +144,10 @@ nav a {
 }
 
 nav a.router-link-exact-active {
+  color: var(--accent-color);
+}
+
+nav a.router-link-exact-active span {
   color: var(--accent-color);
 }
 
@@ -127,19 +162,22 @@ nav a.router-link-exact-active {
   color: var(--accent3-color);
 }
 
-.home {
-  width: 100%;
+@media only screen and (max-width: 800px){
+  .node{
+    width: 90%;
+  }
+  
+  nav a span{
+    display: none;
+  }
+
+  .made-with{
+    display: none;
+  }
+
+  .nav-wrapper{
+    width: 66px;
+  }
 }
-
-.wrapper {
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-evenly;
-}
-
 
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <h1><font-awesome-icon icon="fa-solid fa-chart-line" /> Dashboard</h1>
+    <div class="header">
+      <h1>
+        <font-awesome-icon icon="fa-solid fa-chart-line" /> Dashboard
+      </h1>
+    </div>
 
     <!--<button @click="addItem">Add an item dynamically</button>-->
 
@@ -200,13 +204,13 @@ export default {
 
   padding: 8px;
 
-  border-radius: 8px;
+  border-radius: var(--border-rad-primary);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 .vue-grid-item.vue-grid-placeholder{
   background: var(--accent-color) !important;
-  border-radius: 8px;
+  border-radius: var(--border-rad-primary);
 }
 
 /*

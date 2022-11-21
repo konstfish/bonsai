@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <h1><font-awesome-icon icon="fa-solid fa-seedling" /> Bonsai</h1>
+    <div class="header">
+      <h1>
+        <font-awesome-icon icon="fa-solid fa-house" /> Home
+      </h1>
+    </div>
 
     <div class="node-list">
         <div class="node" v-for="host in this.hosts" v-bind:key="host">
@@ -126,24 +130,27 @@ export default {
 .node-list{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin: 12px;
 }
 
 .node{
-  width: 320px;
+  width: calc(33% - 36px);
+
   height: 140px;
   padding: 12px;
-  
-  margin-bottom: 12px;
-  margin-right: 6px;
 
   text-align: left;
     
   background: var(--background-color-secondary);
   color: var(--text-color-primary);
   user-select: none;
-  border-radius: 8px;
+  border-radius: var(--border-rad-primary);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -160,9 +167,15 @@ export default {
     "registered registered registered live-circle"; 
 }
 
+@media only screen and (max-width: 1200px){
+  .node{
+    width: calc(50% - 32px);
+  }
+}
+
 @media only screen and (max-width: 800px){
   .node{
-    width: 90%;
+    width: 100%;
   }
 }
 
@@ -202,21 +215,23 @@ export default {
 }
 
 .label{
-    background-color: var(--accent5-color);
-    border-radius: 6px;
-    padding: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    /*var(--accent5-color)*/
+    background-color: rgba(208, 135, 112, 0.7);
+    border-radius: var(--border-rad-secondary);
+    padding: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     margin-right: 4px;
 }
 
 .metric{
-    background-color: var(--accent3-color);
+  /*var(--accent3-color)*/
+    background-color: rgba(191, 97, 106, 0.7);
 
-    border-radius: 6px;
-    padding: 2px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    border-radius: var(--border-rad-secondary);
+    padding: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     margin-right: 4px;
 }
 
@@ -231,7 +246,7 @@ export default {
 .metric-card{
     padding: 12px;
     margin: 12px;
-    border-radius: 6px;
+    border-radius: var(--border-rad-secondary);
     text-decoration: none;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,.4),0 6px 20px 0 rgba(0,0,0,.3);
 }

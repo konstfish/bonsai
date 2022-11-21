@@ -1,11 +1,5 @@
 version: '3.9'
 services:
-#  mongodb:
-#    image: mongo:4.4.6
-#    volumes:
-#      - mongodb_data:/data/db
-#    restart: always
-
   rethink:
     image: rethinkdb:latest
     volumes:
@@ -27,19 +21,17 @@ services:
     ports:
       - 50051:50051
     restart: always
-
-#  rest_interface:
-#    depends_on:
-#      - "server"
-#    links:
-#      - "server"
-#    environment:
-#      - TZ=Europe/London
-#      - IN_DOCKER_CONTAINER=1
-#    build: ./bonsai_rest_layer
-#    ports:
-#      - 4000:4000
-#    restart: always
+  local_exporter:
+    depends_on:
+      - "server"
+    links:
+      - "server:server"
+    volumes:
+      - "./bonsai_exporter_base/config_container.yaml:/opt/config.yaml"
+    build: ./bonsai_exporter_base
+    restart: always
+    deploy:
+      replicas: 10
 
   socket:
     depends_on:
@@ -68,6 +60,19 @@ services:
       - TZ=Europe/London
     restart: always
 
+#  rest_interface:
+#    depends_on:
+#      - "server"
+#    links:
+#      - "server"
+#    environment:
+#      - TZ=Europe/London
+#      - IN_DOCKER_CONTAINER=1
+#    build: ./bonsai_rest_layer
+#    ports:
+#      - 4000:4000
+#    restart: always
+
 #  https-localhost:
 #    image: konstfish/https-localhost
 #    volumes:
@@ -81,20 +86,5 @@ services:
 #      HOST: frontend
 #      PORT: 3000
 #    restart: always
-
-  local_exporter:
-    depends_on:
-      - "server"
-    links:
-      - "server:server"
-    volumes:
-      - "./bonsai_exporter_base/config_container.yaml:/opt/config.yaml"
-    build: ./bonsai_exporter_base
-    restart: always
-    deploy:
-      replicas: 3
-
-
 volumes:
-  mongodb_data:
   rethink_data:

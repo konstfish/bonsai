@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <h1>Metric Overview</h1>
+    <div class="header">
+      <h1>
+        <font-awesome-icon icon="fa-solid fa-circle-nodes" /> Home View Test
+      </h1>
+    </div>
     
     {{labels}}
     {{count}}
@@ -152,7 +156,7 @@ export default {
 .metric-card{
   padding: 12px;
   margin: 12px;
-  border-radius: 6px;
+  border-radius: var(--border-rad-secondary);
   text-decoration: none;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,.4),0 6px 20px 0 rgba(0,0,0,.3);
 }
