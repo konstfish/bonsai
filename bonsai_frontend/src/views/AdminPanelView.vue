@@ -6,9 +6,8 @@
       </h1>
     </div>
     
-    <span>{{ metric_amount }}</span>
-
     <button @click="purge_database_entries()">Purge DB</button>
+    <span>{{ metric_amount }}</span>
   
   </div>
 </template>

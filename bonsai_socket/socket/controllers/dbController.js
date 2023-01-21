@@ -144,7 +144,13 @@ exports.pushMetricUpdate = function(cursor, socket){
 
         if(socketController.checkIfSocket(socket)){
             console.log(("metric_update"), " - ", socket.id)
-            socketController.brodcastMessage("metric_update", row.new_val.id, socket)
+
+            const row_format = {
+                id: row.new_val.id,
+                date: row.new_val.date
+            }
+            
+            socketController.brodcastMessage("metric_update", row_format, socket)
         }else{
             console.log("closing ----------------------------")
             cursor.close()

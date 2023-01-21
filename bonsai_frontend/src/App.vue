@@ -8,8 +8,11 @@
         <router-link to="/nodes">
           <font-awesome-icon icon="fa-solid fa-circle-nodes" /> <span>Node Graph</span>
         </router-link>
-        <router-link to="/dash">
-          <font-awesome-icon icon="fa-solid fa-chart-line" /> <span>Dashboard</span>
+        <router-link to="/dashboards">
+          <font-awesome-icon icon="fa-solid fa-chart-line" /> <span>Dashboards</span>
+        </router-link>
+        <router-link to="/explore">
+          <font-awesome-icon icon="fa-solid fa-compass-drafting" /> <span>Explore</span>
         </router-link>
         <router-link to="/admin">
           <font-awesome-icon icon="fa-solid fa-hammer" /> <span>Admin Panel</span>

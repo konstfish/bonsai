@@ -21,9 +21,8 @@ rethink_port = 28015
 
 rethink = RethinkServer(rethink_server=rethink_server, rethink_database=rethink_database, rethink_port=rethink_port)
 
-with RethinkServerConnection(rethink) as conn:
-  create_database(rethink_database, rethink, logger)
+create_database(rethink_database, rethink)
 
-  create_table('metrics', rethink_database, rethink, logger)
-  create_table('hosts', rethink_database, rethink, logger)
-  create_table('dashboards', rethink_database, rethink, logger)
+create_table('metrics', rethink_database, rethink)
+create_table('hosts', rethink_database, rethink)
+create_table('dashboards', rethink_database, rethink)

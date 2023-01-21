@@ -47,23 +47,20 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
 
     async def PushMetrics(self, request: bonsai_pb2.MetricsRequest,
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.MetricsConfirmation:
-        logger.info('Recieved from host %s!' % request.exporter_key)
+        logger.info('Recieved from host %s' % request.exporter_key)
         
         #labels = {}
         #for label in request.labels:
         #    labels[label] = request.labels[label].label
+        
 
-
-        # TODO filter out unregistered hosts
-        #with RethinkServerConnection(rethink_server=rethink) as conn:
-        #    out = rethink.r.table("hosts").get
-
+        # filter out unregistered hosts
         with RethinkServerConnection(rethink_server=rethink) as conn:
             out = rethink.r.table('hosts').get_field('id').run(conn)
-        
-        if(request.exporter_key not in out):
-            logger.info('Host %s not registered' % request.exporter_key)
-            return bonsai_pb2.MetricsConfirmation(code=401, confirm="not registered")
+
+            if(request.exporter_key not in out):
+                logger.info('Host %s not registered' % request.exporter_key)
+                return bonsai_pb2.MetricsConfirmation(code=401, confirm="not registered")
 
         rjson = {
             'id': request.exporter_key,
@@ -73,7 +70,10 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
 
         with RethinkServerConnection(rethink_server=rethink) as conn:
             out = rethink.r.table("metrics").insert(rjson, conflict="update").run(conn)
-            logger.debug(out)
+            if(out['replaced'] == 1):
+                logger.info('Replaced metrics for host %s' % request.exporter_key)
+            else:
+                logger.info(out)
 
         return bonsai_pb2.MetricsConfirmation(code=200, confirm="success")
 

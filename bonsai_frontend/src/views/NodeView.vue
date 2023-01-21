@@ -84,26 +84,48 @@ export default {
       this.socket.on("hosts_general_update", (row) => {
         console.log(row)
         this.nodes[row.id] = { name: row.host, color: "lightblue"}
-        this.edges[row.id + "-edge"] = {
-          source: "Bonsai", 
-          target: row.id, 
-          label: row.job,
-          color: "lightblue", 
-          dashed: true,
-          update_color: "lightgreen"
+        for (let i = 0; i < row.labels.length; i++) {
+          console.log(row.labels[i])
+          this.edges[row.id + "-edge-" + row.labels[i]] = {
+            source: row.labels[i], 
+            target: row.id, 
+            //label: row.job,
+            color: "lightblue", 
+            dashed: true,
+            update_color: "lightgreen"
+          }
         }
       });
 
       this.socket.on("hosts_deletion_update", (row) => {
-        console.log(row)
+        // console.log(row)
         delete this.nodes[row.id]
         delete this.edges[row.id + "-edge"]
       });
 
       this.socket.on("metric_update", (id) => {
-        console.log(id);
+        // console.log(id);
         this.blink(id);
       })
+
+      this.socket.on("label_list", (row) => {
+        for (let i = 0; i < row.length; i++) {
+          this.nodes[row[i]] = { name: row[i], color: "blue"}
+          this.edges[row[i] + "-edge"] = {
+            source: "Bonsai", 
+            target: row[i], 
+            label: "none",
+            color: "lightblue", 
+            dashed: true,
+            update_color: "lightgreen"
+          }
+        }
+      });
+
+      this.socket.send(JSON.stringify({
+        type: "get_labels",
+        content: []
+      }));
 
       this.socket.send(JSON.stringify({
         type: "update_listener_host",
@@ -114,7 +136,6 @@ export default {
         type: "udpate_listener_updates",
         content: []
       }));
-
     },
 
     unmounted() {

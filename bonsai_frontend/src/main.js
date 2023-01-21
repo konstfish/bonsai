@@ -5,6 +5,10 @@ import router from './router'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+axios.defaults.headers.common = {
+    "Content-Type": "application/json"
+}
+
 import VNetworkGraph from "v-network-graph"
 import "v-network-graph/style.css"
 
@@ -14,10 +18,12 @@ import vSelect from 'vue-select'
 
 import VueApexCharts from "vue3-apexcharts";
 
+import JsonViewer from 'vue-json-viewer'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faServer, faChartLine, faHouse, faCircleNodes, faHammer, faSeedling, faBars } from '@fortawesome/free-solid-svg-icons'
+import { faServer, faChartLine, faHouse, faCircleNodes, faHammer, faSeedling, faBars, faPlus, faCompassDrafting } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faServer)
@@ -27,6 +33,8 @@ library.add(faHouse)
 library.add(faHammer)
 library.add(faSeedling)
 library.add(faBars)
+library.add(faPlus)
+library.add(faCompassDrafting)
 
 library.add(faHeart)
 
@@ -40,6 +48,8 @@ app.use(VueAxios, axios);
 app.use(VNetworkGraph);
 
 app.use(VueApexCharts);
+
+app.use(JsonViewer);
 
 app.component('v-select', vSelect);
 

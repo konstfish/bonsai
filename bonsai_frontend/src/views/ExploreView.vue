@@ -2,51 +2,42 @@
   <div class="home">
     <div class="header">
       <h1>
-        <font-awesome-icon icon="fa-solid fa-house" /> Home
+        <font-awesome-icon icon="fa-solid fa-compass-drafting" /> Explore
       </h1>
     </div>
 
-    <div class="node-list">
-        <div class="node" v-for="host in this.hosts" v-bind:key="host">
-            <div class="hostname">
-              <font-awesome-icon icon="fa-solid fa-server" />
-              {{ host.host }}
-            </div>
+    <div class="header-bar">
+      <v-select class="style-chooser" :options="hosts" @option:selected="update_socket_listener"></v-select>
 
-            <div class="job">{{host.job}}</div>
-            <div class="labels">
-              <span class="label" v-for="label in host.labels" v-bind:key="label">{{ label }}</span>
-            </div>
-
-            <div class="metrics">
-              <span class="metric" v-for="scraper in host.scrapers" v-bind:key="scraper">{{ scraper }}</span>
-            </div>
-
-            <!--<div class="intervals">{{host.interval}} Seconds</div>-->
-
-            <div class="registered"><time-since :date="new Date(host.registration_date)" /></div>
-
-            <div class="update-stripe" :id="host.id"></div>
-            <div class="live-circle" :id="'live-circle-'+hosts_status[host.id].status"></div>
+      <div class="header-buttons">
+        <button @click="showPanelModal">Add Panel</button>
+        <button @click="showDashboardModal">Save Dashboard</button>
       </div>
     </div>
+    
+    <json-viewer  :value="metrics"
+                  :expand-depth=3
+                  :copyable="true"
+                  theme="nordjson"
+    ></json-viewer>
+
+
   </div>
 </template>
 
 <script>
-import TimeSince from '@/components/TimeSince';
+/*import TimeSince from '@/components/TimeSince';*/
 import io from 'socket.io-client';
 import 'vue-select/dist/vue-select.css';
 
 export default {
     components: {
-      TimeSince
+      /*TimeSince*/
     },
     data() {
         return {
-            hosts: {},
-            hosts_status: {},
-            count: 0,
+            hosts: [],
+            metrics: {},
             //socket: io('', {path: "/ws"}),
             socket: io(this.socket_io_server, {path: "/ws"}),
         }
@@ -55,31 +46,19 @@ export default {
       //this.socket = io(this.socket_io_server, {path: "/ws"})
       this.socket.open()
 
-      this.socket.on("hosts_general_update", (row) => {
-         this.hosts_status[row.id] = {status: 'down'}
-        this.hosts[row.id] = row
-      });
-
-      this.socket.on("hosts_deletion_update", (row) => {
-        console.log(row)
-        delete this.hosts[row.id]
-      });
-
-      this.socket.on("metric_update", (row) => {
-        this.blink(row.id);
-
-        this.update_status(row);
-      })
-
       this.socket.send(JSON.stringify({
-          type: "update_listener_host",
-          content: []
-      }));
+      type: "get_hostnames",
+      content: []
+    }));
 
-      this.socket.send(JSON.stringify({
-        type: "udpate_listener_updates",
-        content: []
-      }));
+    this.socket.on("hostname_list", (row) => {
+      this.hosts = row
+    });
+
+    this.socket.on("metrics_general_update", (row) => {
+      console.log(row)
+      this.metrics = row
+    });
     },
 
     unmounted() {
@@ -91,19 +70,13 @@ export default {
       update_socket_listener(event){
         this.socket.close()
         this.socket.open()
-
+        // loop over dashboard items 
+        this.passed_data = {}
+        this.socket.send(JSON.stringify({
+          type: "update_listener_metrics_host",
+          content: [event]
+        }));
         this.metrics = {}
-        this.hosts = {}
-        
-        this.socket.send(JSON.stringify({
-          type: "update_listener_host",
-          content: [event]
-        }));
-
-        this.socket.send(JSON.stringify({
-          type: "update_listener",
-          content: [event]
-        }));
       },
 
       remove_socket_listener(event){
@@ -117,51 +90,80 @@ export default {
           content: [event]
         }));
       },
-
-      blink(id){
-        if(document.getElementById(id) != null){
-          document.getElementById(id).style.backgroundColor = 'var(--accent-color)'
-          setTimeout(()=>{
-            document.getElementById(id).style.backgroundColor = 'var(--text-color-secondary)'
-          },250)
-        }
-      },
-
-      update_status(row){
-        let diff = Date.parse(row.date) - Date.parse(this.hosts_status[row.id].date)
-        let status = 'fluc'
-
-        console.log((diff < (this.hosts[row.id].interval * 1000) + 250))
-
-        if(diff < (this.hosts[row.id].interval * 1000) + 250){
-          status = 'up'
-        }
-
-        this.hosts_status[row.id] = {status: status, date: row.date}
-
-        setTimeout(()=>{
-          if(this.hosts_status[row.id].date == row.date){
-            this.hosts_status[row.id] = {status: 'down', date: row.date}
-          }
-        },(this.hosts[row.id].interval * 1000 * 3))
-      }
     },
 }
 </script>
 
+<style>
+.jv-container{
+  margin-left: 12px;
+  padding: 0px !important;
+}
+
+.nordjson {
+  background: var(--background-color-primary);
+  color: var(--text-color-primary);
+  white-space: nowrap;
+  font-size: 14px;
+  font-family: Consolas, Menlo, Courier, monospace;
+}
+.nordjson .jv-ellipsis {
+  background-color: var(--background-color-primary);
+  color: var(--text-color-secondary);
+  display: inline-block;
+  line-height: 0.9;
+  font-size: 0.9em;
+  padding: 0px 4px 2px 4px;
+  border-radius: 3px;
+  vertical-align: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+.nordjson .jv-button {
+  color: #49b3ff;
+}
+.nordjson .jv-key {
+  color: var(--text-color-primary);
+}
+.nordjson .jv-item.jv-array {
+  color: var(--text-color-secondary);
+}
+.nordjson .jv-item.jv-boolean {
+  color: var(--accent3-color);
+}
+.nordjson .jv-item.jv-function {
+  color: #067bca;
+}
+.nordjson .jv-item.jv-number {
+  color: var(--accent3-color);
+}
+.nordjson .jv-item.jv-number-float {
+  color: var(--accent3-color);
+}
+.nordjson .jv-item.jv-number-integer {
+  color: var(--accent3-color);
+}
+.nordjson .jv-item.jv-object {
+  color: var(--text-color-secondary);
+}
+.nordjson .jv-item.jv-undefined {
+  color: var(--accent5-color);
+}
+.jv-string {
+  color: var(--accent-color) !important;
+  word-break: break-word;
+  white-space: normal;
+}
+.nordjson .jv-code .jv-toggle:before {
+  padding: 0px 2px;
+  border-radius: 2px;
+}
+.nordjson .jv-code .jv-toggle:hover:before {
+  background: #eee;
+}
+</style>
+
 <style scoped>
-/* tmp updtime */
-#live-circle-up{
-  background-color: var(--accent-color);
-}
-
-#live-circle-fluc{
-  background-color: var(--accent4-color);
-}
-
-#live-circle-down{
-  background-color: var(--accent3-color);
-}
 
 .node-list{
     display: flex;

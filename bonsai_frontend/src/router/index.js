@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView_OLD.vue'
+import HomeView from '../views/archive/HomeView_OLD.vue'
 import NodeView from '../views/NodeView.vue'
 import AdminPanelView from '../views/AdminPanelView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import NodeOverviewView from '../views/HomeView.vue'
+import DashboardListView from '../views/DashboardListView.vue'
+import ExploreView from '../views/ExploreView.vue'
 
 const routes = [
   {
@@ -22,15 +24,25 @@ const routes = [
     component: NodeView
   },
   {
+    path: '/explore',
+    name: 'explore',
+    component: ExploreView
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: AdminPanelView
   },
   {
-    path: '/dash',
+    path: '/dash/:id',
     name: 'dashboard',
     component: DashboardView
   },
+  {
+    path: '/dashboards',
+    name: 'dashboards',
+    component: DashboardListView
+  }
 ]
 
 const router = createRouter({

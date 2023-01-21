@@ -1,5 +1,7 @@
 # bonsai_frontend
 
+yarn add vue-final-modal@3 --ignore-engines
+
 ## Project setup
 ```
 yarn install

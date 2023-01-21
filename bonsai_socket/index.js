@@ -20,6 +20,7 @@ global.io = io;
 
 // express setup
 app.use(express.static('public'));
+app.use(express.json());
 app.use(cors())
 
 // register express endpoints
@@ -29,6 +30,9 @@ app.get('/', function(req, res) {
 
 var routesAdmin = require('./api/routes/adminRoutes');
 app.use('/api/admin', routesAdmin);
+
+var routesAdmin = require('./api/routes/dashboardRoutes');
+app.use('/api/dashboards', routesAdmin);
 
 // socket.io calls
 var socket_list = {}

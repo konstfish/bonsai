@@ -2,7 +2,7 @@
   <div class="home">
     <div class="header">
       <h1>
-        <font-awesome-icon icon="fa-solid fa-chart-line" /> {{ dashboardName }}
+        <font-awesome-icon icon="fa-solid fa-chart-line" /> Dashboard
       </h1>
     </div>
 
@@ -25,20 +25,7 @@
             :okButton="{text: 'Ok', onclick: () => {addPanel()}, loading: true}"
     >
         <div>
-          <label for="pname">Panel Name</label><br>
-          <input type="text" id="pname" v-model="panelTemplating.name" placeholder="Dashboard Name" name="pname">
-          <br>
-          <label for="pmetric">Metric Point</label><br>
-          <input type="text" id="pmetric" v-model="panelTemplating.metric" placeholder="Metric" name="pmetric">
-          <br>
-          <label for="ptype">Panel Type</label><br>
-          <select id="ptype" name="ptype" v-model="panelTemplating.type">
-            <option value="singlegauge">Single Gauge</option>
-            <option value="multigauge">Multi Gauge</option>
-            <option value="areachart">Area Chart</option>
-            <option value="barchart">Bar Chart</option>
-          </select>
-          <br>
+          asdf
         </div>
     </Modal>
 
@@ -80,20 +67,22 @@
                     :i="item.i"
                     :key="item.i">
 
-              <span class="item-title"><font-awesome-icon icon="fa-solid fa-chart-line" /> {{ item.name }}</span>
+              <span class="item-tile"><font-awesome-icon icon="fa-solid fa-chart-line" /> {{ item.i }}</span>
               
-              <BarChart v-if="item.type == 'barchart'" :metric=this.passed_data[item.i] />
+              <BarChart v-if="item.i == '1'" :metric=this.passed_data[item.i] />
 
-              <GaugeChart v-if="item.type == 'singlegauge'" :metric=this.passed_data[item.i] />
+              <GaugeChart v-if="item.i == '2'" :metric=this.passed_data[item.i] />
 
-              <AreaChart v-if="item.type == 'areachart'" :metric=this.passed_data[item.i] :points=50 />
+              <AreaChart v-if="item.i == '3'" :metric=this.passed_data[item.i] :points=50 />
 
-              <MultiGagueChart v-if="item.type == 'multigauge'" :metric=this.passed_data[item.i] />
+              <MultiGagueChart v-if="item.i == '4'" :metric=this.passed_data[item.i] />
 
           </grid-item>
 
       </grid-layout>
     </div>
+
+    <br><br><br><br><br><br><br>
 
   </div>
 </template>
@@ -127,53 +116,22 @@ export default {
   },
   data() {
     return {
-      layout: [],
+      layout: [
+                {"x":0,"y":7,"w":6,"h":7,"i":"1", "minW":6, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "individual_cores"},
+                {"x":0,"y":0,"w":4,"h":7,"i":"2", "minW":4, "minH": 7, "maxH": 7, "metric_type": "single", "metric": "percent"},
+                {"x":4,"y":0,"w":8,"h":7,"i":"3", "minW":6, "minH": 7, "maxH": 7, "metric_type": "multiple", "metric": "percent"},
+                {"x":6,"y":7,"w":6,"h":9,"i":"4", "minW":6, "minH": 9, "maxH": 12, "metric_type": "single", "metric": "individual_cores"},
+            ],
       colNum: 12,
       passed_data: {},
       metrics: {},
       hosts: [],
       socket: io(this.socket_io_server, {path: "/ws"}),
       isVisible: ref({dashboardModal: false, panelModal: false}),
-      dashboardName: "",
-      panelTemplating: {},
-      panelTemplatingDefaults: {
-        "barchart": {
-          "metric_type": "multiple",
-          "minW":6,
-          "minH": 7,
-          "maxH": 7,
-        },
-        "areachart": {
-          "metric_type": "multiple",
-          "minW":6, 
-          "minH": 7, 
-          "maxH": 7,
-        },
-        "singlegauge": {
-          "metric_type": "single",
-          "minW":4, 
-          "minH": 7, 
-          "maxH": 7,
-        },
-        "multigauge": {
-          "metric_type": "multiple",
-          "minW":6, 
-          "minH": 9, 
-          "maxH": 12
-        }
-      }
+      dashboardName: "Default Dashboard"
     }
   },
   created() {
-    console.log(this.$route.params.id)
-    this.clearPanelSettings()
-
-    this.axios.post(this.api_server + "/api/dashboards/get", {id: this.$route.params.id}).then((response) => {
-      console.log(response)
-      this.dashboardName = response.data.return.name
-      this.layout = response.data.return.layout
-    })
-
     this.socket.open()
 
     this.socket.send(JSON.stringify({
@@ -214,6 +172,19 @@ export default {
   },
 
   methods: {
+    addItem: function () {
+            // Add a new item. It must have a unique key!
+            this.layout.push({
+                x: this.layout[this.layout.length - 1]["x"] + this.layout[this.layout.length - 1]["w"],
+                y: 0,
+                w: 2,
+                h: 2,
+                i: this.layout.length + 1,
+            });
+            // Increment the counter to ensure key is always unique.
+            console.log(this.layout)
+        },
+
       update_socket_listener(event){
         this.socket.close()
         this.socket.open()
@@ -235,7 +206,6 @@ export default {
         console.log(this.dashboardName)
 
         const request = {
-          id: this.$route.params.id,
           name: this.dashboardName,
           layout: this.layout
         }
@@ -244,7 +214,7 @@ export default {
           console.log(response.data)
         })*/
 
-        this.axios.post(this.api_server + "/api/dashboards/update", request, {
+        this.axios.post(this.api_server + "/api/dashboards/add", request, {
           headers: {"Content-Type": "application/json"}
         }).then(response => {
             console.log(response.data);
@@ -254,45 +224,21 @@ export default {
       },
 
       showPanelModal(){
-        console.log(this.layout)
         this.isVisible.panelModal = true
       },
 
       addPanel(){
-        let x = 0
-        let y = 0
-
-        if(this.layout.length > 0){
-          console.log(this.layout[this.layout.length - 1])
-          x = this.layout[this.layout.length - 1]["x"] + this.layout[this.layout.length - 1]["w"]
-          y = this.layout[this.layout.length - 1]["y"] + this.layout[this.layout.length - 1]["h"]
-        }
+        console.log("asdf1")
 
         this.layout.push({
-            x: x,
-            y: y, 
-            w: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
-            h: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
-            minW: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
-            minH: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
-            maxH: this.panelTemplatingDefaults[this.panelTemplating.type]["maxH"],
+            x: (this.layout.length * 2) % (this.colNum || 12),
+            y: this.layout.length + (this.colNum || 12), 
+            w: 2,
+            h: 2,
             i: this.layout.length + 1,
-            name: this.panelTemplating.name,
-            type: this.panelTemplating.type,
-            metric: this.panelTemplating.metric,
-            metric_type: this.panelTemplatingDefaults[this.panelTemplating.type]["metric_type"],
         });
 
         this.isVisible.panelModal = false
-        this.clearPanelSettings()
-      },
-
-      clearPanelSettings(){
-        this.panelTemplating = {
-          name: "",
-          type: "",
-          metric: ""
-        }
       }
   },
 }
@@ -361,9 +307,6 @@ input{
   fill: var(--text-color-primary);
 }
 
-tspan{
-  color: var(--text-color-primary);
-}
 
 .vue-grid-item {
   background: var(--background-color-secondary);

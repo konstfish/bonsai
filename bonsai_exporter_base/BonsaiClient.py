@@ -18,7 +18,6 @@ import socket
 import sched
 import time
 
-import time
 from datetime import datetime
 
 import psutil
