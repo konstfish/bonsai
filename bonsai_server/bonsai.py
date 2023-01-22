@@ -33,14 +33,29 @@ class gRPCSigHandler():
         await self.server.stop()
 """
 
+keyfile = 'certs/cert.key'
+certfile = 'certs/cert.pem'
+
+private_key = open(keyfile, 'rb').read()
+certificate_chain = open(certfile, 'rb').read()
+
+credentials = grpc.ssl_server_credentials(
+    [(private_key, certificate_chain)]
+)
+
 _cleanup_coroutines = []
 
 async def serve() -> None:
     server = grpc.aio.server()
     bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(), server)
     listen_addr = '[::]:50051'
+    listen_addr_tls = '[::]:50052'
+    
     server.add_insecure_port(listen_addr)
     logger.info("Starting server on %s", listen_addr)
+
+    server.add_secure_port(listen_addr_tls, credentials)
+    logger.info("Starting server (tls) on %s", listen_addr_tls)
 
     await server.start()
 

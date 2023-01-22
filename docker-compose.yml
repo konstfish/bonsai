@@ -20,6 +20,7 @@ services:
     build: ./bonsai_server
     ports:
       - 50051:50051
+      - 50052:50052
     restart: always
   local_exporter:
     depends_on:

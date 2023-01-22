@@ -131,6 +131,7 @@ export default {
       colNum: 12,
       passed_data: {},
       metrics: {},
+      metrics_flattened: [],
       hosts: [],
       socket: io(this.socket_io_server, {path: "/ws"}),
       isVisible: ref({dashboardModal: false, panelModal: false}),
@@ -188,6 +189,10 @@ export default {
     this.socket.on("metrics_general_update", (row) => {
       console.log(row)
       this.metrics = row
+
+      let flattened = this.flattenDict(row["metrics"])
+      console.log("Flattened")
+      console.log(flattened)
 
       this.layout.forEach((block) => {
         if(block.metric_type == "single"){
@@ -293,7 +298,27 @@ export default {
           type: "",
           metric: ""
         }
-      }
+      },
+
+      flattenDict(ob) {
+        var toReturn = {};
+
+        for (var i in ob) {
+            if (!Object.prototype.hasOwnProperty.call(ob, i)) continue;
+            
+
+            if ((typeof ob[i]) == 'object' && ob[i] !== null) {
+                var flatObject = this.flattenDict(ob[i]);
+                for (var x in flatObject) {
+                    if (!Object.prototype.hasOwnProperty.call(flatObject, x)) continue;
+                    toReturn[i + '.' + x] = flatObject[x];
+                }
+            } else {
+                toReturn[i] = ob[i];
+            }
+        }
+        return toReturn;
+    }
   },
 }
 </script>

@@ -36,7 +36,7 @@ export default {
             //socket: io('', {path: "/ws"}),
             socket: io(this.socket_io_server, {path: "/ws"}),
             nodes: {
-              Bonsai: { name: "Bonsai", color: "lightgreen", size: 16 },
+              Bonsai: { name: "Bonsai", color: "var(--accent-color)", size: 16 },
             },
             edges: reactive({}),
             configs: reactive(
@@ -48,8 +48,8 @@ export default {
                 },
                 node: {
                   normal: {
-                    type: "square",
-                    // radius: node => node.size,
+                    type: node => node.type,
+                    radius: node => node.size,
                     color: node => node.color,
                   },
                   label: {
@@ -83,16 +83,17 @@ export default {
 
       this.socket.on("hosts_general_update", (row) => {
         console.log(row)
-        this.nodes[row.id] = { name: row.host, color: "lightblue"}
+        this.nodes[row.id] = { name: row.host, color: "var(--accent6-color)"}
         for (let i = 0; i < row.labels.length; i++) {
           console.log(row.labels[i])
           this.edges[row.id + "-edge-" + row.labels[i]] = {
             source: row.labels[i], 
             target: row.id, 
             //label: row.job,
-            color: "lightblue", 
+            color: "var(--accent6-color)", 
             dashed: true,
-            update_color: "lightgreen"
+            update_color: "lightgreen",
+            type: "circle"
           }
         }
       });
@@ -105,19 +106,20 @@ export default {
 
       this.socket.on("metric_update", (id) => {
         // console.log(id);
-        this.blink(id);
+        this.blink(id["id"]);
       })
 
       this.socket.on("label_list", (row) => {
         for (let i = 0; i < row.length; i++) {
-          this.nodes[row[i]] = { name: row[i], color: "blue"}
+          this.nodes[row[i]] = { name: row[i], color: "var(--accent2-color)"}
           this.edges[row[i] + "-edge"] = {
             source: "Bonsai", 
             target: row[i], 
             label: "none",
-            color: "lightblue", 
+            color: "var(--accent2-color)", 
             dashed: true,
-            update_color: "lightgreen"
+            update_color: "lightgreen",
+            type: "circle"
           }
         }
       });
@@ -145,9 +147,9 @@ export default {
 
     methods: {
       blink(id){
-        this.nodes[id]["color"] = 'lightgreen'
+        this.nodes[id]["color"] = 'var(--accent-color)'
         setTimeout(()=>{
-          this.nodes[id]["color"] = 'lightblue'
+          this.nodes[id]["color"] = 'var(--accent6-color)'
         },300)
       }
     },

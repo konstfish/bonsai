@@ -10,8 +10,7 @@
       <v-select class="style-chooser" :options="hosts" @option:selected="update_socket_listener"></v-select>
 
       <div class="header-buttons">
-        <button @click="showPanelModal">Add Panel</button>
-        <button @click="showDashboardModal">Save Dashboard</button>
+        
       </div>
     </div>
     

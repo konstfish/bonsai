@@ -29,7 +29,7 @@ import bonsai_pb2
 import bonsai_pb2_grpc
 
 class BonsaiClient:
-    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[]):
+    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[], certfile=None):
         if(hostname == None):
             hostname = socket.gethostname()
 
@@ -40,6 +40,12 @@ class BonsaiClient:
         self.rate = rate # [s]
 
         self.exporters = exporters
+        
+        self.credentials = None
+
+        if(certfile):
+            certificate_chain = open(certfile, 'rb').read()
+            self.credentials = grpc.ssl_channel_credentials(certificate_chain)
 
         self.key = self.register()
         logger.info("Recieved Key: %s" % self.key)
@@ -67,10 +73,15 @@ class BonsaiClient:
                                             labels=self.labels,
                                             scrapers=exporter_list
                                             )
-
-            with grpc.insecure_channel(self.bonsai_server) as channel:
-                stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
-                response = stub.RegisterClient(registration_req)
+            
+            if(self.credentials):
+                with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
+                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                    response = stub.RegisterClient(registration_req)
+            else:
+                with grpc.insecure_channel(self.bonsai_server) as channel:
+                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                    response = stub.RegisterClient(registration_req)
 
             code = response.code
             if(code != 200):
@@ -88,9 +99,15 @@ class BonsaiClient:
             logger.info("[TIME] Scraping: %fs" % (end_metrics - start_metrics))
 
             start_channel = time.time()
-            with grpc.insecure_channel(self.bonsai_server) as channel:
-                stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
-                response = stub.PushMetrics(metrics)
+            if(self.credentials):
+                with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
+                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                    response = stub.PushMetrics(metrics)
+            else:
+                with grpc.insecure_channel(self.bonsai_server) as channel:
+                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                    response = stub.PushMetrics(metrics)
+
             end_channel = time.time()
 
             logger.info("[TIME] Transfer: %fs" % (end_channel - start_channel))

@@ -2,21 +2,10 @@ from BonsaiClient import BonsaiClient
 import importlib
 from BonsaiConfigLoader import BonsaiConfigLoader
 
-b = BonsaiConfigLoader()
-
-print(b)
-
-for exporter in b.config['exporters']:
-    b.config['exporters'][exporter]['class'] = getattr(getattr(__import__("exporters." + exporter), exporter), exporter)
 
 if __name__ == "__main__":
-    exporters = []
-    for exporter in b.config['exporters']:
-        exporters.append(b.config['exporters'][exporter]['class'](opt=b.config['exporters'][exporter]['options']))
-        print("Initialized Exporter", exporter)
-
-    BonsaiClient(b.config['bonsai_server'], jobname=b.config['jobname'], rate=b.config['rate'], exporters=exporters, labels=b.config['labels'])
-
+    b = BonsaiConfigLoader()
+    exporter = b.create()
 
 """
 from exporters.BonsaiExporterCPU import BonsaiExporterCPU

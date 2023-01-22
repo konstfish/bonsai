@@ -41,6 +41,8 @@
   --accent3-color: #bf616a;
   --accent4-color: #ebcb8b;
   --accent5-color: #d08770;
+  --accent6-color: #88C0D0;
+  --accent7-color: #5E81AC;
 
   --font-size: 12px;
   --font-size-secondary: 8px;

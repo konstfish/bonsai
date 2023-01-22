@@ -1,0 +1,53 @@
+---
+
+- name: Create CA private key
+  community.crypto.openssl_privatekey:
+    path: "/Users/david/Desktop/ca-cert.key"
+
+- name: Create certificate signing request (CSR) for CA certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "/Users/david/Desktop/ca-cert.key"
+    common_name: Bonsai Cert
+    use_common_name_for_san: false
+    basic_constraints:
+      - 'CA:TRUE'
+    basic_constraints_critical: yes
+    key_usage:
+      - keyCertSign
+    key_usage_critical: true
+  register: ca_csr
+
+- name: Create self-signed CA certificate from CSR
+  community.crypto.x509_certificate:
+    path: "/Users/david/Desktop/ca-cert.pem"
+    csr_content: "{{ ca_csr.csr }}"
+    privatekey_path: "/Users/david/Desktop/ca-cert.key"
+    provider: selfsigned
+
+- name: Create private key for new certificate
+  community.crypto.openssl_privatekey:
+    path: "/Users/david/Desktop/cert.key"
+
+- name: Create certificate signing request (CSR) for new certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "/Users/david/Desktop/cert.key"
+    subject_alt_name:
+      - "DNS:server"
+  register: csr
+
+- name: Sign certificate with CA
+  community.crypto.x509_certificate_pipe:
+    csr_content: "{{ csr.csr }}"
+    provider: ownca
+    ownca_path: "/Users/david/Desktop/ca-cert.pem"
+    ownca_privatekey_path: "/Users/david/Desktop/ca-cert.key"
+    ownca_not_after: +36500d
+    ownca_not_before: "-1d"
+  register: certificate
+
+- name: Write certificate file
+  copy:
+    dest: "/Users/david/Desktop/cert.pem"
+    content: "{{ certificate.certificate }}"
+
+# grpcurl -cert cert.pem -key cert.key -insecure ip:port describe
