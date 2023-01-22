@@ -12,8 +12,8 @@
       <v-select class="style-chooser" :options="hosts" @option:selected="update_socket_listener"></v-select>
 
       <div class="header-buttons">
-        <button @click="showPanelModal">Add Panel</button>
-        <button @click="showDashboardModal">Save Dashboard</button>
+        <button @click="showPanelModal"><font-awesome-icon icon="fa-solid fa-plus" /> <span>Add Panel</span></button>
+        <button @click="showDashboardModal"><font-awesome-icon icon="fa-solid fa-floppy-disk" /> <span>Save Dashboard</span></button>
       </div>
     </div>
 
@@ -26,10 +26,14 @@
     >
         <div>
           <label for="pname">Panel Name</label><br>
-          <input type="text" id="pname" v-model="panelTemplating.name" placeholder="Dashboard Name" name="pname">
+          <input type="text" id="pname" v-model="panelTemplating.name" placeholder="Panel Name" name="pname">
           <br>
           <label for="pmetric">Metric Point</label><br>
-          <input type="text" id="pmetric" v-model="panelTemplating.metric" placeholder="Metric" name="pmetric">
+          <input list="metric-point-list" type="text" id="pmetric" v-model="panelTemplating.metric" placeholder="Metric" name="pmetric">
+          <datalist id="metric-point-list">
+            <option :value="metric_point" v-for="metric_point in this.metrics_flattened" v-bind:key="metric_point" />
+          </datalist>
+
           <br>
           <label for="ptype">Panel Type</label><br>
           <select id="ptype" name="ptype" v-model="panelTemplating.type">
@@ -190,15 +194,25 @@ export default {
       console.log(row)
       this.metrics = row
 
-      let flattened = this.flattenDict(row["metrics"])
-      console.log("Flattened")
-      console.log(flattened)
+      let flattened = Object.keys(this.flattenDict(row["metrics"]))
+
+      if(this.metrics_flattened.length != flattened.length){
+        this.metrics_flattened = flattened
+        console.log(this.metrics_flattened)
+      }
 
       this.layout.forEach((block) => {
+        let key = ('metrics.'+block.metric).split(".");
+        console.log(key)
+        console.log(row)
+        let value = key.reduce((obj, key) => obj[key], this.metrics);
+        console.log(value)
+        console.log()
+
         if(block.metric_type == "single"){
-          this.passed_data[block.i] = row.metrics["CPU"][block.metric]
+          this.passed_data[block.i] = value
         }else{
-          this.passed_data[block.i] = {date: row.date, val: row.metrics["CPU"][block.metric]}
+          this.passed_data[block.i] = {date: row.date, val: value}
         }
       });
       /*
@@ -295,7 +309,7 @@ export default {
       clearPanelSettings(){
         this.panelTemplating = {
           name: "",
-          type: "",
+          type: "singlegauge",
           metric: ""
         }
       },
@@ -341,6 +355,8 @@ label{
 input{
   padding: 8px;
   border: none;
+  
+  width: 250px;
 
   background: var(--background-color-secondary) !important;
   color: var(--text-color-primary) !important;
@@ -431,6 +447,12 @@ tspan{
   border-radius: var(--border-rad-primary) !important;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1) !important;
   border: none;
+}
+
+@media only screen and (max-width: 800px){
+  .header-buttons button span{
+    display: none;
+  }
 }
 
 </style>

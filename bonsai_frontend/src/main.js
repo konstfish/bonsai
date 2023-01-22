@@ -23,7 +23,7 @@ import JsonViewer from 'vue-json-viewer'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faServer, faChartLine, faHouse, faCircleNodes, faHammer, faSeedling, faBars, faPlus, faCompassDrafting } from '@fortawesome/free-solid-svg-icons'
+import { faServer, faChartLine, faHouse, faCircleNodes, faHammer, faSeedling, faBars, faPlus, faCompassDrafting, faFloppyDisk } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 library.add(faServer)
@@ -35,6 +35,7 @@ library.add(faSeedling)
 library.add(faBars)
 library.add(faPlus)
 library.add(faCompassDrafting)
+library.add(faFloppyDisk)
 
 library.add(faHeart)
 
