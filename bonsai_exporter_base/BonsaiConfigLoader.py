@@ -26,7 +26,8 @@ class BonsaiConfigLoader:
             certfile = self.config['certificate']
 
         return BonsaiClient(self.config['bonsai_server'], 
-                            jobname=self.config['jobname'], 
+                            jobname=self.config['jobname'],
+                            hostname=self.config['hostname'],
                             rate=self.config['rate'], 
                             exporters=exporters, 
                             labels=self.config['labels'],
