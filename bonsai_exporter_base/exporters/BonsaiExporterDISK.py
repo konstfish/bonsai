@@ -1,8 +1,9 @@
 import psutil
+from exporters.BonsaiExporter import BonsaiExporter
 
-class BonsaiExporterDISK:
+class BonsaiExporterDISK(BonsaiExporter):
     def __init__(self, name="DISK", opt={}):
-        self.name = name
+        super().__init__(name)
         self.opt = {
             "disks": [],
             "detailed": False

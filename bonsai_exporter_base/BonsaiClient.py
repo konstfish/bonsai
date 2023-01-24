@@ -25,6 +25,7 @@ import psutil
 import proto
 import json
 import grpc
+from grpc._channel import _InactiveRpcError
 import bonsai_pb2
 import bonsai_pb2_grpc
 
@@ -73,32 +74,39 @@ class BonsaiClient:
                                             labels=self.labels,
                                             scrapers=exporter_list
                                             )
-            
-            if(self.credentials):
-                with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
-                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
-                    response = stub.RegisterClient(registration_req)
-            else:
-                with grpc.insecure_channel(self.bonsai_server) as channel:
-                    stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
-                    response = stub.RegisterClient(registration_req)
-
-            code = response.code
-            if(code != 200):
-                logger.info("Unable to retrieve Registration, trying again in 5 Seconds")
+            try:
+                if(self.credentials):
+                    with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
+                        stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                        response = stub.RegisterClient(registration_req)
+                else:
+                    with grpc.insecure_channel(self.bonsai_server) as channel:
+                        stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
+                        response = stub.RegisterClient(registration_req)
+                code = response.code
+            except _InactiveRpcError:
+                logger.info("Unable to reach Bonsai Server, trying again in 5 seconds")
                 time.sleep(5)
+            except Exception as e:
+                logger.info("Issue during communication with Bonsai Server, trying again in 5 seconds")
+                print(e.message, e.args)
+                time.sleep(5)
+            else:
+                if(code != 200):
+                    logger.info("Unable to retrieve Registration, trying again in 5 seconds")
+                    time.sleep(5)
 
         return response.exporter_key
 
     def run(self):
+        start_metrics = time.time()
+        metrics = self.build_request()
+        end_metrics = time.time()
+
+        logger.info("[TIME] Scraping: %fs" % (end_metrics - start_metrics))
+
+        start_channel = time.time()
         try:
-            start_metrics = time.time()
-            metrics = self.build_request()
-            end_metrics = time.time()
-
-            logger.info("[TIME] Scraping: %fs" % (end_metrics - start_metrics))
-
-            start_channel = time.time()
             if(self.credentials):
                 with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
                     stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
@@ -107,6 +115,14 @@ class BonsaiClient:
                 with grpc.insecure_channel(self.bonsai_server) as channel:
                     stub = bonsai_pb2_grpc.BonsaiServiceStub(channel)
                     response = stub.PushMetrics(metrics)
+        except _InactiveRpcError:
+            logger.info("Unable to reach Bonsai Server, trying again in 5 seconds")
+            time.sleep(5)
+        except Exception as e:
+            logger.info("Issue during communication with Bonsai Server, trying again in 5 seconds")
+            print(e.message, e.args)
+            time.sleep(5)
+        else:
 
             end_channel = time.time()
 
@@ -116,9 +132,6 @@ class BonsaiClient:
             # TODO clean this up
             if(response.code == 401):
                 self.register()
-
-        except Exception as e:
-            print(e)
 
         self.event_loop.enter(self.rate, 1, self.run)
 

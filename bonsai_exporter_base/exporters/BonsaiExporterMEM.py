@@ -1,9 +1,9 @@
 import psutil
+from exporters.BonsaiExporter import BonsaiExporter
 
-
-class BonsaiExporterMEM:
+class BonsaiExporterMEM(BonsaiExporter):
     def __init__(self, name="MEM", opt={}):
-        self.name = name
+        super().__init__(name)
         self.opt = {
             "include_swap": False,
             "detailed": False

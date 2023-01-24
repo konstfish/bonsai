@@ -1,9 +1,9 @@
 import psutil
+from exporters.BonsaiExporter import BonsaiExporter
 
-
-class BonsaiExporterCPU:
+class BonsaiExporterCPU(BonsaiExporter):
     def __init__(self, name="CPU", opt={}):
-        self.name = name
+        super().__init__(name)
         self.opt = {
             "individual_cores": False,
             "core_count": False,

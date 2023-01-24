@@ -1,8 +1,8 @@
 import psutil
-
-class BonsaiExporterNET:
+from exporters.BonsaiExporter import BonsaiExporter
+class BonsaiExporterNET(BonsaiExporter):
     def __init__(self, name="NET", opt={}):
-        self.name = name
+        super().__init__(name)
         self.opt = {
             "interfaces": []
         }
