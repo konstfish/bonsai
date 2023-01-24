@@ -21,7 +21,7 @@
             modalClass="modalDialog"
             title="Add Panel"
             :closable="false"
-            :cancelButton="{text: 'Cancel', onclick: null}"
+            :cancelButton="{text: 'Cancel', onclick: () => {clearPanelSettings()} }"
             :okButton="{text: 'Ok', onclick: () => {addPanel()}, loading: true}"
     >
         <div>
@@ -43,6 +43,11 @@
             <option value="barchart">Bar Chart</option>
           </select>
           <br>
+          <div v-if="panelTemplating.type === 'singlegauge'">
+            <label for="pmax">Maximum Value</label><br>
+            <input type="text" id="pmax" v-model="panelTemplating.metric_max" placeholder="Maximum" name="pmax">
+            <br>
+          </div>
         </div>
     </Modal>
 
@@ -83,12 +88,27 @@
                     :h="item.h"
                     :i="item.i"
                     :key="item.i">
-
-              <span class="item-title"><font-awesome-icon icon="fa-solid fa-chart-line" /> {{ item.name }}</span>
               
-              <BarChart v-if="item.type == 'barchart'" :metric=this.passed_data[item.i] />
+              <div class="item-title">
+                <span class="item-name">
+                  <span>
+                    <font-awesome-icon icon="fa-solid fa-gauge-high" v-if="item.type == 'singlegauge'" /> 
+                    <font-awesome-icon icon="fa-solid fa-chart-column" v-if="item.type == 'barchart'" /> 
+                    <font-awesome-icon icon="fa-solid fa-chart-area" v-if="item.type == 'areachart'"/> 
+                    <!--<font-awesome-icon icon="fa-solid fa-chart-line" /> -->
+                  </span>
+                  {{ item.name }}
+                </span>
+                <span class="item-options">
+                   <font-awesome-icon icon="fa-solid fa-gear" @click="modifyPanel(item.i)" />&nbsp;
+                   <font-awesome-icon icon="fa-solid fa-x" @click="removePanel(item.i)"/> 
+                </span>
+              </div>
 
-              <GaugeChart v-if="item.type == 'singlegauge'" :metric=this.passed_data[item.i] />
+              <GaugeChart v-if="item.type == 'singlegauge'" :metric=this.passed_data[item.i] 
+                                                            :maxValue=item.metric_max />
+
+              <BarChart v-if="item.type == 'barchart'" :metric=this.passed_data[item.i] />
 
               <AreaChart v-if="item.type == 'areachart'" :metric=this.passed_data[item.i] :points=50 />
 
@@ -143,7 +163,7 @@ export default {
       panelTemplating: {},
       panelTemplatingDefaults: {
         "barchart": {
-          "metric_type": "multiple",
+          "metric_type": "single",
           "minW":6,
           "minH": 7,
           "maxH": 7,
@@ -278,40 +298,79 @@ export default {
       },
 
       addPanel(){
-        let x = 0
-        let y = 0
+        if("index" in this.panelTemplating){
+          this.layout[this.panelTemplating.index].minW = this.panelTemplatingDefaults[this.panelTemplating.type]["minW"]
+          this.layout[this.panelTemplating.index].minH = this.panelTemplatingDefaults[this.panelTemplating.type]["minH"]
+          this.layout[this.panelTemplating.index].maxH = this.panelTemplatingDefaults[this.panelTemplating.type]["maxH"]
+          this.layout[this.panelTemplating.index].name = this.panelTemplating.name
+          this.layout[this.panelTemplating.index].type = this.panelTemplating.type
+          this.layout[this.panelTemplating.index].metric = this.panelTemplating.metric
+          this.layout[this.panelTemplating.index].metric_type = this.panelTemplatingDefaults[this.panelTemplating.type]["metric_type"]
+          this.layout[this.panelTemplating.index].metric_max = this.panelTemplating.metric_max
+        }else{
+          let x = 0
+          let y = 0
 
-        if(this.layout.length > 0){
-          console.log(this.layout[this.layout.length - 1])
-          x = this.layout[this.layout.length - 1]["x"] + this.layout[this.layout.length - 1]["w"]
-          y = this.layout[this.layout.length - 1]["y"] + this.layout[this.layout.length - 1]["h"]
+          if(this.layout.length > 0){
+            console.log(this.layout[this.layout.length - 1])
+            x = this.layout[this.layout.length - 1]["x"] + this.layout[this.layout.length - 1]["w"]
+            y = this.layout[this.layout.length - 1]["y"] + this.layout[this.layout.length - 1]["h"]
+          }
+
+          this.layout.push({
+              x: x,
+              y: y, 
+              w: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
+              h: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
+              minW: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
+              minH: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
+              maxH: this.panelTemplatingDefaults[this.panelTemplating.type]["maxH"],
+              i: this.layout.length + 1,
+              name: this.panelTemplating.name,
+              type: this.panelTemplating.type,
+              metric: this.panelTemplating.metric,
+              metric_type: this.panelTemplatingDefaults[this.panelTemplating.type]["metric_type"],
+              metric_max: this.panelTemplating.metric_max,
+          });
         }
 
-        this.layout.push({
-            x: x,
-            y: y, 
-            w: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
-            h: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
-            minW: this.panelTemplatingDefaults[this.panelTemplating.type]["minW"],
-            minH: this.panelTemplatingDefaults[this.panelTemplating.type]["minH"],
-            maxH: this.panelTemplatingDefaults[this.panelTemplating.type]["maxH"],
-            i: this.layout.length + 1,
-            name: this.panelTemplating.name,
-            type: this.panelTemplating.type,
-            metric: this.panelTemplating.metric,
-            metric_type: this.panelTemplatingDefaults[this.panelTemplating.type]["metric_type"],
-        });
-
-        this.isVisible.panelModal = false
         this.clearPanelSettings()
       },
 
       clearPanelSettings(){
+        this.isVisible.panelModal = false
         this.panelTemplating = {
           name: "",
           type: "singlegauge",
-          metric: ""
+          metric: "",
+          metric_max: 100,
         }
+      },
+
+      loadPanelSettings(index){
+        this.panelTemplating = {
+          name: this.layout[index].name,
+          type: this.layout[index].type,
+          metric: this.layout[index].metric,
+          metric_max: this.layout[index].metric_max,
+          index: index
+        }
+      },
+
+      getIndexFromLayout(val){
+        return this.layout.map(item => item.i).indexOf(val);
+      },
+
+      removePanel(val){
+        const index = this.getIndexFromLayout(val);
+        this.layout.splice(index, 1);
+      },
+
+      modifyPanel(val){
+        const index = this.getIndexFromLayout(val);
+        console.log(index)
+        this.loadPanelSettings(index)
+        this.showPanelModal()
       },
 
       flattenDict(ob) {
@@ -377,6 +436,16 @@ input{
 
 .grid-container{
   width: 100%;
+}
+
+.item-title{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.item-options svg{
+  cursor: pointer;
 }
 
 .style-chooser{

@@ -40,7 +40,25 @@ export default {
           type: "numeric",
           tickAmount: 'dataPoints',
           decimalsInFloat: 0,
+          labels: {
+            style: {
+              colors: 'var(--text-color-primary)'
+            }
+          }
         },
+        yaxis: {
+          labels: {
+            style: {
+              colors: 'var(--text-color-primary)'
+            }
+          }
+        },
+        dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['var(--text-color-primary)']
+        },
+      },
       },
       series: [
         {

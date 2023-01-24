@@ -45,7 +45,19 @@ export default {
           },
           xaxis: {
             type: 'datetime',
-            categories: []
+            categories: [],
+            labels: {
+              style: {
+                colors: 'var(--text-color-primary)'
+              }
+            }
+          },
+          yaxis: {
+            labels: {
+              style: {
+                colors: 'var(--text-color-primary)'
+              }
+            }
           },
           tooltip: {
             x: {

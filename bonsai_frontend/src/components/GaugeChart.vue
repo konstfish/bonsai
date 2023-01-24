@@ -13,11 +13,12 @@
 <script>
 export default {
   props: {
-    metric: Number
+    metric: Number,
+    maxValue: Number,
   },
   watch: {
     metric: function(metric){
-      this.series = [ metric.toFixed(1) ]
+      this.series = [((metric * 100) / this.maxValue).toFixed(1)]
     }
   },
   data: function() {
