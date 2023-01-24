@@ -19,7 +19,7 @@
         </router-link>
       </nav>
 
-      <span class="made-with">Made with <font-awesome-icon icon="fa-regular fa-heart" /></span>
+      <span class="made-with">v{{ version }} - Made with <font-awesome-icon icon="fa-regular fa-heart" /></span>
     </div>
 
     <!--<div class="nav-spacer"></div>-->
@@ -27,6 +27,17 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      version: require('../package.json').version
+    }
+  }
+}
+</script>
+
 
 <style>
 :root{
