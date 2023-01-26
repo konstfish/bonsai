@@ -152,6 +152,7 @@ export default {
   data() {
     return {
       layout: [],
+      routerChangeMade: false,
       colNum: 12,
       passed_data: {},
       metrics: {},
@@ -247,6 +248,16 @@ export default {
     },100)
   },
 
+  beforeRouteLeave (to, from , next) {
+    if(this.routerChangeMade){
+      const answer = window.confirm('Do you really want to leave? You have unsaved changes!')
+      if (!answer) {
+        next(false)
+      }
+    }
+    next()
+  },
+
   unmounted() {
     this.socket.close()
     //this.socket = null
@@ -298,6 +309,8 @@ export default {
       },
 
       addPanel(){
+        this.routerChangeMade = true
+
         if("index" in this.panelTemplating){
           this.layout[this.panelTemplating.index].minW = this.panelTemplatingDefaults[this.panelTemplating.type]["minW"]
           this.layout[this.panelTemplating.index].minH = this.panelTemplatingDefaults[this.panelTemplating.type]["minH"]
