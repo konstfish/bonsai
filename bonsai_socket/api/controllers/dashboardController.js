@@ -18,3 +18,7 @@ exports.addDashboard = function(djson, callback){
 exports.updateDashboard = function(djson, callback){
   r.table('dashboards').insert(djson, {conflict: "update"}).run(callback)
 }
+
+exports.removeDashboard = function(id, callback){
+  r.table('dashboards').get(id).delete().run(callback)
+}

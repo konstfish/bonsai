@@ -12,12 +12,14 @@
         </span>
       </a>
 
-      <a :href="'/dash/'+dashboard.id" class="dashboard" v-for="dashboard in this.dashboards" v-bind:key="dashboard">
-        <span>
+      <div class="dashboard" v-for="dashboard in this.dashboards" v-bind:key="dashboard">
+        <a :href="'/dash/'+dashboard.id">
           <font-awesome-icon icon="fa-solid fa-chart-line" /> {{ dashboard.name }}
+        </a>
+        <span>
+          {{dashboard.id}} <font-awesome-icon icon="fa-solid fa-x" @click="removeDashboard(dashboard.id)"/> 
         </span>
-        {{dashboard.id}}
-      </a>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +43,10 @@ export default {
   },
 
   methods: {
+    getIndexFromList(val){
+      return this.dashboards.map(item => item.i).indexOf(val);
+    },
+
     addDashboard(){
       document.getElementById('dashboard-add').style.cursor = 'wait';
 
@@ -49,6 +55,15 @@ export default {
         this.$router.push({path: '/dash/'+response.data.task.generated_keys[0]});
       })
     },
+
+    removeDashboard(id){
+      const index = this.getIndexFromList(id);
+      this.dashboards.splice(index, 1);
+
+      this.axios.post(this.api_server + "/api/dashboards/remove", {id: id}).then((response) => {
+        console.log(response.data)
+      })
+    }
   },
 }
 </script>
@@ -68,6 +83,10 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
 }
 
 a:link{

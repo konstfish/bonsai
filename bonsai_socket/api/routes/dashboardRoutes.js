@@ -69,4 +69,21 @@ router.get('/list', (req, res) => {
   }
 })
 
+router.post('/remove', (req, res) => {
+  try{
+    const id = req.body.id;
+    console.log(req.body)
+    controller.removeDashboard(id, (err, task) => {
+      if(err) throw err;
+      res.status(200).json({"status": 200, "return": task});
+    })
+    //}else{
+    //  res.status(400).json({success: false, msg: 'S4YERR_MALFORMED'})
+    //}
+  }catch(e){
+    console.log(e)
+    res.status(400).json({success: false, msg: 'GENERAL'})
+  }
+})
+
 module.exports = router;
