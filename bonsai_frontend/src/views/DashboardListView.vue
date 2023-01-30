@@ -44,7 +44,8 @@ export default {
 
   methods: {
     getIndexFromList(val){
-      return this.dashboards.map(item => item.i).indexOf(val);
+      console.log(this.dashboards.map(item => item.id))
+      return this.dashboards.map(item => item.id).indexOf(val);
     },
 
     addDashboard(){
@@ -57,7 +58,9 @@ export default {
     },
 
     removeDashboard(id){
+      console.log(id)
       const index = this.getIndexFromList(id);
+      console.log(index)
       this.dashboards.splice(index, 1);
 
       this.axios.post(this.api_server + "/api/dashboards/remove", {id: id}).then((response) => {
