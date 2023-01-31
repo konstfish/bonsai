@@ -17,6 +17,10 @@ COPY --from=builder /opt/web/dist /usr/share/nginx/html
 RUN rm -v /etc/nginx/nginx.conf
 ADD nginx.conf /etc/nginx/
 
+RUN apt-get update && apt-get install --no-install-recommends --yes curl
+
+HEALTHCHECK --interval=30s --timeout=15s --start-period=5s --retries=3 CMD curl http://localhost:3000/nginx_status || exit 1
+
 LABEL name="bonsai_frontend"
 
 CMD ["nginx", "-g", "daemon off;"]

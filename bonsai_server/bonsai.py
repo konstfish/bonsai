@@ -5,6 +5,12 @@ import controllers
 import proto
 import asyncio
 import grpc
+from grpc_health.v1 import health
+from grpc_health.v1 import health_pb2
+from grpc_health.v1 import health_pb2_grpc
+from grpc_reflection.v1alpha import reflection
+
+import bonsai_pb2
 import bonsai_pb2_grpc
 from BonsaiServer import BonsaiServer
 
@@ -48,6 +54,20 @@ _cleanup_coroutines = []
 async def serve() -> None:
     server = grpc.aio.server()
     bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(), server)
+
+    health_servicer = health.HealthServicer()
+    # Create a tuple of all of the services we want to export via reflection.
+    services = tuple(
+        service.full_name
+        for service in bonsai_pb2.DESCRIPTOR.services_by_name.values()) + (
+            reflection.SERVICE_NAME, health.SERVICE_NAME)
+
+    # Mark all services as healthy.
+    health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
+    for service in services:
+        health_servicer.set(service, health_pb2.HealthCheckResponse.SERVING)
+    reflection.enable_server_reflection(services, server)
+
     listen_addr = '[::]:50051'
     listen_addr_tls = '[::]:50052'
     

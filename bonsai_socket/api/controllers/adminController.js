@@ -10,3 +10,7 @@ exports.getMetricAmount = function(callback){
 exports.purgeMetrics = function(callback){
   r.table('metrics').delete().run(callback)
 }
+
+exports.healthCheck = function(callback){
+  return r.getPoolMaster()._healthy
+}
