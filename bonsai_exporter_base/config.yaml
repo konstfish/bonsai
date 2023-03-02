@@ -1,8 +1,9 @@
-hostname: None
+hostname: null
 bonsai_server: server:50051
 #bonsai_server: 82.149.123.143:50051
 #bonsai_server: server:50051
 jobname: demo
+server_key: asdf1234
 rate: 1
 labels:
   - python

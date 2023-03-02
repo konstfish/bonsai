@@ -2,6 +2,8 @@ import signal
 import time
 import controllers
 
+import sys, getopt
+
 import proto
 import asyncio
 import grpc
@@ -51,9 +53,9 @@ credentials = grpc.ssl_server_credentials(
 
 _cleanup_coroutines = []
 
-async def serve() -> None:
+async def serve(server_key) -> None:
     server = grpc.aio.server()
-    bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(), server)
+    bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(server_key), server)
 
     health_servicer = health.HealthServicer()
     # Create a tuple of all of the services we want to export via reflection.
@@ -88,9 +90,21 @@ async def serve() -> None:
 
 if __name__ == '__main__':
     #asyncio.run(serve())
+
+    server_key = None
+    opts, args = getopt.getopt(sys.argv[1:],"hc:",["help","config="])
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print ('bonsai.py --config <key>')
+            sys.exit()
+        elif opt in ("-c", "--config"):
+            server_key = arg
+
+
+
     loop = asyncio.get_event_loop()
     try:
-        loop.run_until_complete(serve())
+        loop.run_until_complete(serve(server_key))
     finally:
         loop.run_until_complete(*_cleanup_coroutines)
         loop.close()

@@ -25,12 +25,17 @@ class BonsaiConfigLoader:
         if('certificate' in self.config):
             certfile = self.config['certificate']
 
+        server_key = None
+        if('server_key' in self.config):
+            server_key = self.config['server_key']
+
         return BonsaiClient(self.config['bonsai_server'], 
                             jobname=self.config['jobname'],
                             hostname=self.config['hostname'],
                             rate=self.config['rate'], 
                             exporters=exporters, 
                             labels=self.config['labels'],
+                            server_key=server_key,
                             certfile=certfile
                             )
 

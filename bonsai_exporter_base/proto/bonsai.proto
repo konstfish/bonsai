@@ -19,9 +19,10 @@ service BonsaiService {
 message RegistrationRequest {
   string job = 1;
   string host = 2;
-  float interval = 3;
-  repeated string labels = 4;
-  repeated string scrapers = 5;
+  optional string key = 3;
+  float interval = 4;
+  repeated string labels = 5;
+  repeated string scrapers = 6;
 }
 
 // confirmation

@@ -2,9 +2,19 @@ from BonsaiClient import BonsaiClient
 import importlib
 from BonsaiConfigLoader import BonsaiConfigLoader
 
+import sys, getopt
 
 if __name__ == "__main__":
-    b = BonsaiConfigLoader()
+    config = 'config.yaml'
+    opts, args = getopt.getopt(sys.argv[1:],"hc:",["help","config="])
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print ('main.py --config <path to config>')
+            sys.exit()
+        elif opt in ("-c", "--config"):
+            config = arg
+
+    b = BonsaiConfigLoader(config_name=config)
     exporter = b.create()
 
 """

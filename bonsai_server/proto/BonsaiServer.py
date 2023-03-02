@@ -23,9 +23,15 @@ def create_key(host):
 logger = logging.getLogger('bonsai')    
 
 class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
+    def __init__(self, key=None):
+        self.key = key
+
     async def RegisterClient(self, request: bonsai_pb2.RegistrationRequest,
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.RegistrationConfirmation:
         logger.info('Registration request from host %s!' % request.host)
+
+        if(self.key != None and self.key != request.key):
+                return bonsai_pb2.RegistrationConfirmation(code=401, exporter_key="unauthorized")
         
         rjson = {
             'job': request.job,

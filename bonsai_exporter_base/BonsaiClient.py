@@ -30,7 +30,7 @@ import bonsai_pb2
 import bonsai_pb2_grpc
 
 class BonsaiClient:
-    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[], certfile=None):
+    def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[], server_key=None, certfile=None):
         if(hostname == None):
             hostname = socket.gethostname()
 
@@ -39,6 +39,7 @@ class BonsaiClient:
         self.hostname = hostname
         self.labels = labels
         self.rate = rate # [s]
+        self.server_key = server_key
 
         self.exporters = exporters
         
@@ -74,6 +75,9 @@ class BonsaiClient:
                                             labels=self.labels,
                                             scrapers=exporter_list
                                             )
+            if(self.server_key != None):
+                registration_req.key = self.server_key
+            
             try:
                 if(self.credentials):
                     with grpc.secure_channel(self.bonsai_server, self.credentials) as channel:
@@ -92,7 +96,10 @@ class BonsaiClient:
                 print(e.message, e.args)
                 time.sleep(5)
             else:
-                if(code != 200):
+                if(code == 401):
+                    logger.info("Exporter unauthorized, trying again in 5 seconds")
+                    time.sleep(5)
+                elif(code != 200):
                     logger.info("Unable to retrieve Registration, trying again in 5 seconds")
                     time.sleep(5)
 

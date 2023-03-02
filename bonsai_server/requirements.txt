@@ -3,4 +3,3 @@ grpcio-health-checking
 grpcio-reflection
 
 rethinkdb
-pymongo
