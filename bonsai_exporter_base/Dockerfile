@@ -5,4 +5,5 @@ RUN pip install -r requirements.txt
 
 LABEL name="bonsai_exporter_base"
 
-ENTRYPOINT [ "python", "-u", "main.py" ]
+#ENTRYPOINT [ "python", "-u", "main.py" ]
+ENTRYPOINT ["/opt/entrypoint.sh"]
