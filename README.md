@@ -7,9 +7,6 @@
 
 <div align="center">
 
-![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
-
-
 [![Publish](https://github.com/konstfish/bonsai/actions/workflows/publish.yml/badge.svg?branch=master)](https://github.com/konstfish/bonsai/actions/workflows/publish.yml)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/konstfish/score4you/blob/master/LICENSE)
 
