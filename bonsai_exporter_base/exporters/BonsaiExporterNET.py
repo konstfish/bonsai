@@ -1,5 +1,7 @@
 import psutil
 from exporters.BonsaiExporter import BonsaiExporter
+
+# network exporter class implemeting psutil
 class BonsaiExporterNET(BonsaiExporter):
     def __init__(self, name="NET", opt={}):
         super().__init__(name)

@@ -4,9 +4,9 @@ var express = require('express');
 const e = require('express');
 var router = express.Router();
 
+// returns amount of metrics in DB
 router.get('/amount', (req, res) => {
   try{
-    //const team_id = req.body.team_id;
     controller.getMetricAmount((err, task) => {
       if(err) throw err;
       res.json({"status": 200, "amount": task});
@@ -17,22 +17,20 @@ router.get('/amount', (req, res) => {
   }
 })
 
+// purge route, that removes metrics from DB
 router.get('/purge', (req, res) => {
   try{
-    //const team_id = req.body.team_id;
     controller.purgeMetrics((err, task) => {
       if(err) throw err;
       res.json({"status": 200, "return": task});
     })
-    //}else{
-    //  res.status(400).json({success: false, msg: 'S4YERR_MALFORMED'})
-    //}
   }catch(e){
     console.log(e)
     res.status(400).json({success: false, msg: 'GENERAL'})
   }
 })
 
+// health check route
 router.get('/health', (req, res) => {
    if(controller.healthCheck()){
     res.json({"status": 200})
@@ -41,4 +39,5 @@ router.get('/health', (req, res) => {
    res.status(400).json({"status": 400})
 })
 
+// export router with created functions
 module.exports = router;

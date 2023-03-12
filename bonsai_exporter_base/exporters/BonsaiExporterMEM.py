@@ -1,6 +1,7 @@
 import psutil
 from exporters.BonsaiExporter import BonsaiExporter
 
+# memory exporter class implemeting psutil
 class BonsaiExporterMEM(BonsaiExporter):
     def __init__(self, name="MEM", opt={}):
         super().__init__(name)

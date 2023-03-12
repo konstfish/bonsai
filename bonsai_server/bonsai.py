@@ -54,31 +54,37 @@ credentials = grpc.ssl_server_credentials(
 _cleanup_coroutines = []
 
 async def serve(server_key) -> None:
+    # create gRPC server
     server = grpc.aio.server()
+
+    # add BonsaiService to gRPC server
     bonsai_pb2_grpc.add_BonsaiServiceServicer_to_server(BonsaiServer(server_key), server)
 
+    # add HealthServicer to gRPC server
     health_servicer = health.HealthServicer()
-    # Create a tuple of all of the services we want to export via reflection.
     services = tuple(
         service.full_name
         for service in bonsai_pb2.DESCRIPTOR.services_by_name.values()) + (
             reflection.SERVICE_NAME, health.SERVICE_NAME)
 
-    # Mark all services as healthy.
     health_pb2_grpc.add_HealthServicer_to_server(health_servicer, server)
     for service in services:
         health_servicer.set(service, health_pb2.HealthCheckResponse.SERVING)
     reflection.enable_server_reflection(services, server)
 
+    # define listen address
     listen_addr = '[::]:50051'
     listen_addr_tls = '[::]:50052'
     
+    # add plain port
     server.add_insecure_port(listen_addr)
     logger.info("Starting server on %s", listen_addr)
 
+    # add tls port
     server.add_secure_port(listen_addr_tls, credentials)
     logger.info("Starting server (tls) on %s", listen_addr_tls)
 
+    # start server
     await server.start()
 
     async def server_graceful_shutdown():
@@ -91,6 +97,7 @@ async def serve(server_key) -> None:
 if __name__ == '__main__':
     #asyncio.run(serve())
 
+    # read system arguments
     server_key = None
     opts, args = getopt.getopt(sys.argv[1:],"hc:",["help","config="])
     for opt, arg in opts:
@@ -100,8 +107,7 @@ if __name__ == '__main__':
         elif opt in ("-c", "--config"):
             server_key = arg
 
-
-
+    # create loop
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(serve(server_key))

@@ -1,6 +1,7 @@
 import psutil
 from exporters.BonsaiExporter import BonsaiExporter
 
+# disk exporter class implemeting psutil
 class BonsaiExporterDISK(BonsaiExporter):
     def __init__(self, name="DISK", opt={}):
         super().__init__(name)

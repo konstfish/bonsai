@@ -119,6 +119,7 @@ exports.getMetricsByHostListener = function(socket, host){
     });
 }
 
+// listener > on metric update, brodcast
 exports.pushMetricChanges = function(cursor, type, socket){
     cursor.each(function(err, row) {
         if (err) console.log(err);
@@ -138,6 +139,7 @@ exports.pushMetricChanges = function(cursor, type, socket){
     });
 }
 
+// listener > on metric update, brodcast
 exports.pushMetricUpdate = function(cursor, socket){
     cursor.each(function(err, row) {
         if (err) console.log(err);

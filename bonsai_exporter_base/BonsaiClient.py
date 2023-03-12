@@ -29,8 +29,10 @@ from grpc._channel import _InactiveRpcError
 import bonsai_pb2
 import bonsai_pb2_grpc
 
+# BonsaiClient Class
 class BonsaiClient:
     def __init__(self, bonsai_server, jobname="demo", hostname=None, rate=5, labels=[], exporters=[], server_key=None, certfile=None):
+        # if no hostname is defined, get system hostname
         if(hostname == None):
             hostname = socket.gethostname()
 
@@ -52,7 +54,7 @@ class BonsaiClient:
         self.key = self.register()
         logger.info("Recieved Key: %s" % self.key)
 
-        # loop
+        # event loop, that runs the scraper every n seconds
         self.event_loop = sched.scheduler(time.time, time.sleep)
         self.run()
         self.event_loop.run()
@@ -61,13 +63,15 @@ class BonsaiClient:
         logger.info("Strating Registration process")
         code = 400
 
+        # while registration is unsuccessful
         while(code != 200):
             #print(json.dumps(data).encode('utf-8'))
 
             exporter_list = []
             for exporter in self.exporters:
                 exporter_list.append(exporter.name)
-
+            
+            # create registration request protobuf message
             registration_req = bonsai_pb2.RegistrationRequest( 
                                             job=self.jobname, 
                                             host=self.hostname, 
@@ -136,7 +140,7 @@ class BonsaiClient:
             logger.info("[TIME] Transfer: %fs" % (end_channel - start_channel))
             logger.info("Recv: %d" % response.code)
 
-            # TODO clean this up
+            # failsafe, should the database somehow get lost, reregister
             if(response.code == 401):
                 self.register()
 

@@ -1,6 +1,7 @@
 import psutil
 from exporters.BonsaiExporter import BonsaiExporter
 
+# cpu exporter class implemeting psutil
 class BonsaiExporterCPU(BonsaiExporter):
     def __init__(self, name="CPU", opt={}):
         super().__init__(name)

@@ -1,4 +1,4 @@
-# bonsai_server
+# bonsai_socket
 
 Bonsai Socket, implemented using NodeJS. Listens to changes within the RethinkDB
 

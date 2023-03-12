@@ -5,6 +5,7 @@ from grpc_health.v1 import health_pb2_grpc
 
 request = health_pb2.HealthCheckRequest(service="bonsai.BonsaiService")
 
+# use insecure channel to query health servicer
 with grpc.insecure_channel("localhost:50051") as channel:
     stub = health_pb2_grpc.HealthStub(channel)
     response = stub.Check(request)

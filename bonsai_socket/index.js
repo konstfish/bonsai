@@ -94,5 +94,6 @@ io.sockets.on("connection", function(socket){
     });
 })
 
+// start server on port 9000
 server.listen(9000);
 console.log("✨ :9000")
