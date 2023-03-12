@@ -12,6 +12,7 @@ from controllers import RethinkServerConnection, rethink
 
 import hashlib
 
+# helper function to hash exporter data
 def create_key(host):
     encrypt = host["job"] + host["host"] + str(host["interval"])
     h = hashlib.new('sha256')
@@ -19,20 +20,24 @@ def create_key(host):
 
     return str(h.hexdigest())
 
-
+# get logger
 logger = logging.getLogger('bonsai')    
 
+# BonsaiServer class
 class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
     def __init__(self, key=None):
         self.key = key
 
+    # receives RegistrationRequests & returns RegistrationKey
     async def RegisterClient(self, request: bonsai_pb2.RegistrationRequest,
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.RegistrationConfirmation:
         logger.info('Registration request from host %s!' % request.host)
 
+        # check if key is set & valid
         if(self.key != None and self.key != request.key):
                 return bonsai_pb2.RegistrationConfirmation(code=401, exporter_key="unauthorized")
         
+        # create json object from protobuf message
         rjson = {
             'job': request.job,
             'host': request.host,
@@ -42,23 +47,22 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
             'registration_date': str(datetime.now())
         }
 
+        # create key using helper function
         key = create_key(rjson)
         rjson['id'] = key
 
+        # write exporter info to rethinkdb
         with RethinkServerConnection(rethink_server=rethink) as conn:
             out = rethink.r.table("hosts").insert(rjson, conflict="update").run(conn)
             logger.debug(out)
 
+        # send back RegistrationConfirmation
         return bonsai_pb2.RegistrationConfirmation(code=200, exporter_key=key)
 
+    # receives RegistrationRequests & returns RegistrationKey
     async def PushMetrics(self, request: bonsai_pb2.MetricsRequest,
                         context: grpc.aio.ServicerContext) -> bonsai_pb2.MetricsConfirmation:
         logger.info('Recieved from host %s' % request.exporter_key)
-        
-        #labels = {}
-        #for label in request.labels:
-        #    labels[label] = request.labels[label].label
-        
 
         # filter out unregistered hosts
         with RethinkServerConnection(rethink_server=rethink) as conn:
@@ -68,12 +72,14 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
                 logger.info('Host %s not registered' % request.exporter_key)
                 return bonsai_pb2.MetricsConfirmation(code=401, confirm="not registered")
 
+        # create json object from protobuf message
         rjson = {
             'id': request.exporter_key,
             'metrics': json.loads(request.metrics.decode('utf-8')),
             'date': str(datetime.now())
         }
 
+        # write metrics into rethinkdb
         with RethinkServerConnection(rethink_server=rethink) as conn:
             out = rethink.r.table("metrics").insert(rjson, conflict="update").run(conn)
             if(out['replaced'] == 1):
@@ -81,5 +87,6 @@ class BonsaiServer(bonsai_pb2_grpc.BonsaiServiceServicer):
             else:
                 logger.info(out)
 
+        # return MetricConfirmation
         return bonsai_pb2.MetricsConfirmation(code=200, confirm="success")
 
