@@ -1,0 +1,14 @@
+---
+
+- name: Main
+  hosts: all
+  serial: 5
+  roles:
+    - bonsai/bonsai-exporter
+
+- name: Web-remote
+  hosts: kf-orc-arm-02
+  serial: 5
+  roles:
+    - bonsai/bonsai-stack
+    - bonsai/bonsai-exporter

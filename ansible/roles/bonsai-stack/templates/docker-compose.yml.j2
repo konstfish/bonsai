@@ -4,6 +4,9 @@ services:
     image: rethinkdb:latest
     volumes:
       - rethink_data:/data
+    ports:
+      - 28015:28015
+      - 29015:29015
     restart: always
   server:
     depends_on:
@@ -18,15 +21,6 @@ services:
       - 50051:50051
       - 50052:50052
     restart: always
-  local_exporter:
-    depends_on:
-      - "server"
-    links:
-      - "server:server"
-    volumes:
-      - "./testing/config_container.yaml:/opt/config.yaml"
-    build: ./bonsai_exporter_base
-    restart: always
 
   socket:
     depends_on:
@@ -38,6 +32,8 @@ services:
       - TZ=Europe/London
       - IN_DOCKER_CONTAINER=1
     build: ./bonsai_socket
+    ports:
+      - 9000:9000
     restart: always
 
   frontend:
@@ -52,5 +48,6 @@ services:
     environment:
       - TZ=Europe/London
     restart: always
+
 volumes:
   rethink_data:
