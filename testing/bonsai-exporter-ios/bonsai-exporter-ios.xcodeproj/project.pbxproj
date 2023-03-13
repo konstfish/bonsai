@@ -1,0 +1,666 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6300E47F2920694500F054E1 /* BonsaiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6300E47E2920694500F054E1 /* BonsaiService.swift */; };
+		6300E48029206DE000F054E1 /* BonsaiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6300E47E2920694500F054E1 /* BonsaiService.swift */; };
+		6300E48329206DF600F054E1 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 6300E48229206DF600F054E1 /* SwiftyJSON */; };
+		63DB770429206252001BBCD3 /* bonsai_exporter_iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB770329206252001BBCD3 /* bonsai_exporter_iosApp.swift */; };
+		63DB770629206252001BBCD3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB770529206252001BBCD3 /* ContentView.swift */; };
+		63DB770829206253001BBCD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DB770729206253001BBCD3 /* Assets.xcassets */; };
+		63DB770B29206253001BBCD3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63DB770A29206253001BBCD3 /* Preview Assets.xcassets */; };
+		63DB771529206253001BBCD3 /* bonsai_exporter_iosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB771429206253001BBCD3 /* bonsai_exporter_iosTests.swift */; };
+		63DB771F29206254001BBCD3 /* bonsai_exporter_iosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB771E29206254001BBCD3 /* bonsai_exporter_iosUITests.swift */; };
+		63DB772129206254001BBCD3 /* bonsai_exporter_iosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB772029206254001BBCD3 /* bonsai_exporter_iosUITestsLaunchTests.swift */; };
+		63DB772F292062FD001BBCD3 /* CGRPCZlib in Frameworks */ = {isa = PBXBuildFile; productRef = 63DB772E292062FD001BBCD3 /* CGRPCZlib */; };
+		63DB7731292062FD001BBCD3 /* GRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 63DB7730292062FD001BBCD3 /* GRPC */; };
+		63DB7733292062FD001BBCD3 /* protoc-gen-grpc-swift in Frameworks */ = {isa = PBXBuildFile; productRef = 63DB7732292062FD001BBCD3 /* protoc-gen-grpc-swift */; };
+		63DB773A29206515001BBCD3 /* bonsai.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB773829206515001BBCD3 /* bonsai.grpc.swift */; };
+		63DB773B29206515001BBCD3 /* bonsai.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DB773929206515001BBCD3 /* bonsai.pb.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		63DB771129206253001BBCD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DB76F829206252001BBCD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DB76FF29206252001BBCD3;
+			remoteInfo = "bonsai-exporter-ios";
+		};
+		63DB771B29206254001BBCD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63DB76F829206252001BBCD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63DB76FF29206252001BBCD3;
+			remoteInfo = "bonsai-exporter-ios";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6300E47E2920694500F054E1 /* BonsaiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonsaiService.swift; sourceTree = "<group>"; };
+		6300E48429206FAA00F054E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		63DB770029206252001BBCD3 /* bonsai-exporter-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bonsai-exporter-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63DB770329206252001BBCD3 /* bonsai_exporter_iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bonsai_exporter_iosApp.swift; sourceTree = "<group>"; };
+		63DB770529206252001BBCD3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		63DB770729206253001BBCD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		63DB770A29206253001BBCD3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		63DB771029206253001BBCD3 /* bonsai-exporter-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "bonsai-exporter-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63DB771429206253001BBCD3 /* bonsai_exporter_iosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bonsai_exporter_iosTests.swift; sourceTree = "<group>"; };
+		63DB771A29206254001BBCD3 /* bonsai-exporter-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "bonsai-exporter-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63DB771E29206254001BBCD3 /* bonsai_exporter_iosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bonsai_exporter_iosUITests.swift; sourceTree = "<group>"; };
+		63DB772029206254001BBCD3 /* bonsai_exporter_iosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bonsai_exporter_iosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		63DB773829206515001BBCD3 /* bonsai.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bonsai.grpc.swift; sourceTree = "<group>"; };
+		63DB773929206515001BBCD3 /* bonsai.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = bonsai.pb.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63DB76FD29206252001BBCD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63DB7731292062FD001BBCD3 /* GRPC in Frameworks */,
+				63DB772F292062FD001BBCD3 /* CGRPCZlib in Frameworks */,
+				6300E48329206DF600F054E1 /* SwiftyJSON in Frameworks */,
+				63DB7733292062FD001BBCD3 /* protoc-gen-grpc-swift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB770D29206253001BBCD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB771729206254001BBCD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63DB76F729206252001BBCD3 = {
+			isa = PBXGroup;
+			children = (
+				63DB770229206252001BBCD3 /* bonsai-exporter-ios */,
+				63DB771329206253001BBCD3 /* bonsai-exporter-iosTests */,
+				63DB771D29206254001BBCD3 /* bonsai-exporter-iosUITests */,
+				63DB770129206252001BBCD3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		63DB770129206252001BBCD3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63DB770029206252001BBCD3 /* bonsai-exporter-ios.app */,
+				63DB771029206253001BBCD3 /* bonsai-exporter-iosTests.xctest */,
+				63DB771A29206254001BBCD3 /* bonsai-exporter-iosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		63DB770229206252001BBCD3 /* bonsai-exporter-ios */ = {
+			isa = PBXGroup;
+			children = (
+				6300E48429206FAA00F054E1 /* Info.plist */,
+				63DB770329206252001BBCD3 /* bonsai_exporter_iosApp.swift */,
+				63DB770529206252001BBCD3 /* ContentView.swift */,
+				63DB770729206253001BBCD3 /* Assets.xcassets */,
+				63DB773829206515001BBCD3 /* bonsai.grpc.swift */,
+				63DB773929206515001BBCD3 /* bonsai.pb.swift */,
+				63DB770929206253001BBCD3 /* Preview Content */,
+				6300E47E2920694500F054E1 /* BonsaiService.swift */,
+			);
+			path = "bonsai-exporter-ios";
+			sourceTree = "<group>";
+		};
+		63DB770929206253001BBCD3 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				63DB770A29206253001BBCD3 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		63DB771329206253001BBCD3 /* bonsai-exporter-iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				63DB771429206253001BBCD3 /* bonsai_exporter_iosTests.swift */,
+			);
+			path = "bonsai-exporter-iosTests";
+			sourceTree = "<group>";
+		};
+		63DB771D29206254001BBCD3 /* bonsai-exporter-iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				63DB771E29206254001BBCD3 /* bonsai_exporter_iosUITests.swift */,
+				63DB772029206254001BBCD3 /* bonsai_exporter_iosUITestsLaunchTests.swift */,
+			);
+			path = "bonsai-exporter-iosUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		63DB76FF29206252001BBCD3 /* bonsai-exporter-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63DB772429206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-ios" */;
+			buildPhases = (
+				63DB76FC29206252001BBCD3 /* Sources */,
+				63DB76FD29206252001BBCD3 /* Frameworks */,
+				63DB76FE29206252001BBCD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "bonsai-exporter-ios";
+			packageProductDependencies = (
+				63DB772E292062FD001BBCD3 /* CGRPCZlib */,
+				63DB7730292062FD001BBCD3 /* GRPC */,
+				63DB7732292062FD001BBCD3 /* protoc-gen-grpc-swift */,
+				6300E48229206DF600F054E1 /* SwiftyJSON */,
+			);
+			productName = "bonsai-exporter-ios";
+			productReference = 63DB770029206252001BBCD3 /* bonsai-exporter-ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		63DB770F29206253001BBCD3 /* bonsai-exporter-iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63DB772729206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-iosTests" */;
+			buildPhases = (
+				63DB770C29206253001BBCD3 /* Sources */,
+				63DB770D29206253001BBCD3 /* Frameworks */,
+				63DB770E29206253001BBCD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63DB771229206253001BBCD3 /* PBXTargetDependency */,
+			);
+			name = "bonsai-exporter-iosTests";
+			productName = "bonsai-exporter-iosTests";
+			productReference = 63DB771029206253001BBCD3 /* bonsai-exporter-iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		63DB771929206254001BBCD3 /* bonsai-exporter-iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63DB772A29206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-iosUITests" */;
+			buildPhases = (
+				63DB771629206254001BBCD3 /* Sources */,
+				63DB771729206254001BBCD3 /* Frameworks */,
+				63DB771829206254001BBCD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63DB771C29206254001BBCD3 /* PBXTargetDependency */,
+			);
+			name = "bonsai-exporter-iosUITests";
+			productName = "bonsai-exporter-iosUITests";
+			productReference = 63DB771A29206254001BBCD3 /* bonsai-exporter-iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		63DB76F829206252001BBCD3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					63DB76FF29206252001BBCD3 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+					63DB770F29206253001BBCD3 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = 63DB76FF29206252001BBCD3;
+					};
+					63DB771929206254001BBCD3 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = 63DB76FF29206252001BBCD3;
+					};
+				};
+			};
+			buildConfigurationList = 63DB76FB29206252001BBCD3 /* Build configuration list for PBXProject "bonsai-exporter-ios" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 63DB76F729206252001BBCD3;
+			packageReferences = (
+				63DB772D292062FD001BBCD3 /* XCRemoteSwiftPackageReference "grpc-swift" */,
+				6300E48129206DF600F054E1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
+			productRefGroup = 63DB770129206252001BBCD3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				63DB76FF29206252001BBCD3 /* bonsai-exporter-ios */,
+				63DB770F29206253001BBCD3 /* bonsai-exporter-iosTests */,
+				63DB771929206254001BBCD3 /* bonsai-exporter-iosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63DB76FE29206252001BBCD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63DB770B29206253001BBCD3 /* Preview Assets.xcassets in Resources */,
+				63DB770829206253001BBCD3 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB770E29206253001BBCD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB771829206254001BBCD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		63DB76FC29206252001BBCD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6300E47F2920694500F054E1 /* BonsaiService.swift in Sources */,
+				63DB773A29206515001BBCD3 /* bonsai.grpc.swift in Sources */,
+				63DB770629206252001BBCD3 /* ContentView.swift in Sources */,
+				63DB773B29206515001BBCD3 /* bonsai.pb.swift in Sources */,
+				63DB770429206252001BBCD3 /* bonsai_exporter_iosApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB770C29206253001BBCD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63DB771529206253001BBCD3 /* bonsai_exporter_iosTests.swift in Sources */,
+				6300E48029206DE000F054E1 /* BonsaiService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63DB771629206254001BBCD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63DB771F29206254001BBCD3 /* bonsai_exporter_iosUITests.swift in Sources */,
+				63DB772129206254001BBCD3 /* bonsai_exporter_iosUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		63DB771229206253001BBCD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DB76FF29206252001BBCD3 /* bonsai-exporter-ios */;
+			targetProxy = 63DB771129206253001BBCD3 /* PBXContainerItemProxy */;
+		};
+		63DB771C29206254001BBCD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63DB76FF29206252001BBCD3 /* bonsai-exporter-ios */;
+			targetProxy = 63DB771B29206254001BBCD3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		63DB772229206254001BBCD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		63DB772329206254001BBCD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		63DB772529206254001BBCD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"bonsai-exporter-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = CBPYU28628;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "bonsai-exporter-ios/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		63DB772629206254001BBCD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"bonsai-exporter-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = CBPYU28628;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "bonsai-exporter-ios/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		63DB772829206254001BBCD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBPYU28628;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bonsai-exporter-ios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bonsai-exporter-ios";
+			};
+			name = Debug;
+		};
+		63DB772929206254001BBCD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBPYU28628;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bonsai-exporter-ios.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bonsai-exporter-ios";
+			};
+			name = Release;
+		};
+		63DB772B29206254001BBCD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBPYU28628;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "bonsai-exporter-ios";
+			};
+			name = Debug;
+		};
+		63DB772C29206254001BBCD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBPYU28628;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "konstfish.bonsai-exporter-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "bonsai-exporter-ios";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		63DB76FB29206252001BBCD3 /* Build configuration list for PBXProject "bonsai-exporter-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63DB772229206254001BBCD3 /* Debug */,
+				63DB772329206254001BBCD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63DB772429206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63DB772529206254001BBCD3 /* Debug */,
+				63DB772629206254001BBCD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63DB772729206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63DB772829206254001BBCD3 /* Debug */,
+				63DB772929206254001BBCD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63DB772A29206254001BBCD3 /* Build configuration list for PBXNativeTarget "bonsai-exporter-iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63DB772B29206254001BBCD3 /* Debug */,
+				63DB772C29206254001BBCD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6300E48129206DF600F054E1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		63DB772D292062FD001BBCD3 /* XCRemoteSwiftPackageReference "grpc-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/grpc/grpc-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6300E48229206DF600F054E1 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6300E48129206DF600F054E1 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		63DB772E292062FD001BBCD3 /* CGRPCZlib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63DB772D292062FD001BBCD3 /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = CGRPCZlib;
+		};
+		63DB7730292062FD001BBCD3 /* GRPC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63DB772D292062FD001BBCD3 /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = GRPC;
+		};
+		63DB7732292062FD001BBCD3 /* protoc-gen-grpc-swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63DB772D292062FD001BBCD3 /* XCRemoteSwiftPackageReference "grpc-swift" */;
+			productName = "protoc-gen-grpc-swift";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 63DB76F829206252001BBCD3 /* Project object */;
+}
