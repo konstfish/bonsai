@@ -1,16 +1,16 @@
 build:
-	docker-compose build
+	docker-compose --file docker-compose.dev.yml build
 
 deploy:
-	docker-compose up -d
+	docker-compose --file docker-compose.dev.yml up -d
 
 logs:
-	docker-compose logs -f
+	docker-compose --file docker-compose.dev.yml logs -f
 
 down:
-	docker-compose down -v
+	docker-compose --file docker-compose.dev.yml down -v
 
 redeploy:
-	docker-compose down -v
-	docker-compose build
-	docker-compose up -d
+	docker-compose --file docker-compose.dev.yml down -v
+	docker-compose --file docker-compose.dev.yml build
+	docker-compose --file docker-compose.dev.yml up -d
