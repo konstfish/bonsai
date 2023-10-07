@@ -5,52 +5,47 @@ services:
     volumes:
       - rethink_data:/data
     restart: always
+
   server:
+    image: ghcr.io/konstfish/bonsai_server
     depends_on:
       - "rethink"
     links:
       - "rethink"
     environment:
-      - TZ=Europe/London
       - IN_DOCKER_CONTAINER=1
-    build: ./bonsai_server
     ports:
       - 50051:50051
       - 50052:50052
     restart: always
+
   local_exporter:
+    image: ghcr.io/konstfish/bonsai_exporter_base
     depends_on:
       - "server"
     links:
       - "server"
-    volumes:
-      - "./testing/config_container.yaml:/opt/config.yaml"
-    build: ./bonsai_exporter_base
     restart: always
 
   socket:
+    image: ghcr.io/konstfish/bonsai_socket
     depends_on:
       - "server"
       - "rethink"
     links:
       - "rethink"
     environment:
-      - TZ=Europe/London
       - IN_DOCKER_CONTAINER=1
-    build: ./bonsai_socket
     restart: always
 
   frontend:
+    image: ghcr.io/konstfish/bonsai_frontend
     depends_on:
       - "socket"
-    build: ./bonsai_frontend/
     ports:
       - 3000:3000
     links:
-      - "socket:socket"
-      - "server"
-    environment:
-      - TZ=Europe/London
+      - "socket"
     restart: always
 volumes:
   rethink_data:

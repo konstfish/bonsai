@@ -1,12 +1,9 @@
 hostname: null
 bonsai_server: server:50051
 jobname: demo
-server_key: asdf1234
 rate: 1
 labels:
-  - python
-  - test
-  - asf
+  - default
 exporters:
   BonsaiExporterCPU:
     name: CPU
@@ -22,4 +19,4 @@ exporters:
   BonsaiExporterNET:
     name: NET
     options:
-      "interfaces": ["ensdfs0"]
+      "interfaces": ["en0"]
