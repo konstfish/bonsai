@@ -1,7 +1,0 @@
-version: '3.9'
-services:
-  local_exporter:
-    build: ./
-    volumes:
-      - "/home/{{ user_name }}/docker/bonsai_exporter/config-ansible.yaml:/opt/config.yaml"
-    restart: always

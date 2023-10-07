@@ -12,15 +12,11 @@
 
 </div>
 
+This project was created in part of the fulfillment of my degree in [Computing](https://www.uclan.ac.uk/undergraduate/courses/computing-bsc-hons) at the [University of Central Lancashire](https://www.uclan.ac.uk/). See the complete project report [here](https://s.konst.fish/DavidFischer_ProjectReport2023.pdf).
+
 ## Setup
-This project can be deployed on any machine running docker using docker-compose:
 `docker-compose build`
 `docker-compose up -d`
-
-## Usage
-Once the project has been deployed, its status can be checked using `docker ps`
-![docker ps sample](.github/img/docker.png)
-The frontend is accessible under port 3000
 
 ### Frontend Views
 #### Home
@@ -38,9 +34,6 @@ Interactive & Customizable dashboarding
 #### Explore
 Provides the raw output from each exporter
 ![explore](.github/img/explore.png)
-
-## Deploying Exporters
-Additional exporters can be deployed either by running main.py (which is contained within bonsai_exporter_base) or by deploying an exporter container.
 
 ## Further Reading
 See [INTRODUCTION.md](INTRODUCTION.md)
