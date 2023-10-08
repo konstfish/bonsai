@@ -12,7 +12,7 @@ axios.defaults.headers.common = {
 
 // network graph for node view
 import VNetworkGraph from "v-network-graph"
-import "v-network-graph/style.css"
+// import "v-network-graph/style.css"
 
 import VueCountdown from '@chenfengyuan/vue-countdown';
 

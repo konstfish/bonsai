@@ -273,7 +273,18 @@ export default {
           type: "update_listener_metrics_host",
           content: [event]
         }));
+
+        // reset metrics
         this.metrics = {}
+
+        // clear displayed dashboard metrics
+        this.layout.forEach((block) => {
+          if(block.metric_type == "single"){
+            this.passed_data[block.i] = []
+          }else{
+            this.passed_data[block.i] = null
+          }
+        });
       },
 
       showDashboardModal(){
