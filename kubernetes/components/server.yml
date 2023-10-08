@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: bonsai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      initContainers:
+        - name: init-wait-for-db
+          image: alpine
+          command: ["/bin/sh", "-c", "for i in $(seq 1 300); do nc -zvw1 rethink 28015 && exit 0 || sleep 3; done; exit 1"]
+      containers:
+        - name: server
+          image: ghcr.io/konstfish/bonsai_server
+          resources:
+            requests:
+              cpu: "350m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            exec:
+              command:
+              - python3
+              - health.py
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 15
+            failureThreshold: 3
+          env:
+            - name: IN_DOCKER_CONTAINER
+              value: "1"
+          ports:
+            - containerPort: 50051
+            - containerPort: 50052
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  namespace: bonsai
+spec:
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      name: bonsai
+      port: 50051
+      targetPort: 50051
+    - protocol: TCP
+      name: sbonsai
+      port: 50052
+      targetPort: 50052
+# todo implement envoy

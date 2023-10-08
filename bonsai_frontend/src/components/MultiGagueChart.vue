@@ -50,7 +50,7 @@ export default {
               fontSize: '18px',
               color: 'var(--text-color-primary)',
               formatter: function (arr) {
-                console.log(arr)
+                // console.log(arr)
                 return (arr.globals.seriesTotals.reduce((a,b) => a + b, 0) / arr.globals.seriesTotals.length).toFixed(1) + "%"; 
               }
             },

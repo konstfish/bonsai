@@ -1,12 +1,16 @@
 FROM node:16 as builder
 
 WORKDIR /opt/web
-COPY . /opt/web
+COPY package.json ./
+COPY yarn.lock ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
 ENV IN_DOCKER_CONTAINER 1
 RUN yarn install
+
+COPY . /opt/web
+
 RUN yarn build
 
 EXPOSE 3000

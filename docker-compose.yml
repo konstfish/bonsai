@@ -27,6 +27,8 @@ services:
       - "./testing/config_container.yaml:/opt/config.yaml"
     build: ./bonsai_exporter_base
     restart: always
+    deploy:
+      replicas: 3
 
   socket:
     depends_on:

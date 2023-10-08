@@ -22,9 +22,13 @@ export default {
         this.series[0].data.shift();
         this.chartOptions.xaxis.categories.shift();
       }
-
-      this.series[0].data.push(metric.val)
-      this.chartOptions.xaxis.categories.push(metric.date)
+      if(metric != null){
+        this.series[0].data.push(metric.val)
+        this.chartOptions.xaxis.categories.push(metric.date)
+      }else{
+        this.series[0].data = []
+        this.chartOptions.xaxis.categories = []
+      }
     }
   },
   data: function() {
