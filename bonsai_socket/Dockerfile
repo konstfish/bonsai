@@ -1,17 +1,19 @@
 FROM node:16
 
 WORKDIR /opt/rest
-COPY . /opt/rest
 
-ENV IN_DOCKER_CONTAINER 1
+COPY package.json ./
+COPY yarn.lock ./
 
-#RUN npm i -g node@16.4.0 --force
 RUN yarn install
+
+COPY . /opt/rest
 
 EXPOSE 2701
 
 HEALTHCHECK --interval=30s --timeout=15s --start-period=5s --retries=3 CMD curl http://localhost:9000/api/admin/health || exit 1
 
+ENV IN_DOCKER_CONTAINER 1
 LABEL name="bonsai_socket"
 
 ENTRYPOINT [ "yarn", "serve" ]

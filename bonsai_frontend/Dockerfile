@@ -6,7 +6,6 @@ COPY yarn.lock ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
-ENV IN_DOCKER_CONTAINER 1
 RUN yarn install
 
 COPY . /opt/web
