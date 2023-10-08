@@ -298,6 +298,7 @@ export default {
           headers: {"Content-Type": "application/json"}
         }).then(response => {
             console.log(response.data);
+            this.routerChangeMade = false
         });
 
         this.isVisible.dashboardModal = false

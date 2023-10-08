@@ -131,8 +131,6 @@ export default {
         let diff = Date.parse(row.date) - Date.parse(this.hosts_status[row.id].date)
         let status = 'fluc'
 
-        console.log((diff < (this.hosts[row.id].interval * 1000) + 250))
-
         if(diff < (this.hosts[row.id].interval * 1000) + 250){
           status = 'up'
         }

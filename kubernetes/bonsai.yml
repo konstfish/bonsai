@@ -1,0 +1,256 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bonsai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: bonsai
+spec:
+  ports:
+  - nodePort: 30000
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rethink
+  namespace: bonsai
+spec:
+  ports:
+  - name: rethink
+    port: 28015
+    protocol: TCP
+    targetPort: 28015
+  - name: srethink
+    port: 29015
+    protocol: TCP
+    targetPort: 29015
+  selector:
+    app: rethink
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  namespace: bonsai
+spec:
+  ports:
+  - name: bonsai
+    port: 50051
+    protocol: TCP
+    targetPort: 50051
+  - name: sbonsai
+    port: 50052
+    protocol: TCP
+    targetPort: 50052
+  selector:
+    app: server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socket
+  namespace: bonsai
+spec:
+  ports:
+  - port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: socket
+  sessionAffinity: ClientIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: bonsai
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: ghcr.io/konstfish/bonsai_frontend
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /nginx_status
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 15
+        name: frontend
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 50m
+            memory: 256Mi
+          requests:
+            cpu: 20m
+            memory: 128Mi
+      initContainers:
+      - command:
+        - /bin/sh
+        - -c
+        - for i in $(seq 1 300); do nc -zvw1 socket 9000 && exit 0 || sleep 3; done;
+          exit 1
+        image: alpine
+        name: init-wait-for-socket
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rethink-deployment
+  namespace: bonsai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rethink
+  template:
+    metadata:
+      labels:
+        app: rethink
+    spec:
+      containers:
+      - image: rethinkdb:latest
+        name: rethink
+        ports:
+        - containerPort: 28015
+        - containerPort: 29015
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: bonsai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - env:
+        - name: IN_DOCKER_CONTAINER
+          value: "1"
+        image: ghcr.io/konstfish/bonsai_server
+        livenessProbe:
+          exec:
+            command:
+            - python3
+            - health.py
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 15
+        name: server
+        ports:
+        - containerPort: 50051
+        - containerPort: 50052
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 350m
+            memory: 256Mi
+      initContainers:
+      - command:
+        - /bin/sh
+        - -c
+        - for i in $(seq 1 300); do nc -zvw1 rethink 28015 && exit 0 || sleep 3; done;
+          exit 1
+        image: alpine
+        name: init-wait-for-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socket-deployment
+  namespace: bonsai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: socket
+  template:
+    metadata:
+      labels:
+        app: socket
+    spec:
+      containers:
+      - env:
+        - name: IN_DOCKER_CONTAINER
+          value: "1"
+        image: ghcr.io/konstfish/bonsai_socket
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /api/admin/health
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 15
+        name: socket
+        ports:
+        - containerPort: 9000
+        resources:
+          limits:
+            cpu: 450m
+            memory: 640Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+      initContainers:
+      - command:
+        - /bin/sh
+        - -c
+        - for i in $(seq 1 300); do nc -zvw1 rethink 28015 && exit 0 || sleep 3; done;
+          exit 1
+        image: alpine
+        name: init-wait-for-db
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: bonsai-exporter
+  namespace: bonsai
+spec:
+  selector:
+    matchLabels:
+      app: exporter
+  template:
+    metadata:
+      labels:
+        app: exporter
+    spec:
+      containers:
+      - image: ghcr.io/konstfish/bonsai_exporter_base
+        name: exporter
+        resources:
+          limits:
+            cpu: 200m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi

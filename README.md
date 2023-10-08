@@ -17,15 +17,20 @@ This project was created in part of the fulfillment of my degree in [Computing](
 ## Build
 `docker-compose build`
 ## Deploy
+### Docker
 `docker-compose up -d` or `docker-compose --file docker-compose.pub.yml up -d` for the pre-built images
 See [Example Docker Compose](#example-docker-compose)
+
+### Kubernetes
+`kubectl apply -f kubernetes/bonsai.yml` (WIP)
+Creates a `bonsai` namespace, an exporter DaemonSet & deployments/services for the system components
 ### Frontend Views
 #### Home
-Gives an overview of all active exporters
+Overview of all active exporters
 ![home](.github/img/main.png)
 
 #### Node Graph
-Gives a visual overview of all active exporters
+Visual overview of all active exporters
 ![node-graph](.github/img/node-graph.png)
 
 #### Dashboard

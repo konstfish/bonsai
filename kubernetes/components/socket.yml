@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socket-deployment
+  namespace: bonsai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: socket
+  template:
+    metadata:
+      labels:
+        app: socket
+    spec:
+      initContainers:
+        - name: init-wait-for-db
+          image: alpine
+          command: ["/bin/sh", "-c", "for i in $(seq 1 300); do nc -zvw1 rethink 28015 && exit 0 || sleep 3; done; exit 1"]
+      containers:
+        - name: socket
+          image: ghcr.io/konstfish/bonsai_socket
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "450m"
+              memory: "640Mi"
+          env:
+            - name: IN_DOCKER_CONTAINER
+              value: "1"
+          ports:
+            - containerPort: 9000
+          livenessProbe:
+            httpGet:
+              path: /api/admin/health
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 15
+            failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: socket
+  namespace: bonsai
+spec:
+  selector:
+    app: socket
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  sessionAffinity: ClientIP
