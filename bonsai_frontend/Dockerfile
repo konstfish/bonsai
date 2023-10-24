@@ -2,11 +2,12 @@ FROM node:16 as builder
 
 WORKDIR /opt/web
 COPY package.json ./
-COPY yarn.lock ./
+#COPY yarn.lock ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
-RUN yarn install
+# weird github runner issue
+RUN yarn install --network-timeout 1000000
 
 COPY . /opt/web
 
