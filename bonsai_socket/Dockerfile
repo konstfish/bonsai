@@ -1,11 +1,10 @@
-FROM node:16
+FROM oven/bun:latest
 
 WORKDIR /opt/rest
 
 COPY package.json ./
-COPY yarn.lock ./
 
-RUN yarn install
+RUN bun install
 
 COPY . /opt/rest
 
@@ -16,4 +15,4 @@ HEALTHCHECK --interval=30s --timeout=15s --start-period=5s --retries=3 CMD curl 
 ENV IN_DOCKER_CONTAINER 1
 LABEL name="bonsai_socket"
 
-ENTRYPOINT [ "yarn", "serve" ]
+ENTRYPOINT [ "bun", "serve" ]
