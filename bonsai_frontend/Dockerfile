@@ -1,15 +1,15 @@
-FROM oven/bun:latest as builder
+FROM node:16 as builder
 
 WORKDIR /opt/web
 COPY package.json ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
-RUN bun install
+RUN yarn install
 
 COPY . /opt/web
 
-RUN bun run build
+RUN yarn build
 
 EXPOSE 3000
 
