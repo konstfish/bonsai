@@ -2,9 +2,10 @@
 name: Publish
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-  push:
-    branches: [ "master" ]
+  # Trigger the workflow on a new release
+  release:
+    types:
+      - created
 
 jobs:
   publish:
@@ -35,7 +36,7 @@ jobs:
           platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
-            ghcr.io/konstfish/bonsai_socket:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_socket:${{ github.event.release.tag_name }}
             ghcr.io/konstfish/bonsai_socket:latest
 
       - name: Build bonsai_server
@@ -45,7 +46,7 @@ jobs:
           platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
-            ghcr.io/konstfish/bonsai_server:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_server:${{ github.event.release.tag_name }}
             ghcr.io/konstfish/bonsai_server:latest
 
       - name: Build bonsai_frontend
@@ -55,7 +56,7 @@ jobs:
           platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
-            ghcr.io/konstfish/bonsai_frontend:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_frontend:${{ github.event.release.tag_name }}
             ghcr.io/konstfish/bonsai_frontend:latest
 
       - name: Build bonsai_exporter_base 
@@ -65,5 +66,5 @@ jobs:
           platforms: linux/amd64,linux/arm/v8
           push: true
           tags: |
-            ghcr.io/konstfish/bonsai_exporter_base:${{ github.sha }}
+            ghcr.io/konstfish/bonsai_exporter_base:${{ github.event.release.tag_name }}
             ghcr.io/konstfish/bonsai_exporter_base:latest
