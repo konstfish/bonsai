@@ -2,6 +2,7 @@ FROM node:16 as builder
 
 WORKDIR /opt/web
 COPY package.json ./
+COPY yarn.lock ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
