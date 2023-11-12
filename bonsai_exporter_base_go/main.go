@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"time"
 
@@ -11,6 +11,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	pb "bonsai_exporter/io_grpc_konstfish_bonsai"
+
+	"github.com/mackerelio/go-osstat/cpu"
 )
 
 const (
@@ -29,23 +31,57 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewServerClient(conn)
+	c := pb.NewBonsaiServiceClient(conn)
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
 
-	myJsonString := `{"some":"json"}`
-	var myStoredVariable []byte
-	json.Unmarshal([]byte(myJsonString), &myStoredVariable)
-	var test = []byte(myJsonString)
+	req := pb.RegistrationRequest{
+		Job:      "test",
+		Host:     "localhost",
+		Interval: 1,
+	}
 
-	req := pb.MetricsRequest{Host: "test", Id: "asdf", Job: "test", Metrics: test}
 	req.Labels = append(req.Labels, "Hello")
 	req.Labels = append(req.Labels, "World")
 
-	r, err := c.PushMetrics(ctx, &req)
+	req.Scrapers = append(req.Scrapers, "test")
+
+	r, err := c.RegisterClient(ctx, &req)
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not register: %v", err)
 	}
-	log.Printf("Greeting: %n", r.GetCode())
+	ekey := r.ExporterKey
+
+	for true {
+		loopCtx, loopCancel := context.WithTimeout(context.Background(), time.Second*5)
+
+		mreq := pb.MetricsRequest{
+			ExporterKey: ekey,
+		}
+
+		stats, _ := cpu.Get()
+
+		// create json from stats variable
+		stats_json := fmt.Sprintf(`{"user":%v,"system":%v,"idle":%v,"nice":%v}`,
+			stats.User,
+			stats.System,
+			stats.Idle,
+			stats.Nice)
+
+		statsJSON := []byte(stats_json)
+
+		mreq.Metrics = append(mreq.Metrics, statsJSON...)
+
+		fmt.Printf("CPU: %v\n", mreq)
+
+		_, err := c.PushMetrics(loopCtx, &mreq)
+		if err != nil {
+			log.Fatalf("could not push metrics: %v", err)
+		}
+
+		loopCancel()
+
+		time.Sleep(1 * time.Second)
+	}
 }
