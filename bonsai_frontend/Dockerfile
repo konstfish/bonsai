@@ -1,15 +1,17 @@
-FROM oven/bun:latest as builder
+FROM node:16 as builder
 
 WORKDIR /opt/web
 COPY package.json ./
+#COPY yarn.lock ./
 
 ENV PATH /opt/web/node_modules/.bin:$PATH
 
-RUN bun install
+# weird github runner issue
+RUN yarn install --network-timeout 1000000
 
 COPY . /opt/web
 
-RUN bun run build
+RUN yarn build
 
 EXPOSE 3000
 
