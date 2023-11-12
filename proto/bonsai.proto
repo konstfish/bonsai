@@ -4,10 +4,11 @@ option java_multiple_files = true;
 option java_package = "io.grpc.konstfish.bonsai";
 option java_outer_classname = "BonsaiProto";
 option objc_class_prefix = "HLW";
+option go_package = "io.grpc.konstfish.bonsai";
 
 package bonsai;
 
-// The greeting service definition.
+// The bonsai service definition
 service BonsaiService {
   // Sends a greeting
   rpc RegisterClient (RegistrationRequest) returns (RegistrationConfirmation) {}

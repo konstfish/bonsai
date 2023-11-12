@@ -16,9 +16,6 @@ import bonsai_pb2
 import bonsai_pb2_grpc
 from BonsaiServer import BonsaiServer
 
-import helper
-from BonsaiHelper import BonsaiHelper
-
 import time
 
 import logging

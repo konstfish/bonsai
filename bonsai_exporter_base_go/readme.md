@@ -1,0 +1,1 @@
+https://medium.com/swlh/how-to-build-extensible-go-applications-with-plugins-97ad657f9a62
